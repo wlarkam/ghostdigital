@@ -1,0 +1,8 @@
+design_bundle/
+design_bundle.bin
+ghost-digital-site.zip
+.claude/
+memory/
+.DS_Store
+node_modules/
+.vercel

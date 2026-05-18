@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ghost Digital — Ghostwriting for coaches</title>
+<meta name="description" content="Ghostwriting, end-to-end. We write the newsletter, land the page, ship the carousels, automate the drip. You stay the expert. Your name stays on it.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400;1,6..72,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     GHOST DIGITAL — tokens (from colors_and_type.css)
+     ============================================================ */
+  :root {
+    --gd-parchment:#E8E2D4; --gd-parchment-2:#DCD4C2; --gd-bone:#F1ECE0;
+    --gd-inkwell:#1A1A18; --gd-ink-2:#2A2A26; --gd-ink-3:#555048; --gd-ink-4:#8A8378;
+    --gd-terracotta:#C0714A; --gd-clay:#D4956A; --gd-olive:#6B7A52;
+    --gd-deep-olive:#3D4A2E; --gd-driftwood:#8A7E6A;
+
+    --gd-bg:var(--gd-parchment); --gd-bg-elev:var(--gd-bone); --gd-bg-inverse:var(--gd-inkwell);
+    --gd-fg-1:var(--gd-inkwell); --gd-fg-2:var(--gd-ink-2); --gd-fg-3:var(--gd-ink-3); --gd-fg-4:var(--gd-ink-4);
+    --gd-fg-on-dark:var(--gd-parchment);
+    --gd-accent:var(--gd-terracotta); --gd-accent-soft:var(--gd-clay);
+
+    --gd-rule:rgba(26,26,24,0.18); --gd-rule-strong:rgba(26,26,24,0.42); --gd-rule-on-dark:rgba(232,226,212,0.18);
+
+    --gd-font-display:"Newsreader","Perfectly Nineties","EB Garamond",Georgia,serif;
+    --gd-font-body:"DM Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --gd-font-mono:"DM Mono",ui-monospace,"SF Mono",Menlo,monospace;
+
+    --gd-radius-md:8px; --gd-radius-pill:999px; --gd-radius-card:12px;
+    --gd-shadow-sm:0 2px 8px -2px rgba(26,26,24,0.08);
+    --gd-ease:cubic-bezier(0.2,0.6,0.2,1);
+
+    /* final intent locked from the design chat */
+    --gd-grain:url("/landing-page/assets/grain.svg");
+    --tw-hero-bg:radial-gradient(ellipse 1300px 720px at 28% 38%, #8a9268 0%, transparent 70%),
+                 radial-gradient(ellipse 980px 580px at 80% 70%, #6f7a52 0%, transparent 70%),
+                 radial-gradient(ellipse 640px 400px at 90% 22%, rgba(180,108,68,.32) 0%, transparent 70%),
+                 linear-gradient(180deg, #6e7852 0%, #5a6442 60%, #4a523a 100%);
+    --tw-grain:.35;
+    --tw-subhead-color:var(--gd-bone);
+    --tw-subhead-size:18px;
+    --tw-display-italic:normal;       /* no italic-accent trope */
+    --tw-reveal-start-o:.08;          /* intense reveal */
+    --tw-reveal-blur:2.4px;
+    --tw-reveal-ty:14px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--gd-parchment);}
+  img{max-width:100%;display:block}
+
+  .gd{
+    font-family:var(--gd-font-body); font-size:15px; line-height:1.55;
+    color:var(--gd-fg-1); background:var(--gd-bg);
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  .gd h1,.gd h2,.gd h3,.gd h4{font-family:var(--gd-font-display);font-weight:400;margin:0;}
+  .gd h2{font-size:64px;line-height:1.0;letter-spacing:-.018em;}
+  .gd h3{font-size:44px;line-height:1.05;letter-spacing:-.012em;}
+  .gd h4{font-weight:500;font-size:32px;line-height:1.15;letter-spacing:-.008em;}
+  .gd p{font-family:var(--gd-font-body);font-weight:400;font-size:15px;line-height:1.6;color:var(--gd-fg-2);text-wrap:pretty;margin:0 0 1em;}
+  .gd a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.15em;}
+  .gd a:hover{color:var(--gd-accent);}
+
+  .gd-page{background:var(--gd-parchment);color:var(--gd-inkwell);min-height:100vh;font-family:var(--gd-font-body);}
+
+  /* ---------- nav ---------- */
+  .gd-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 40px;position:relative;z-index:5;}
+  .gd-nav__brand{display:flex;align-items:center;gap:10px;font-family:var(--gd-font-display);font-size:20px;}
+  .gd-nav__brand .mark{display:inline-block;width:22px;height:22px;position:relative;}
+  .gd-nav__brand .mark span{position:absolute;width:4px;height:4px;border-radius:999px;background:currentColor;}
+  .gd-nav__brand .mark span:nth-child(1){left:4px;top:6px;}
+  .gd-nav__brand .mark span:nth-child(2){left:14px;top:6px;}
+  .gd-nav__brand .mark span:nth-child(3){left:9px;top:14px;}
+  .gd-nav__center{display:flex;gap:32px;justify-content:center;}
+  .gd-nav__center a{font-size:13px;color:var(--gd-fg-2);text-decoration:none;}
+  .gd-nav__center a:hover{color:var(--gd-accent);}
+  .gd-nav__right{display:flex;justify-content:flex-end;}
+
+  /* ---------- pill button ---------- */
+  .gd-pill{
+    font-family:var(--gd-font-body);font-size:14px;padding:10px 16px 10px 20px;border-radius:999px;
+    background:rgba(232,226,212,0.32);
+    backdrop-filter:blur(8px) saturate(1.05);-webkit-backdrop-filter:blur(8px) saturate(1.05);
+    border:1px solid rgba(26,26,24,0.32);
+    box-shadow:inset 0 1px 0 rgba(241,236,224,0.55),inset 0 -1px 0 rgba(26,26,24,0.05),0 1px 0 rgba(26,26,24,0.04);
+    color:inherit;display:inline-flex;align-items:center;gap:14px;cursor:pointer;
+    transition:all 260ms var(--gd-ease);text-decoration:none;position:relative;isolation:isolate;
+  }
+  .gd-pill::after{content:"";position:absolute;inset:0;border-radius:inherit;background-image:var(--gd-grain);background-size:120px;mix-blend-mode:multiply;opacity:.18;pointer-events:none;}
+  .gd-pill:hover{border-color:rgba(26,26,24,0.6);background:rgba(232,226,212,0.45);}
+  .gd-pill .arrow{display:inline-flex;align-items:center;gap:4px;transition:transform 260ms var(--gd-ease);opacity:.82;}
+  .gd-pill:hover .arrow{transform:translateX(4px);}
+  .gd-pill .line{width:18px;height:1px;background:currentColor;}
+  .gd-pill .dot{width:6px;height:6px;border-radius:999px;background:currentColor;}
+  .gd-pill.solid{background:rgba(26,26,24,0.78);color:var(--gd-parchment);border-color:rgba(26,26,24,0.92);box-shadow:inset 0 1px 0 rgba(241,236,224,0.18),inset 0 -1px 0 rgba(0,0,0,0.3),0 1px 0 rgba(0,0,0,0.15);}
+  .gd-pill.solid:hover{background:rgba(26,26,24,0.92);}
+  .gd-pill.sm{font-size:12px;padding:7px 13px 7px 15px;gap:10px;}
+  .gd-pill.sm .line{width:12px;} .gd-pill.sm .dot{width:5px;height:5px;}
+
+  /* ---------- eyebrow ---------- */
+  .gd-eyebrow{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;}
+  .gd-eyebrow::before{content:"\25B8";color:var(--gd-terracotta);}
+
+  /* ---------- hero ---------- */
+  .gd-hero{position:relative;min-height:640px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  .gd-hero__bg{position:absolute;inset:0;background:var(--tw-hero-bg);}
+  .gd-hero__bg::before{content:"";position:absolute;inset:0;background-image:var(--gd-grain);background-size:140px;mix-blend-mode:overlay;opacity:1;}
+  .gd-hero__bg::after{content:"";position:absolute;inset:0;background-image:var(--gd-grain);background-size:320px;mix-blend-mode:soft-light;opacity:.8;}
+  .gd-hero__grain{position:absolute;inset:0;background-image:var(--gd-grain);background-size:60px;mix-blend-mode:multiply;opacity:var(--tw-grain);pointer-events:none;}
+  .gd-hero__halo{position:absolute;inset:0;background:radial-gradient(ellipse 540px 320px at 86% 22%, rgba(196,128,80,.2), transparent 75%);mix-blend-mode:soft-light;pointer-events:none;}
+  .gd-hero__inner{position:relative;z-index:2;text-align:center;padding:0 24px;max-width:1100px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
+  .gd-hero__eyebrow{color:var(--gd-parchment);margin-bottom:18px;opacity:.85;}
+  .gd-hero__title{font-family:var(--gd-font-display);font-style:var(--tw-display-italic);font-size:92px;line-height:.95;color:var(--gd-bone);letter-spacing:-.02em;font-weight:400;}
+  .gd .gd-hero__subtitle{font-family:var(--gd-font-body);font-weight:400;font-size:var(--tw-subhead-size);line-height:1.5;color:var(--tw-subhead-color);margin:22px auto 0;max-width:560px;text-align:center;display:block;text-shadow:0 1px 2px rgba(0,0,0,.35),0 0 28px rgba(0,0,0,.25);}
+  .gd .gd-hero__subtitle .gd-st{display:block;}
+  .gd-hero__ctas{display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap;}
+  .gd-hero__ctas .gd-pill{color:var(--gd-bone);border-color:rgba(232,226,212,.5);}
+  .gd-hero__ctas .gd-pill:hover{background:rgba(232,226,212,.1);}
+  .gd-hero__ctas .gd-pill.solid{background:var(--gd-bone);color:var(--gd-inkwell);border-color:var(--gd-bone);}
+
+  /* ---------- scroll reveal ---------- */
+  .gd-st__w{display:inline-block;--p:0;opacity:calc(var(--tw-reveal-start-o) + var(--p) * (1 - var(--tw-reveal-start-o)));filter:blur(calc((1 - var(--p)) * var(--tw-reveal-blur)));transform:translateY(calc((1 - var(--p)) * var(--tw-reveal-ty)));transition:opacity 520ms var(--gd-ease),filter 520ms var(--gd-ease),transform 520ms var(--gd-ease);}
+  @media (prefers-reduced-motion:reduce){.gd-st__w{--p:1 !important;filter:none;transform:none;transition:none;}}
+
+  /* ---------- offset section ---------- */
+  .gd-offset{padding:96px 56px;display:grid;grid-template-columns:1.2fr 1fr;gap:80px;}
+  .gd-offset__left h2{font-family:var(--gd-font-display);font-size:56px;line-height:1;letter-spacing:-.012em;max-width:460px;}
+  .gd-offset__right{padding-top:8px;}
+  .gd-offset__right p{text-align:right;max-width:380px;margin-left:auto;color:var(--gd-fg-2);font-size:14px;line-height:1.65;}
+
+  /* ---------- metrics ---------- */
+  .gd-metrics{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;padding:0 56px 96px;}
+  .gd-metrics__left{display:grid;grid-template-rows:auto auto 1fr;gap:24px;align-content:start;padding-left:28px;position:relative;}
+  .gd-metrics__left .index{position:absolute;left:0;top:0;display:flex;flex-direction:column;gap:18px;padding-top:110px;}
+  .gd-metrics__left .index span{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.12em;opacity:.5;}
+  .gd-metrics__left .index span.on{opacity:1;color:var(--gd-inkwell);}
+  .gd-metrics__left h3{font-family:var(--gd-font-display);font-size:32px;line-height:1.05;}
+  .gd-metrics__left p{font-size:13px;color:var(--gd-fg-3);max-width:360px;line-height:1.55;}
+  .gd-metrics__tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
+  .gd-metric{background:var(--gd-bone);border:1px solid var(--gd-rule);border-radius:8px;padding:14px 16px;}
+  .gd-metric .ic{width:16px;height:16px;opacity:.55;}
+  .gd-metric .nm{font-size:12px;color:var(--gd-ink-3);margin-top:6px;}
+  .gd-metric .vl{font-family:var(--gd-font-display);font-size:28px;line-height:1;margin-top:8px;}
+  .gd-metric .un{font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.08em;opacity:.55;text-transform:uppercase;margin-left:4px;}
+  .gd-metric.row{grid-column:1 / -1;display:flex;align-items:center;gap:12px;padding:12px 16px;}
+  .gd-metric.row .nm{margin:0;flex:1;}
+  .gd-metric.row .vl{font-size:22px;}
+  .gd-metrics__right{background:linear-gradient(160deg,#6b6049,#3a2e22);border-radius:8px;min-height:460px;position:relative;overflow:hidden;}
+  .gd-metrics__right::before{content:"";position:absolute;inset:0;background-image:var(--gd-grain);background-size:240px;mix-blend-mode:overlay;opacity:.5;}
+  .gd-metrics__right::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%, rgba(180,130,70,.35), transparent 60%);filter:blur(40px);}
+  .gd-metrics__right .slot-cap{position:absolute;left:24px;top:24px;font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(241,236,224,.5);}
+  .gd-metrics__right .pill-overlay{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:0;}
+  .gd-metrics__right .pill-overlay .seg{background:rgba(26,26,24,.32);backdrop-filter:blur(8px);color:var(--gd-bone);padding:14px 28px;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .gd-metrics__right .pill-overlay .seg:first-child{border-radius:8px 0 0 8px;}
+  .gd-metrics__right .pill-overlay .seg:last-child{border-radius:0 8px 8px 0;opacity:.55;}
+  .gd-metrics__right .pill-overlay .seg .ic{width:18px;height:18px;opacity:.85;}
+
+  /* ---------- services / 3-col ---------- */
+  .gd-services{padding:96px 56px;background:var(--gd-bone);border-top:1px solid var(--gd-rule);border-bottom:1px solid var(--gd-rule);}
+  .gd-services__head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:32px;}
+  .gd-services__head h2{font-family:var(--gd-font-display);font-size:56px;line-height:1;letter-spacing:-.012em;max-width:540px;}
+  .gd-services__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--gd-rule);}
+  .gd-service{padding:32px 28px;border-right:1px solid var(--gd-rule);}
+  .gd-service:last-child{border-right:0;}
+  .gd-service .num{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.12em;opacity:.55;}
+  .gd-service h3{font-family:var(--gd-font-display);font-size:28px;line-height:1.1;margin-top:14px;}
+  .gd-service p{font-size:13px;line-height:1.6;color:var(--gd-fg-3);margin-top:12px;max-width:280px;}
+
+  /* ---------- newsletter field ---------- */
+  .gd-field{background:var(--gd-olive);color:var(--gd-bone);padding:96px 56px;position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;gap:64px;}
+  .gd-field::before{content:"";position:absolute;inset:0;background-image:var(--gd-grain);background-size:240px;mix-blend-mode:multiply;opacity:.35;pointer-events:none;}
+  .gd-field > *{position:relative;z-index:1;}
+  .gd-field__addr{font-family:var(--gd-font-body);font-size:12px;line-height:1.55;opacity:.8;}
+  .gd-field__title{font-family:var(--gd-font-display);font-size:48px;line-height:1.05;margin-top:80px;max-width:420px;}
+  .gd-field__form{margin-top:28px;max-width:420px;}
+  .gd-field__form .row{display:flex;align-items:center;gap:6px;padding:4px 4px 4px 16px;border-radius:999px;background:rgba(0,0,0,.18);}
+  .gd-field__form input{background:transparent;border:0;outline:none;flex:1;color:var(--gd-bone);font-family:var(--gd-font-body);font-size:13px;padding:10px 0;}
+  .gd-field__form input::placeholder{color:rgba(241,236,224,.55);}
+  .gd-field__form .gd-pill{background:var(--gd-bone);color:var(--gd-deep-olive);border-color:var(--gd-bone);}
+  .gd-field__form .micro{font-family:var(--gd-font-body);font-size:11px;opacity:.7;margin-top:12px;}
+  .gd-field__form .micro a{color:inherit;text-decoration:underline;}
+  .gd-field__contact{font-size:12px;margin-top:36px;opacity:.85;}
+  .gd-field__contact .lbl{font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-bottom:4px;}
+  .gd-field__photo{position:relative;background:linear-gradient(160deg,#4a5a3a,#2a361e);border-radius:8px;min-height:480px;width:100%;overflow:hidden;}
+  .gd-field__photo::after{content:"";position:absolute;inset:0;background-image:url("/landing-page/assets/halftone.svg");background-size:220px;background-position:20% 30%;opacity:.25;mix-blend-mode:screen;}
+  .gd-field__photo .slot-cap{position:absolute;left:20px;top:20px;font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(241,236,224,.5);z-index:1;}
+
+  /* ---------- footer ---------- */
+  .gd-footer{background:var(--gd-inkwell);color:var(--gd-fg-on-dark);padding:64px 56px 32px;position:relative;overflow:hidden;}
+  .gd-footer::before{content:"";position:absolute;inset:0;background-image:var(--gd-grain);background-size:240px;mix-blend-mode:overlay;opacity:.25;pointer-events:none;}
+  .gd-footer > *{position:relative;}
+  .gd-footer__cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;padding-bottom:56px;border-bottom:1px solid var(--gd-rule-on-dark);}
+  .gd-footer__cols h4{font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;margin:0 0 14px;font-weight:500;}
+  .gd-footer__cols ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+  .gd-footer__cols ul a{color:var(--gd-bone);text-decoration:none;font-size:13px;}
+  .gd-footer__cols ul a:hover{color:var(--gd-clay);}
+  .gd-footer__lede{font-family:var(--gd-font-display);font-style:italic;font-size:22px;line-height:1.3;max-width:380px;}
+  .gd-footer__attrib{margin-top:18px;font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;}
+  .gd-footer__bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;gap:16px;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .gd-nav{grid-template-columns:1fr auto;}
+    .gd-nav__center{display:none;}
+    .gd-hero__title{font-size:clamp(44px,11vw,72px);}
+    .gd-offset,.gd-metrics,.gd-field{grid-template-columns:1fr;gap:40px;padding-left:24px;padding-right:24px;}
+    .gd-offset__right p{text-align:left;margin-left:0;}
+    .gd-metrics__left{padding-left:0;}
+    .gd-metrics__left .index{display:none;}
+    .gd-services{padding:64px 24px;}
+    .gd-services__head{flex-direction:column;align-items:flex-start;}
+    .gd-services__head h2{font-size:clamp(34px,9vw,56px);}
+    .gd-services__grid{grid-template-columns:1fr;}
+    .gd-service{border-right:0;border-bottom:1px solid var(--gd-rule);}
+    .gd-service:last-child{border-bottom:0;}
+    .gd-field__title{margin-top:24px;}
+    .gd-footer__cols{grid-template-columns:1fr 1fr;gap:32px;}
+    .gd-footer__bottom{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+<div class="gd gd-page">
+
+  <nav class="gd-nav">
+    <div class="gd-nav__brand"><span class="mark"><span></span><span></span><span></span></span> ghost digital</div>
+    <div class="gd-nav__center">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#notes">Notes</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="gd-nav__right">
+      <a class="gd-pill sm" href="#book"><span>Free Consultation</span><span class="arrow"><span class="line"></span><span class="dot"></span></span></a>
+    </div>
+  </nav>
+
+  <section class="gd-hero" id="about">
+    <div class="gd-hero__bg"></div>
+    <div class="gd-hero__halo"></div>
+    <div class="gd-hero__grain"></div>
+    <div class="gd-hero__inner">
+      <div class="gd-hero__eyebrow"><span class="gd-eyebrow">Ghostwriting for coaches</span></div>
+      <h1 class="gd-hero__title"><span class="gd-st" data-reveal>Your voice, finally on the page.</span></h1>
+      <p class="gd-hero__subtitle"><span class="gd-st" data-reveal>We write the newsletter you've been meaning to send for six months. You stay the expert. Your name stays on it.</span></p>
+      <div class="gd-hero__ctas">
+        <a class="gd-pill solid" href="#book"><span>Book a 20-min call</span><span class="arrow"><span class="line"></span><span class="dot"></span></span></a>
+        <a class="gd-pill" href="#work"><span>See recent work</span><span class="arrow"><span class="line"></span><span class="dot"></span></span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="gd-offset">
+    <div class="gd-offset__left">
+      <h2><span class="gd-st" data-reveal>Built for the coach. Designed for the reader.</span></h2>
+    </div>
+    <div class="gd-offset__right">
+      <p><span class="gd-st" data-reveal>At Ghost Digital, every deliverable is grounded in your voice and the actual lives of the people you coach. We don't write at scale — we write for one person at a time, on purpose, slowly, and we ship on a schedule that doesn't crater the rest of your week.</span></p>
+    </div>
+  </section>
+
+  <section class="gd-metrics" id="work">
+    <div class="gd-metrics__left">
+      <div class="index"><span class="on">01</span><span>02</span><span>03</span></div>
+      <span class="gd-eyebrow">The work, by the numbers</span>
+      <h3>Slower than agencies.<br>Better than freelance.</h3>
+      <p>A working count of what we shipped last quarter. Not vanity. The metrics we're paid against — open rate, reply rate, booked calls.</p>
+      <div class="gd-metrics__tiles">
+        <div class="gd-metric">
+          <svg class="ic" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" fill="none"><path d="M3 12l2-2 4 4 8-8 4 4"/></svg>
+          <div class="nm">Newsletters shipped</div>
+          <div class="vl">47<span class="un">/q</span></div>
+        </div>
+        <div class="gd-metric">
+          <svg class="ic" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" fill="none"><circle cx="12" cy="12" r="9"/></svg>
+          <div class="nm">Avg. open rate</div>
+          <div class="vl">52<span class="un">%</span></div>
+        </div>
+        <div class="gd-metric row">
+          <svg class="ic" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <div class="nm">Avg. reply rate</div>
+          <div class="vl">11.4 <span class="un">%</span></div>
+        </div>
+        <div class="gd-metric row">
+          <svg class="ic" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <div class="nm">Booked calls / month</div>
+          <div class="vl">38 <span class="un">—</span></div>
+        </div>
+        <div class="gd-metric row">
+          <svg class="ic" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <div class="nm">Words shipped</div>
+          <div class="vl">186k <span class="un">—</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="gd-metrics__right">
+      <div class="slot-cap">Image — portrait / studio / stack of pages</div>
+      <div class="pill-overlay">
+        <div class="seg">
+          <svg class="ic" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" fill="none"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg>
+          Newsletter
+        </div>
+        <div class="seg">
+          <svg class="ic" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" fill="none"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+          Long-form
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gd-services" id="services">
+    <div class="gd-services__head">
+      <h2><span class="gd-st" data-reveal>What we write. What we automate.</span></h2>
+      <span class="gd-eyebrow">Surfaces we cover</span>
+    </div>
+    <div class="gd-services__grid">
+      <div class="gd-service">
+        <div class="num">01 — IDEATION</div>
+        <h3>Notes &amp; Newsletters</h3>
+        <p>Weekly to monthly cadence. Written in your voice. We sit on calls so you don't have to dictate.</p>
+      </div>
+      <div class="gd-service">
+        <div class="num">02 — LANDING</div>
+        <h3>Pages &amp; Lead Magnets</h3>
+        <p>Sales pages, opt-in pages, the PDF that converts. We design the page; you don't touch the code.</p>
+      </div>
+      <div class="gd-service">
+        <div class="num">03 — AUTOMATION</div>
+        <h3>Drip &amp; Distribution</h3>
+        <p>Welcome sequences, social carousels, the long-tail. Set up once. Maintained quietly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="gd-field" id="book">
+    <div>
+      <div class="gd-field__addr">
+        1140 W Hastings St<br>
+        Vancouver, BC<br>
+        V6E 4G1<br>
+        Canada
+      </div>
+      <h2 class="gd-field__title"><span class="gd-st" data-reveal>A monthly note, worth reading.</span></h2>
+      <form class="gd-field__form" id="notify-form">
+        <div class="row">
+          <input type="email" name="email" placeholder="Enter email address" required>
+          <button class="gd-pill sm" type="submit"><span id="notify-label">Get Notified</span><span class="arrow"><span class="line"></span><span class="dot"></span></span></button>
+        </div>
+        <div class="micro">By clicking 'Get Notified' you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms</a>.</div>
+      </form>
+      <div class="gd-field__contact">
+        <div class="lbl">Contact us</div>
+        hello@ghost-digital.co &nbsp;·&nbsp; (431) 688-6681
+      </div>
+    </div>
+    <div class="gd-field__photo">
+      <div class="slot-cap">Image — desk / hands-on-keyboard / notebook</div>
+    </div>
+  </section>
+
+  <footer class="gd-footer" id="notes">
+    <div class="gd-footer__cols">
+      <div>
+        <div class="gd-footer__lede">"They wrote the email I should have written for two years. Now we're booked out."</div>
+        <div class="gd-footer__attrib">— L. Mendez, executive coach</div>
+      </div>
+      <div>
+        <h4>Surfaces</h4>
+        <ul>
+          <li><a href="#services">Newsletters</a></li>
+          <li><a href="#services">Landing pages</a></li>
+          <li><a href="#services">Sales decks</a></li>
+          <li><a href="#services">Carousels</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="#about">Method</a></li>
+          <li><a href="#work">Recent work</a></li>
+          <li><a href="#notes">Notes</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#book">Book a call</a></li>
+          <li><a href="mailto:hello@ghost-digital.co">hello@ghost-digital.co</a></li>
+          <li><a href="#">@ghostdigital</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gd-footer__bottom">
+      <span>EST. MMXXIV · VANCOUVER / REMOTE</span>
+      <span>© 2026 Ghost Digital Inc. All rights reserved.</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Split [data-reveal] text into per-word spans (matches ScrollText)
+  document.querySelectorAll('.gd-st[data-reveal]').forEach(function (el) {
+    var parts = el.textContent.split(/(\s+)/);
+    el.textContent = '';
+    parts.forEach(function (w) {
+      if (/^\s+$/.test(w)) { el.appendChild(document.createTextNode(w)); }
+      else if (w.length) {
+        var s = document.createElement('span');
+        s.className = 'gd-st__w';
+        s.textContent = w;
+        el.appendChild(s);
+      }
+    });
+  });
+
+  // Scroll-driven saturation/blur reveal (ported from useScrollReveal)
+  var words = document.querySelectorAll('.gd-st__w');
+  function update() {
+    var vh = window.innerHeight;
+    var start = vh * 0.92, end = vh * 0.55;
+    words.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      var p = Math.max(0, Math.min(1, (start - r.top) / (start - end)));
+      el.style.setProperty('--p', p.toFixed(3));
+    });
+  }
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+
+  // Newsletter form — inert demo confirmation
+  var form = document.getElementById('notify-form');
+  if (form) form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('notify-label').textContent = 'Sent ✓';
+  });
+</script>
+</body>
+</html>
