@@ -8,7 +8,7 @@
 
 <meta property="og:title" content="The Coach's CTA Swipe File — 27 Newsletter Sign-Offs That Book Calls">
 <meta property="og:description" content="Plug-and-play endings for the last paragraph of your newsletter. Your next 'great post!' reply turns into a sales conversation.">
-<meta property="og:image" content="/landing-page/assets/cta-swipe-file-og.png">
+<meta property="og:image" content="/assets/cta-swipe-file-og.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -44,7 +44,7 @@
     --gd-shadow-md:0 12px 28px -10px rgba(26,26,24,0.18);
     --gd-ease:cubic-bezier(0.2,0.6,0.2,1);
 
-    --gd-grain:url("/landing-page/assets/grain.svg");
+    --gd-grain:url("/assets/grain.svg");
   }
 
   *{box-sizing:border-box}
@@ -460,7 +460,7 @@
 </div>
 
 <script>
-  /* Fire-and-redirect: POST to Kit, redirect to /cta-swipe-file-asset.html.
+  /* Fire-and-redirect: POST to Kit, redirect to /swipe-file-asset.html.
      Pattern from PATTERNS.md §2. Provider returns opaque (no-cors) response;
      subscription + confirm email fire server-side. */
   (function(){
@@ -477,7 +477,7 @@
         var label = btn.querySelector('span');
         if(label) label.textContent = 'Sending…';
       }
-      var go = function(){ window.location.href = '/cta-swipe-file-asset.html'; };
+      var go = function(){ window.location.href = '/swipe-file-asset.html'; };
       fetch(form.action, { method:'POST', mode:'no-cors', body:new FormData(form) })
         .then(go).catch(go);
     });
