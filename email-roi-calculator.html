@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Email List ROI Calculator — Ghost Digital</title>
+<meta name="description" content="Answer 6 questions and get a dollar figure: what your email list earns today, and the revenue you're leaving on the table.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="What is your email list actually worth?">
+<meta property="og:description" content="Answer 6 questions. Get a dollar figure — and the number you're leaving on the table.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400;1,6..72,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     GHOST DIGITAL — tokens (copied verbatim from index.html so the
+     calculator stays in sync with the site. Do not fork these values.)
+     ============================================================ */
+  :root {
+    --gd-parchment:#E8E2D4; --gd-parchment-2:#DCD4C2; --gd-bone:#F1ECE0;
+    --gd-inkwell:#1A1A18; --gd-ink-2:#2A2A26; --gd-ink-3:#555048; --gd-ink-4:#8A8378;
+    --gd-terracotta:#C0714A; --gd-clay:#D4956A; --gd-olive:#6B7A52;
+    --gd-deep-olive:#3D4A2E; --gd-driftwood:#8A7E6A;
+
+    --gd-bg:var(--gd-parchment); --gd-bg-elev:var(--gd-bone); --gd-bg-inverse:var(--gd-inkwell);
+    --gd-fg-1:var(--gd-inkwell); --gd-fg-2:var(--gd-ink-2); --gd-fg-3:var(--gd-ink-3); --gd-fg-4:var(--gd-ink-4);
+    --gd-fg-on-dark:var(--gd-parchment);
+    --gd-accent:var(--gd-terracotta); --gd-accent-soft:var(--gd-clay);
+
+    --gd-rule:rgba(26,26,24,0.18); --gd-rule-strong:rgba(26,26,24,0.42); --gd-rule-on-dark:rgba(232,226,212,0.18);
+
+    --gd-font-display:"Newsreader","Perfectly Nineties","EB Garamond",Georgia,serif;
+    --gd-font-body:"DM Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --gd-font-mono:"DM Mono",ui-monospace,"SF Mono",Menlo,monospace;
+
+    --gd-radius-md:8px; --gd-radius-pill:999px; --gd-radius-card:12px;
+    --gd-shadow-sm:0 2px 8px -2px rgba(26,26,24,0.08);
+    --gd-ease:cubic-bezier(0.2,0.6,0.2,1);
+    --gd-grain:url("/assets/grain.svg");
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--gd-parchment);}
+  img{max-width:100%;display:block}
+
+  .gd{
+    font-family:var(--gd-font-body); font-size:15px; line-height:1.55;
+    color:var(--gd-fg-1); background:var(--gd-bg);
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  .gd h1,.gd h2,.gd h3,.gd h4{font-family:var(--gd-font-display);font-weight:400;margin:0;}
+  .gd h2{font-size:64px;line-height:1.0;letter-spacing:-.018em;}
+  .gd h3{font-size:44px;line-height:1.05;letter-spacing:-.012em;}
+  .gd h4{font-weight:500;font-size:32px;line-height:1.15;letter-spacing:-.008em;}
+  .gd p{font-family:var(--gd-font-body);font-weight:400;font-size:15px;line-height:1.6;color:var(--gd-fg-2);text-wrap:pretty;margin:0 0 1em;}
+  .gd a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.15em;}
+  .gd a:hover{color:var(--gd-accent);}
+  .gd-page{background:var(--gd-parchment);color:var(--gd-inkwell);min-height:100vh;font-family:var(--gd-font-body);}
+
+  /* ---------- nav (copied from index.html) ---------- */
+  .gd-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 40px;position:relative;z-index:5;}
+  .gd-nav__brand{display:flex;align-items:center;gap:10px;font-family:var(--gd-font-display);font-size:20px;}
+  .gd-nav__brand .mark{display:inline-block;width:22px;height:22px;position:relative;}
+  .gd-nav__brand .mark span{position:absolute;width:4px;height:4px;border-radius:999px;background:currentColor;}
+  .gd-nav__brand .mark span:nth-child(1){left:4px;top:6px;}
+  .gd-nav__brand .mark span:nth-child(2){left:14px;top:6px;}
+  .gd-nav__brand .mark span:nth-child(3){left:9px;top:14px;}
+  .gd-nav__brand a{text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;}
+  .gd-nav__center{display:flex;gap:32px;justify-content:center;}
+  .gd-nav__center a{font-size:13px;color:var(--gd-fg-2);text-decoration:none;}
+  .gd-nav__center a:hover{color:var(--gd-accent);}
+  .gd-nav__right{display:flex;justify-content:flex-end;}
+
+  /* ---------- pill (copied from index.html) ---------- */
+  .gd-pill{
+    font-family:var(--gd-font-body);font-size:14px;padding:10px 16px 10px 20px;border-radius:999px;
+    background:rgba(232,226,212,0.32);
+    backdrop-filter:blur(8px) saturate(1.05);-webkit-backdrop-filter:blur(8px) saturate(1.05);
+    border:1px solid rgba(26,26,24,0.32);
+    box-shadow:inset 0 1px 0 rgba(241,236,224,0.55),inset 0 -1px 0 rgba(26,26,24,0.05),0 1px 0 rgba(26,26,24,0.04);
+    color:inherit;display:inline-flex;align-items:center;gap:14px;cursor:pointer;
+    transition:all 260ms var(--gd-ease);text-decoration:none;position:relative;isolation:isolate;
+  }
+  .gd-pill:hover{border-color:rgba(26,26,24,0.6);background:rgba(232,226,212,0.45);}
+  .gd-pill .arrow{display:inline-flex;align-items:center;gap:4px;transition:transform 260ms var(--gd-ease);opacity:.82;}
+  .gd-pill:hover .arrow{transform:translateX(4px);}
+  .gd-pill .line{width:18px;height:1px;background:currentColor;}
+  .gd-pill .dot{width:6px;height:6px;border-radius:999px;background:currentColor;}
+  .gd-pill.solid{background:rgba(26,26,24,0.78);color:var(--gd-parchment);border-color:rgba(26,26,24,0.92);box-shadow:inset 0 1px 0 rgba(241,236,224,0.18),inset 0 -1px 0 rgba(0,0,0,0.3),0 1px 0 rgba(0,0,0,0.15);}
+  .gd-pill.solid:hover{background:rgba(26,26,24,0.92);}
+  .gd-pill.sm{font-size:12px;padding:7px 13px 7px 15px;gap:10px;}
+
+  .gd-eyebrow{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;}
+  .gd-eyebrow::before{content:"\25B8";color:var(--gd-terracotta);}
+
+  /* ---------- footer (copied from index.html) ---------- */
+  .gd-footer{background:var(--gd-inkwell);color:var(--gd-fg-on-dark);padding:64px 56px 32px;position:relative;overflow:hidden;}
+  .gd-footer::before{content:"";position:absolute;inset:0;background-image:var(--gd-grain);background-size:240px;mix-blend-mode:overlay;opacity:.25;pointer-events:none;}
+  .gd-footer > *{position:relative;}
+  .gd-footer__cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;padding-bottom:56px;border-bottom:1px solid var(--gd-rule-on-dark);}
+  .gd-footer__cols h4{font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;margin:0 0 14px;font-weight:500;}
+  .gd-footer__cols ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+  .gd-footer__cols ul a{color:var(--gd-bone);text-decoration:none;font-size:13px;}
+  .gd-footer__cols ul a:hover{color:var(--gd-clay);}
+  .gd-footer__lede{font-family:var(--gd-font-display);font-style:italic;font-size:22px;line-height:1.3;max-width:380px;}
+  .gd-footer__attrib{margin-top:18px;font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;}
+  .gd-footer__bottom{display:flex;justify-content:space-between;padding-top:24px;font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.5;}
+
+  /* ============================================================
+     CALCULATOR — calculator-specific layout, tokens only.
+     ============================================================ */
+  .tool{max-width:760px;margin:0 auto;padding:18px 24px 96px;}
+  .tool__head{padding:36px 0 28px;border-bottom:1px solid var(--gd-rule);}
+  .tool__head h1{font-family:var(--gd-font-display);font-weight:400;font-size:52px;line-height:1.03;letter-spacing:-.018em;margin:14px 0 16px;}
+  .tool__head .lede{font-size:17px;color:var(--gd-fg-3);max-width:540px;}
+
+  .panel{background:var(--gd-bone);border:1px solid var(--gd-rule);border-radius:var(--gd-radius-card);padding:30px 30px 34px;margin-top:30px;box-shadow:var(--gd-shadow-sm);}
+  .panel__title{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gd-fg-4);margin-bottom:22px;}
+
+  .field{margin-bottom:24px;}
+  .field:last-child{margin-bottom:0;}
+  .field label{display:block;font-size:14px;font-weight:500;color:var(--gd-fg-1);margin-bottom:4px;}
+  .field .hint{display:block;font-size:12.5px;color:var(--gd-fg-4);margin-bottom:10px;}
+  .field input[type=number],.field select{
+    width:100%;font-family:var(--gd-font-body);font-size:16px;color:var(--gd-fg-1);
+    background:var(--gd-parchment);border:1px solid var(--gd-rule-strong);border-radius:var(--gd-radius-md);
+    padding:11px 13px;
+  }
+  .field input:focus,.field select:focus{outline:2px solid var(--gd-accent);outline-offset:1px;}
+  .field input[type=range]{width:100%;accent-color:var(--gd-terracotta);margin-top:6px;}
+  .range-row{display:flex;justify-content:space-between;align-items:baseline;}
+  .range-row .val{font-family:var(--gd-font-mono);font-size:15px;color:var(--gd-terracotta);}
+
+  .calc-btn{width:100%;justify-content:center;margin-top:6px;font-size:15px;padding:14px 20px;}
+  .err{color:var(--gd-terracotta);font-size:13px;margin-top:12px;display:none;}
+
+  /* ---- result ---- */
+  #result{display:none;}
+  .result-hero{text-align:center;padding:8px 0 4px;}
+  .result-hero .claim{font-family:var(--gd-font-display);font-weight:400;font-size:82px;line-height:1;letter-spacing:-.02em;margin:10px 0 2px;}
+  .result-hero .claim .per{font-size:30px;color:var(--gd-fg-4);}
+  .result-hero .subclaim{font-size:14px;color:var(--gd-fg-3);}
+  .band-chip{display:inline-block;font-family:var(--gd-font-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--gd-inkwell);color:var(--gd-parchment);padding:7px 14px;border-radius:999px;margin-top:18px;}
+  .tagline{font-family:var(--gd-font-display);font-style:italic;font-size:21px;color:var(--gd-fg-1);text-align:center;margin:20px auto 4px;max-width:460px;}
+
+  .gap-callout{background:var(--gd-inkwell);color:var(--gd-parchment);border-radius:var(--gd-radius-card);padding:26px 28px;margin:26px 0;text-align:center;}
+  .gap-callout .lbl{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;}
+  .gap-callout .big{font-family:var(--gd-font-display);font-size:46px;line-height:1.05;margin:8px 0 8px;color:var(--gd-clay);}
+  .gap-callout p{color:rgba(241,236,224,0.78);margin:0;font-size:14px;}
+
+  .breakdown{width:100%;border-collapse:collapse;margin:8px 0 4px;}
+  .breakdown td{padding:11px 2px;border-bottom:1px solid var(--gd-rule);font-size:14px;}
+  .breakdown td:last-child{text-align:right;font-family:var(--gd-font-mono);color:var(--gd-fg-1);}
+  .breakdown tr:last-child td{border-bottom:none;}
+
+  .next-list{list-style:none;padding:0;margin:6px 0 0;}
+  .next-list li{padding:14px 0;border-bottom:1px solid var(--gd-rule);font-size:14.5px;color:var(--gd-fg-2);}
+  .next-list li:last-child{border-bottom:none;}
+  .next-list li b{color:var(--gd-fg-1);font-weight:600;}
+
+  .share-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+
+  /* ---- funnel ---- */
+  .funnel{background:var(--gd-inkwell);color:var(--gd-parchment);border-radius:var(--gd-radius-card);padding:34px 32px 36px;margin-top:30px;position:relative;overflow:hidden;}
+  .funnel::before{content:"";position:absolute;inset:0;background-image:var(--gd-grain);background-size:240px;mix-blend-mode:overlay;opacity:.2;pointer-events:none;}
+  .funnel > *{position:relative;}
+  .funnel h3{color:var(--gd-parchment);font-size:34px;margin-bottom:10px;}
+  .funnel p{color:rgba(241,236,224,0.78);}
+  .funnel input[type=text],.funnel input[type=email]{
+    width:100%;font-family:var(--gd-font-body);font-size:15px;color:var(--gd-parchment);
+    background:rgba(241,236,224,0.07);border:1px solid var(--gd-rule-on-dark);border-radius:var(--gd-radius-md);
+    padding:11px 13px;margin-top:10px;
+  }
+  .funnel input::placeholder{color:rgba(241,236,224,0.4);}
+  .funnel input:focus{outline:2px solid var(--gd-clay);outline-offset:1px;}
+  .consent{background:rgba(241,236,224,0.06);border:1px solid var(--gd-rule-on-dark);border-radius:var(--gd-radius-md);padding:16px 18px;margin:18px 0;font-size:13px;line-height:1.6;color:rgba(241,236,224,0.72);}
+  .consent strong{color:var(--gd-parchment);}
+  .optins{margin:18px 0 4px;}
+  .optin{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--gd-rule-on-dark);cursor:pointer;}
+  .optin:last-child{border-bottom:none;}
+  .optin input{margin-top:3px;width:16px;height:16px;accent-color:var(--gd-clay);flex-shrink:0;}
+  .optin .ot{font-size:14px;color:var(--gd-parchment);}
+  .optin .od{font-size:12.5px;color:rgba(241,236,224,0.55);}
+  .funnel .gd-pill.solid{background:var(--gd-parchment);color:var(--gd-inkwell);border-color:var(--gd-parchment);}
+  .funnel .gd-pill.solid:hover{background:#fff;}
+  .funnel-btn{width:100%;justify-content:center;margin-top:18px;padding:14px;}
+  .funnel-done{display:none;text-align:center;padding:14px 0;}
+  .funnel-done h3{margin-bottom:8px;}
+
+  @media (max-width:680px){
+    .gd-nav{grid-template-columns:1fr auto;padding:18px 20px;}
+    .gd-nav__center{display:none;}
+    .tool{padding:8px 18px 72px;}
+    .tool__head h1{font-size:38px;}
+    .result-hero .claim{font-size:58px;}
+    .result-hero .claim .per{font-size:22px;}
+    .gap-callout .big{font-size:34px;}
+    .panel{padding:24px 20px 26px;}
+    .funnel{padding:28px 22px;}
+    .gd-footer{padding:48px 24px 28px;}
+    .gd-footer__cols{grid-template-columns:1fr 1fr;gap:32px;}
+    .gd-footer__bottom{flex-direction:column;gap:8px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="gd gd-page">
+
+  <nav class="gd-nav">
+    <div class="gd-nav__brand"><a href="/"><span class="mark"><span></span><span></span><span></span></span> ghost digital</a></div>
+    <div class="gd-nav__center">
+      <a href="/#work">Work</a>
+      <a href="/#services">Services</a>
+      <a href="/#notes">Notes</a>
+      <a href="/#about">About</a>
+    </div>
+    <div class="gd-nav__right">
+      <a class="gd-pill sm" href="/#book"><span>Free Consultation</span><span class="arrow"><span class="line"></span><span class="dot"></span></span></a>
+    </div>
+  </nav>
+
+  <main class="tool">
+
+    <!-- COPY: written in Ghost Digital's voice; pending brand-voice redline. -->
+    <header class="tool__head">
+      <span class="gd-eyebrow">Free tool · Email List ROI</span>
+      <h1>What is your email list actually worth?</h1>
+      <p class="lede">Six questions. You get a dollar figure for what your list earns today — and the number you're leaving on the table by not sending.</p>
+    </header>
+
+    <!-- ===================== INPUT PANEL ===================== -->
+    <section class="panel" id="calc">
+      <div class="panel__title">Your list, in 6 numbers</div>
+
+      <div class="field">
+        <label for="subscribers">How many subscribers are on your list?</label>
+        <span class="hint">Total people, not just the ones who open.</span>
+        <input type="number" id="subscribers" min="0" step="1" placeholder="e.g. 4000" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label for="monthlyGrowth">How many new subscribers do you add a month?</label>
+        <span class="hint">A rough average is fine. Put 0 if you're not sure.</span>
+        <input type="number" id="monthlyGrowth" min="0" step="1" placeholder="e.g. 150" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label for="sendsPerMonth">How often do you actually email your list?</label>
+        <span class="hint">Be honest — what happens, not what you intend.</span>
+        <select id="sendsPerMonth">
+          <option value="0">Rarely / only when I have something to sell</option>
+          <option value="1">About once a month</option>
+          <option value="2">A couple times a month</option>
+          <option value="4" selected>Weekly</option>
+          <option value="10">Two or three times a week</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="offerPrice">What does your core paid offer cost?</label>
+        <span class="hint">Your main program, package, or product price in dollars.</span>
+        <input type="number" id="offerPrice" min="0" step="1" placeholder="e.g. 1500" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label for="clickRate">Of people who get an email, how many click a link?</label>
+        <span class="hint">Industry-typical is 1–3%. Default's a safe guess.</span>
+        <div class="range-row"><span class="hint" style="margin:0;">Click rate</span><span class="val" id="clickRateVal">2%</span></div>
+        <input type="range" id="clickRate" min="0.5" max="12" step="0.5" value="2">
+      </div>
+
+      <div class="field">
+        <label for="buyRate">Of the people who click, how many buy?</label>
+        <span class="hint">For a warm list and a real offer, 2–8% is common.</span>
+        <div class="range-row"><span class="hint" style="margin:0;">Buy rate</span><span class="val" id="buyRateVal">4%</span></div>
+        <input type="range" id="buyRate" min="1" max="20" step="0.5" value="4">
+      </div>
+
+      <a class="gd-pill solid calc-btn" id="calcBtn" role="button" tabindex="0">
+        <span>Show me the number</span><span class="arrow"><span class="line"></span><span class="dot"></span></span>
+      </a>
+      <div class="err" id="calcErr">Enter your subscriber count and offer price to run the numbers.</div>
+    </section>
+
+    <!-- ===================== RESULT ===================== -->
+    <section id="result">
+      <div class="panel">
+        <div class="result-hero">
+          <span class="gd-eyebrow" style="justify-content:center;">Your email list ROI</span>
+          <div class="claim" id="rClaim">$0<span class="per">/yr</span></div>
+          <div class="subclaim">is what your list earns at your current sending habits</div>
+          <div class="band-chip" id="rBand">—</div>
+        </div>
+        <p class="tagline" id="rTagline"></p>
+        <p id="rNarrative" style="text-align:center;max-width:520px;margin:14px auto 4px;"></p>
+
+        <div class="gap-callout" id="rGap">
+          <div class="lbl">Left on the table</div>
+          <div class="big" id="rGapBig">$0</div>
+          <p id="rGapNote"></p>
+        </div>
+
+        <div class="panel__title" style="margin-top:30px;">The breakdown</div>
+        <table class="breakdown">
+          <tr><td>Revenue per email you send</td><td id="bRPS">$0</td></tr>
+          <tr><td>Emails you send per year</td><td id="bSends">0</td></tr>
+          <tr><td>Value per subscriber, per year</td><td id="bRPSY">$0</td></tr>
+          <tr><td>Annual revenue at a weekly cadence</td><td id="bPotential">$0</td></tr>
+          <tr><td>12-month projection, with your growth</td><td id="bProjected">$0</td></tr>
+        </table>
+
+        <div class="panel__title" style="margin-top:30px;">What to do with this</div>
+        <ul class="next-list">
+          <li><b>Pick the send day now.</b> Open your calendar before you close this tab and block a recurring hour. A cadence that lives in your head isn't a cadence.</li>
+          <li><b>Steal a starting point.</b> Grab the <a href="/swipe-file">CTA Swipe File</a> — proven calls-to-action you can drop into the next send.</li>
+          <li><b>Decide who's actually writing it.</b> The math above only pays out if the emails ship every week. That consistency is the whole job — and it's the part Ghost Digital does for you.</li>
+        </ul>
+
+        <div class="share-row">
+          <a class="gd-pill sm" id="copyBtn" role="button" tabindex="0"><span id="copyLabel">Copy my result</span></a>
+          <a class="gd-pill sm" href="#calc" onclick="document.getElementById('result').style.display='none'"><span>Run it again</span></a>
+        </div>
+      </div>
+
+      <!-- ===================== FUNNEL ===================== -->
+      <div class="funnel" id="funnel">
+        <div id="funnelForm">
+          <span class="gd-eyebrow" style="color:var(--gd-clay);">The conversation</span>
+          <h3>Willing to talk about this further?</h3>
+          <p>Ghost Digital writes the newsletter for coaches — end to end, in your voice, on a schedule. Book a 20-minute call and we'll map what a consistent weekly send would do to the number above. No pitch deck, just the math on your list.</p>
+
+          <input type="text" id="fName" placeholder="Your name" autocomplete="name">
+          <input type="email" id="fEmail" placeholder="Email address" autocomplete="email">
+          <input type="text" id="fBusiness" placeholder="What you coach / your business" autocomplete="organization">
+
+          <div class="consent">
+            <strong>What we'll do with your information:</strong> We use it to reach out to you
+            about this conversation — nothing else. We will <strong>never</strong> publish, quote,
+            or attribute your calculator responses or anything you share without your
+            explicit, written permission. If you choose to be featured later, that's a
+            separate conversation we'll have with you directly.
+          </div>
+
+          <div class="optins">
+            <label class="optin">
+              <input type="checkbox" id="optCall">
+              <span><span class="ot">Yes — book me a 20-min call about my list.</span><br><span class="od">We'll send a scheduling link right after you submit.</span></span>
+            </label>
+            <label class="optin">
+              <input type="checkbox" id="optNotify">
+              <span><span class="ot">Notify me when the DIY Newsletter Toolkit is ready.</span><br><span class="od">Templates and systems for coaches who want to write it themselves.</span></span>
+            </label>
+            <label class="optin">
+              <input type="checkbox" id="optList">
+              <span><span class="ot">Add me to the Ghost Digital newsletter.</span><br><span class="od">Occasional notes on writing email that actually earns.</span></span>
+            </label>
+          </div>
+
+          <a class="gd-pill solid funnel-btn" id="funnelBtn" role="button" tabindex="0">
+            <span>Send it over</span><span class="arrow"><span class="line"></span><span class="dot"></span></span>
+          </a>
+          <div class="err" id="funnelErr" style="color:var(--gd-clay);">Add your email so we can reach you.</div>
+        </div>
+
+        <div class="funnel-done" id="funnelDone">
+          <span class="gd-eyebrow" style="color:var(--gd-clay);justify-content:center;">Got it</span>
+          <h3 id="doneTitle">Thanks — we'll be in touch.</h3>
+          <p id="doneBody">Check your inbox. Talk soon.</p>
+          <a class="gd-pill solid" id="doneCta" href="/#book" style="display:none;"><span>Grab a time now</span><span class="arrow"><span class="line"></span><span class="dot"></span></span></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="gd-footer">
+    <div class="gd-footer__cols">
+      <div>
+        <div class="gd-footer__lede">"They wrote the email I should have written for two years. Now we're booked out."</div>
+        <div class="gd-footer__attrib">— L. Mendez, executive coach</div>
+      </div>
+      <div>
+        <h4>Surfaces</h4>
+        <ul>
+          <li><a href="/#services">Newsletters</a></li>
+          <li><a href="/#services">Landing pages</a></li>
+          <li><a href="/#services">Sales decks</a></li>
+          <li><a href="/#services">Carousels</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Free tools</h4>
+        <ul>
+          <li><a href="/email-roi-calculator">Email List ROI</a></li>
+          <li><a href="/swipe-file">CTA Swipe File</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="/#book">Book a call</a></li>
+          <li><a href="mailto:hello@ghost-digital.co">hello@ghost-digital.co</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gd-footer__bottom">
+      <span>EST. MMXXIV · VANCOUVER / REMOTE</span>
+      <span>© 2026 Ghost Digital Inc. All rights reserved.</span>
+    </div>
+  </footer>
+
+</div>
+
+<script type="module">
+import { scoreEmailRoi, BANDS } from '/tools/email-roi/scoring.js';
+
+const $ = (id) => document.getElementById(id);
+const sessionId = (crypto.randomUUID && crypto.randomUUID()) ||
+  ('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+  }));
+let submissionId = null;
+
+const usd = (n) => '$' + Math.round(n).toLocaleString('en-US');
+
+async function post(path, payload) {
+  try {
+    const r = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return r.ok ? await r.json() : null;
+  } catch {
+    return null;
+  }
+}
+
+// live slider labels
+const clickEl = $('clickRate'), buyEl = $('buyRate');
+clickEl.addEventListener('input', () => { $('clickRateVal').textContent = clickEl.value + '%'; });
+buyEl.addEventListener('input', () => { $('buyRateVal').textContent = buyEl.value + '%'; });
+
+function readInputs() {
+  return {
+    subscribers: parseFloat($('subscribers').value) || 0,
+    monthlyGrowth: parseFloat($('monthlyGrowth').value) || 0,
+    sendsPerMonth: parseFloat($('sendsPerMonth').value) || 0,
+    offerPrice: parseFloat($('offerPrice').value) || 0,
+    clickRate: parseFloat(clickEl.value) || 0,
+    buyRate: parseFloat(buyEl.value) || 0,
+  };
+}
+
+function render(inp, r) {
+  const band = BANDS.find((b) => b.id === r.band);
+
+  $('rClaim').innerHTML = usd(r.currentAnnual) + '<span class="per">/yr</span>';
+  $('rBand').textContent = r.bandName;
+  $('rTagline').textContent = band.tagline;
+
+  // narrative = band shell + a result-specific delta
+  let delta;
+  if (r.currentAnnual <= 0) {
+    delta = ' Right now that number is effectively zero — every figure below is potential, not income.';
+  } else if (r.alreadyWeekly) {
+    delta = ' You already send often enough that cadence isn’t the gap — the lever now is how hard each email works.';
+  } else {
+    delta = ' The fix isn’t complicated: the same list, emailed weekly, is doing the work below.';
+  }
+  $('rNarrative').textContent = band.narrative + delta;
+
+  // gap callout
+  if (r.cadenceGap > 0) {
+    $('rGap').style.display = '';
+    $('rGapBig').textContent = usd(r.cadenceGap) + '/yr';
+    $('rGapNote').textContent =
+      'That’s the difference between your current cadence and a steady weekly send — same list, same offer, same rates. The only variable is whether the email goes out.';
+  } else {
+    $('rGap').style.display = 'none';
+  }
+
+  $('bRPS').textContent = usd(r.revenuePerSend);
+  $('bSends').textContent = Math.round(r.sendsPerMonth * 12).toLocaleString('en-US');
+  $('bRPSY').textContent = '$' + r.rpsy.toFixed(2);
+  $('bPotential').textContent = usd(r.potentialAnnual);
+  $('bProjected').textContent = usd(r.projectedAnnual);
+
+  $('result').style.display = 'block';
+  $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function calculate() {
+  const inp = readInputs();
+  if (inp.subscribers <= 0 || inp.offerPrice <= 0) {
+    $('calcErr').style.display = 'block';
+    return;
+  }
+  $('calcErr').style.display = 'none';
+  const r = scoreEmailRoi(inp);
+  render(inp, r);
+
+  // store submission (non-blocking for UX)
+  const computed = {
+    band: r.band, currentAnnual: r.currentAnnual, potentialAnnual: r.potentialAnnual,
+    cadenceGap: r.cadenceGap, projectedAnnual: r.projectedAnnual, rpsy: r.rpsy,
+    revenuePerSend: r.revenuePerSend,
+  };
+  const out = await post('/api/emailroi-submit', {
+    session_id: sessionId, responses: inp, computed, referrer: document.referrer || null,
+  });
+  if (out && out.id) submissionId = out.id;
+  post('/api/emailroi-event', { session_id: sessionId, event_type: 'completed', metadata: { band: r.band } });
+}
+
+function bindButton(el, fn) {
+  el.addEventListener('click', fn);
+  el.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); }
+  });
+}
+
+bindButton($('calcBtn'), calculate);
+
+bindButton($('copyBtn'), async () => {
+  const claim = $('rClaim').textContent;
+  const gap = $('rGap').style.display === 'none' ? '' :
+    ' I’m leaving ' + $('rGapBig').textContent + ' on the table.';
+  const text = 'My email list earns ' + claim + ' (' + $('rBand').textContent + ').' + gap +
+    ' Found out with Ghost Digital’s free Email List ROI calculator: ' + location.href;
+  try {
+    await navigator.clipboard.writeText(text);
+    $('copyLabel').textContent = 'Copied ✓';
+    setTimeout(() => { $('copyLabel').textContent = 'Copy my result'; }, 2500);
+  } catch {
+    $('copyLabel').textContent = 'Press ⌘C to copy';
+  }
+});
+
+let funnelSeen = false;
+async function submitContact() {
+  const email = $('fEmail').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    $('funnelErr').style.display = 'block';
+    return;
+  }
+  $('funnelErr').style.display = 'none';
+  const optCall = $('optCall').checked;
+
+  await post('/api/emailroi-contact', {
+    submission_id: submissionId,
+    email,
+    name: $('fName').value.trim() || null,
+    business: $('fBusiness').value.trim() || null,
+    opt_in_call: optCall,
+    opt_in_notify: $('optNotify').checked,
+    opt_in_list: $('optList').checked,
+  });
+  post('/api/emailroi-event', { session_id: sessionId, event_type: 'contact_submitted', metadata: { call: optCall } });
+
+  $('funnelForm').style.display = 'none';
+  $('funnelDone').style.display = 'block';
+  if (optCall) {
+    $('doneTitle').textContent = 'Let’s get it on the calendar.';
+    $('doneBody').textContent = 'Pick a 20-minute slot that works — we’ll come ready to talk about your list specifically.';
+    $('doneCta').style.display = 'inline-flex';
+  } else {
+    $('doneTitle').textContent = 'Got it — talk soon.';
+    $('doneBody').textContent = 'You’re on the list. Keep an eye on your inbox.';
+  }
+}
+bindButton($('funnelBtn'), submitContact);
+
+// fire a funnel_view event the first time the funnel scrolls into view
+const fObserver = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting && !funnelSeen) {
+      funnelSeen = true;
+      post('/api/emailroi-event', { session_id: sessionId, event_type: 'funnel_view' });
+    }
+  });
+}, { threshold: 0.3 });
+fObserver.observe($('funnel'));
+</script>
+</body>
+</html>
