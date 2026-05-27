@@ -1,0 +1,485 @@
+/* ============================================================
+   PEAK HUMAN ARCHETYPE QUIZ — design tokens tuned to Naeem's
+   MoodMethod brand (navy / cream / steel, heavy geometric sans).
+   ============================================================ */
+:root {
+  /* surface — navy stack */
+  --bg:           #0F1721;
+  --bg-elev:      #1A2330;
+  --bg-card:      #243140;
+  --steel:        #2F4858;
+
+  /* ink — cream + cool grays */
+  --fg-1:         #F4EFE3;
+  --fg-2:         #A8B5C2;
+  --fg-3:         #6B7886;
+
+  /* accent — cream is the accent (not gold). Subtle, executive. */
+  --accent:       #F4EFE3;
+  --accent-dim:   #C8D3DF;
+  --accent-soft:  rgba(244, 239, 227, 0.08);
+  --accent-line:  rgba(244, 239, 227, 0.28);
+
+  /* rules + dividers */
+  --rule:         rgba(244, 239, 227, 0.08);
+  --rule-strong:  rgba(244, 239, 227, 0.22);
+
+  /* type */
+  --font-display: "Archivo", "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-body:    "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius-md:    8px;
+  --radius-lg:    14px;
+  --ease:         cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg-1); }
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: -0.02em;
+  color: var(--fg-1);
+}
+h1 { font-size: clamp(40px, 6.4vw, 76px); line-height: 0.98; }
+h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.05; }
+h3 { font-size: 20px; line-height: 1.25; font-weight: 700; }
+p  { color: var(--fg-2); margin: 0 0 1em; }
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-soft); transition: border-color 160ms var(--ease); }
+a:hover { border-bottom-color: var(--accent); }
+
+/* Replace italic-em with a tonal-weight accent (MoodMethod's two-tone trick) */
+em {
+  font-style: normal;
+  color: var(--fg-3);
+  font-weight: inherit;
+}
+
+/* ---------- layout ---------- */
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 56px 24px 96px;
+}
+
+/* ---------- eyebrow / mark ---------- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  margin-bottom: 18px;
+}
+
+/* ---------- intro screen ---------- */
+.intro__title {
+  margin-bottom: 22px;
+  text-transform: uppercase;
+}
+.intro__title em {
+  color: var(--fg-3);
+}
+.intro__lede {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--fg-2);
+  font-weight: 400;
+  margin-bottom: 32px;
+  max-width: 620px;
+}
+.intro__meta {
+  display: flex;
+  gap: 32px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+.intro__meta span strong { color: var(--fg-1); font-weight: 600; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 200ms var(--ease);
+  text-decoration: none;
+  border-bottom-width: 1px;
+}
+.btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn--primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn--primary:hover {
+  background: transparent;
+  color: var(--accent);
+}
+.btn--ghost {
+  border-color: var(--rule-strong);
+  color: var(--fg-2);
+}
+.btn--ghost:hover {
+  border-color: var(--fg-1);
+  color: var(--fg-1);
+  background: transparent;
+}
+
+/* ---------- progress ---------- */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 36px;
+}
+.progress__bar {
+  flex: 1;
+  height: 2px;
+  background: var(--rule);
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+}
+.progress__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--accent);
+  transition: width 320ms var(--ease);
+}
+
+/* ---------- question screen ---------- */
+.question {
+  animation: enter 240ms var(--ease);
+}
+@keyframes enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .question { animation: none; }
+}
+
+.question__prompt {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(24px, 3.6vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--fg-1);
+  margin-bottom: 32px;
+}
+
+.options {
+  list-style: none;
+  margin: 0 0 40px;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all 180ms var(--ease);
+}
+.option:hover {
+  border-color: var(--accent-line);
+  background: var(--bg-card);
+  transform: translateX(2px);
+}
+.option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.option.is-selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.question__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* ---------- result screen ---------- */
+.result__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  margin-bottom: 14px;
+}
+.result__name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(56px, 11vw, 120px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: var(--fg-1);
+}
+/* MoodMethod two-tone trick: "THE" in muted, "FORGE" in cream */
+.result__name em {
+  color: var(--fg-3);
+  font-weight: 900;
+}
+.result__tagline {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: var(--fg-2);
+  margin-bottom: 36px;
+}
+
+.result__row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  padding: 22px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 36px;
+}
+.result__stat__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 8px;
+}
+.result__stat__value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.005em;
+  color: var(--fg-1);
+}
+.result__stat__value.is-shadow { color: var(--accent-dim); }
+
+.result__section {
+  margin-bottom: 36px;
+}
+.result__section h3 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.result__section p {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--fg-1);
+  font-weight: 400;
+}
+
+.result__belief {
+  background: var(--bg-elev);
+  border-left: 3px solid var(--accent);
+  padding: 24px 28px;
+  margin: 0 0 36px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--fg-1);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+/* ---------- dimension breakdown ---------- */
+.dimensions {
+  margin-bottom: 40px;
+}
+.dimensions__title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  margin-bottom: 14px;
+}
+.dimensions__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+.dimensions__list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--fg-1);
+}
+.dimensions__list li:last-child { border-bottom: 1px solid var(--rule); }
+.dimensions__list li .grade {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.dimensions__list li .grade.strong { color: var(--accent); }
+.dimensions__list li .grade.shadow { color: var(--fg-3); }
+
+/* ---------- funnel / opt-in ---------- */
+.funnel {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  margin-top: 48px;
+}
+.funnel__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  margin-bottom: 10px;
+  color: var(--fg-1);
+  text-transform: uppercase;
+}
+.funnel__title em { color: var(--fg-3); }
+.funnel__lede {
+  color: var(--fg-2);
+  margin-bottom: 28px;
+  font-size: 16px;
+}
+.funnel__form {
+  display: grid;
+  gap: 12px;
+}
+.funnel__form input[type="email"],
+.funnel__form input[type="text"] {
+  width: 100%;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-md);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+.funnel__form input::placeholder { color: var(--fg-3); }
+.funnel__form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.funnel__success {
+  text-align: center;
+  padding: 28px 12px;
+}
+.funnel__success .eyebrow { color: var(--accent); }
+.funnel__success p {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.005em;
+  color: var(--fg-1);
+}
+
+.funnel__note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+  margin-top: 16px;
+}
+
+/* ---------- footer / restart ---------- */
+.footer {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.footer a { color: var(--fg-3); border-bottom-color: transparent; }
+.footer a:hover { color: var(--fg-1); }
+
+/* ---------- sample disclaimer ribbon ---------- */
+.ribbon {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  background: var(--bg-elev);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  color: var(--fg-2);
+  z-index: 100;
+}
+
+@media (max-width: 600px) {
+  .page { padding: 40px 18px 80px; }
+  .intro__meta { gap: 18px; flex-wrap: wrap; }
+  .result__row { grid-template-columns: 1fr; gap: 14px; }
+  .funnel { padding: 30px 22px; }
+}
