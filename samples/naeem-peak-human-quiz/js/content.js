@@ -88,6 +88,7 @@ export const ARCHETYPES = {
   forge: {
     name: 'The Forge',
     shortName: 'Forge',
+    pattern: 'I let outcomes deliver my identity verdict — when the work goes flat, I do.',
     tagline: 'Action-saturated. Meaning-starved.',
     strong: ['Attention', 'Action'],
     weak: 'Meaning',
@@ -108,6 +109,7 @@ export const ARCHETYPES = {
   cartographer: {
     name: 'The Cartographer',
     shortName: 'Cartographer',
+    pattern: 'I reframe instead of moving. The map keeps getting better — the territory doesn\'t change.',
     tagline: 'Meaning-rich. Action-poor.',
     strong: ['Attention', 'Meaning'],
     weak: 'Action',
@@ -128,6 +130,7 @@ export const ARCHETYPES = {
   wildfire: {
     name: 'The Wildfire',
     shortName: 'Wildfire',
+    pattern: 'I start six things and finish none. The most valuable bet I ever placed is sitting half-done while I light a new fire.',
     tagline: 'High meaning. High action. Low focus.',
     strong: ['Meaning', 'Action'],
     weak: 'Attention',
@@ -148,6 +151,7 @@ export const ARCHETYPES = {
   lighthouse: {
     name: 'The Lighthouse',
     shortName: 'Lighthouse',
+    pattern: 'I\'ve confused following the protocol with the growth the protocol was supposed to produce.',
     tagline: 'Disciplined. Reliable. Subtly brittle.',
     strong: ['Attention', 'Action'],
     weak: 'Meaning (rigid)',

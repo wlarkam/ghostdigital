@@ -65,14 +65,30 @@ function bindHandlers(el) {
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      const name = form.querySelector('input[type="text"]').value;
       const email = form.querySelector('input[type="email"]').value;
+      // Show a brief confirmation, then route to the Apply page with the
+      // archetype + name as URL params. The Apply page pre-fills Q2 with
+      // the user's archetype shadow — the "your funnel already knows you" moment.
       const successEl = el.querySelector('.funnel__inner');
       successEl.innerHTML = `
         <div class="funnel__success">
           <div class="eyebrow">Day 1 lands tomorrow</div>
           <p>Your 5-day protocol for <em>The</em> ${ARCHETYPES[STATE.result.tier].shortName} is on the way to <strong>${escapeHtml(email)}</strong>.</p>
+          <p style="margin-top:24px;font-size:15px;color:var(--fg-2);font-family:var(--font-body);font-weight:400">One more thing — if you're already curious whether we'd be a fit to work together…</p>
         </div>
       `;
+      // Persist for the apply page
+      try { sessionStorage.setItem('phq_name', name); } catch (_) {}
+      try { sessionStorage.setItem('phq_email', email); } catch (_) {}
+      // Redirect after a beat so the success message is briefly seen
+      const params = new URLSearchParams({
+        archetype: STATE.result.tier,
+        name: name,
+      });
+      setTimeout(() => {
+        window.location.assign(`/samples/naeem-peak-human-quiz/apply?${params.toString()}`);
+      }, 1400);
     });
   }
 }
