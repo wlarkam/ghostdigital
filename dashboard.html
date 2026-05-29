@@ -116,11 +116,39 @@
   .empty{font-size:13.5px;color:var(--gd-fg-4);font-style:italic;font-family:var(--gd-font-display);padding:6px 0;}
   .pending-note{margin-top:22px;font-size:13px;color:var(--gd-fg-4);}
 
+  .dot.manual{background:var(--gd-clay);box-shadow:0 0 0 3px rgba(212,149,106,0.18);}
+
+  /* ---------- substack north-star hero (inkwell, anchors the page) ---------- */
+  .hero{background:var(--gd-inkwell);color:var(--gd-fg-on-dark);border-radius:var(--gd-radius-card);padding:40px 42px 32px;margin-top:30px;position:relative;overflow:hidden;box-shadow:var(--gd-shadow-sm);}
+  .hero::before{content:"";position:absolute;inset:0;background-image:var(--gd-grain);background-size:240px;mix-blend-mode:overlay;opacity:.22;pointer-events:none;}
+  .hero > *{position:relative;}
+  .hero .eyebrow,.hero .eyebrow::before{color:var(--gd-clay);}
+  .hero__num{font-family:var(--gd-font-display);font-weight:400;font-size:104px;line-height:.92;letter-spacing:-.022em;margin:16px 0 4px;}
+  .hero__num.muted{color:rgba(241,236,224,0.4);font-size:64px;}
+  .hero__label{font-family:var(--gd-font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(241,236,224,0.66);}
+  .hero__delta{font-size:14px;color:rgba(241,236,224,0.78);margin-top:12px;max-width:440px;}
+  .hero__delta b{color:var(--gd-clay);font-weight:500;}
+  .hero__row{display:flex;flex-wrap:wrap;gap:48px;margin-top:28px;padding-top:24px;border-top:1px solid var(--gd-rule-on-dark);}
+  .hero__cell .k{font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(241,236,224,0.5);}
+  .hero__cell .v{font-family:var(--gd-font-display);font-size:32px;line-height:1.05;margin-top:8px;}
+  .hero__cell .v.muted{color:rgba(241,236,224,0.4);font-size:24px;}
+  .hero__src{margin-top:26px;font-family:var(--gd-font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(241,236,224,0.5);display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;}
+  .hero__src a{color:var(--gd-clay);text-decoration:none;}
+  .hero__src a:hover{text-decoration:underline;text-underline-offset:.15em;}
+
+  /* ---------- section divider (EmailROI sits under the hero) ---------- */
+  .section-head{margin-top:46px;padding-bottom:4px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;}
+  .section-head h2{font-family:var(--gd-font-display);font-weight:400;font-size:30px;line-height:1.1;letter-spacing:-.01em;margin:0;}
+  .section-head .source-line{margin-top:0;}
+
   @media (max-width:760px){
     .stats{grid-template-columns:repeat(2,1fr);}
     .grid{grid-template-columns:1fr;}
     .funnel{grid-template-columns:1fr;}
     .head h1{font-size:40px;}
+    .hero{padding:30px 26px 26px;}
+    .hero__num{font-size:76px;}
+    .hero__row{gap:28px;}
     .gd-nav{padding:18px 22px;}
   }
 </style>
@@ -139,11 +167,30 @@
 
   <main class="wrap">
     <header class="head">
-      <span class="eyebrow">Internal / Insights</span>
-      <h1>Email ROI Insights</h1>
-      <p class="lede">What the Email List ROI calculator is attracting, and which segments turn into leads. Aggregates only. No individual response or contact is shown here.</p>
-      <div class="source-line"><span id="src-dot" class="dot pending"></span><span id="src-text">Supabase, emailroi_*, connecting</span></div>
+      <span class="eyebrow">Internal / Dashboard</span>
+      <h1>Dashboard</h1>
+      <p class="lede">The newsletter is the north star. The lead-magnet funnel below is what feeds it. Everything here is built to grow one number: subscribers.</p>
     </header>
+
+    <!-- substack north-star hero -->
+    <section class="hero">
+      <span class="eyebrow">Substack / North Star</span>
+      <div class="hero__num" id="ss-subs">·</div>
+      <div class="hero__label">Subscribers</div>
+      <p class="hero__delta" id="ss-delta"></p>
+      <div class="hero__row">
+        <div class="hero__cell"><div class="k">Views, last 180 days</div><div class="v" id="ss-views">·</div></div>
+        <div class="hero__cell"><div class="k">Avg open rate</div><div class="v" id="ss-open">·</div></div>
+        <div class="hero__cell"><div class="k">Posts published</div><div class="v" id="ss-posts">·</div></div>
+      </div>
+      <div class="hero__src"><span class="dot manual"></span><span id="ss-src">Substack, manual entry</span> <a id="ss-link" href="#" target="_blank" rel="noopener">@warrenlarkam</a></div>
+    </section>
+
+    <!-- email roi section -->
+    <div class="section-head">
+      <h2>Email ROI Calculator</h2>
+      <div class="source-line"><span id="src-dot" class="dot pending"></span><span id="src-text">Supabase, emailroi_*, connecting</span></div>
+    </div>
 
     <!-- stat strip -->
     <section class="stats" id="stats">
@@ -290,6 +337,49 @@
     document.getElementById('src-dot').className = 'dot ' + (live ? 'live' : 'pending');
     document.getElementById('src-text').textContent = live ? 'Supabase, emailroi_*, live' : 'Supabase, emailroi_*, pending';
   }
+
+  // ---- Substack: manual source (no analytics API) ----
+  // Update these by hand from your Substack stats, then bump as_of. A null
+  // value renders as a muted "pending"; 0 would render as a real 0.
+  var SUBSTACK = {
+    subscribers: 3,
+    views_180d:  234,
+    net_new_30d: null,   // fill once you track month-over-month
+    open_rate:   null,   // percent, e.g. 52
+    posts:       null,   // total posts published
+    as_of:       'May 29, 2026',
+    url:         'https://substack.com/@warrenlarkam',
+    handle:      '@warrenlarkam'
+  };
+
+  function renderSubstack(s) {
+    var subsEl = document.getElementById('ss-subs');
+    if (s.subscribers == null) { subsEl.className = 'hero__num muted'; subsEl.textContent = 'pending'; }
+    else { subsEl.className = 'hero__num'; subsEl.textContent = fmt(s.subscribers); }
+
+    var delta = document.getElementById('ss-delta');
+    if (s.net_new_30d != null) {
+      delta.innerHTML = '<b>' + (s.net_new_30d >= 0 ? '+' : '') + fmt(s.net_new_30d) + '</b> net new in the last 30 days.';
+    } else if (s.views_180d != null && s.subscribers != null) {
+      delta.innerHTML = 'Starting line. <b>' + fmt(s.views_180d) + ' views</b> in 180 days, ' + fmt(s.subscribers) + ' turned into subscribers. The subscribe ask is the lever to pull.';
+    } else {
+      delta.textContent = '';
+    }
+
+    var cell = function (id, val, suffix) {
+      var el = document.getElementById(id);
+      if (val == null) { el.className = 'v muted'; el.textContent = 'pending'; }
+      else { el.className = 'v'; el.textContent = fmt(val) + (suffix || ''); }
+    };
+    cell('ss-views', s.views_180d);
+    cell('ss-open', s.open_rate, '%');
+    cell('ss-posts', s.posts);
+
+    document.getElementById('ss-src').textContent = 'Substack, manual entry, as of ' + s.as_of;
+    var link = document.getElementById('ss-link');
+    link.href = s.url; link.textContent = s.handle;
+  }
+  renderSubstack(SUBSTACK);
 
   fetch('/api/metrics', { headers: { accept: 'application/json' } })
     .then(function (r) { return r.json(); })
