@@ -381,9 +381,13 @@
   }
   renderSubstack(SUBSTACK);
 
-  fetch('/api/metrics', { headers: { accept: 'application/json' } })
-    .then(function (r) { return r.json(); })
+  fetch('/api/metrics', { headers: { accept: 'application/json' }, credentials: 'same-origin' })
+    .then(function (r) {
+      if (r.status === 401) { location = '/login?next=/dashboard'; return null; }
+      return r.json();
+    })
     .then(function (j) {
+      if (!j) return; // redirecting to login
       var live = j && j.sources && j.sources.emailroi === 'live' && j.emailroi;
       setSource(!!live);
       if (live) render(j.emailroi); else pending();

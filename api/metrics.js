@@ -3,11 +3,17 @@
 // runs as owner and returns only counts and averages. No raw submission or
 // contact rows are ever exposed here. Own data, so this is live from day one.
 const { rpc } = require('./_supabase.js');
+const { verifySession } = require('./_auth.js');
 
 module.exports = async (req, res) => {
   res.setHeader('cache-control', 'no-store');
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'method_not_allowed' });
+    return;
+  }
+  // Defense in depth: the Edge middleware gates the page, this gates the data.
+  if (!verifySession(req)) {
+    res.status(401).json({ error: 'unauthorized' });
     return;
   }
 
