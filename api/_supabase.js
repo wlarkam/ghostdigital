@@ -26,6 +26,26 @@ async function insert(table, row) {
   }
 }
 
+// PostgREST RPC read. Used by the dashboard to call SECURITY DEFINER aggregate
+// functions, which run as owner and return only aggregates. No raw rows leak
+// past insert-only RLS. Safe with the anon key because the function is the gate.
+async function rpc(fn, args = {}) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(args),
+  });
+  if (!r.ok) {
+    const detail = await r.text().catch(() => '');
+    throw new Error(`supabase rpc ${fn} ${r.status}: ${detail}`);
+  }
+  return r.json();
+}
+
 function readBody(req) {
   let b = req.body;
   if (typeof b === 'string') {
@@ -43,4 +63,4 @@ const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const isUuid = (v) => typeof v === 'string' && UUID_RE.test(v);
 
-module.exports = { insert, readBody, uaHash, isUuid };
+module.exports = { insert, rpc, readBody, uaHash, isUuid };
