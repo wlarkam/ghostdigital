@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Insights · Ghost Digital</title>
+<meta name="description" content="Live funnel and ROI insights from the Email List ROI calculator.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     GHOST DIGITAL tokens (copied verbatim from index.html so the
+     dashboard stays in sync with the site. Do not fork these values.)
+     ============================================================ */
+  :root {
+    --gd-parchment:#E8E2D4; --gd-parchment-2:#DCD4C2; --gd-bone:#F1ECE0;
+    --gd-inkwell:#1A1A18; --gd-ink-2:#2A2A26; --gd-ink-3:#555048; --gd-ink-4:#8A8378;
+    --gd-terracotta:#C0714A; --gd-clay:#D4956A; --gd-olive:#6B7A52;
+    --gd-deep-olive:#3D4A2E; --gd-driftwood:#8A7E6A;
+
+    --gd-bg:var(--gd-parchment); --gd-bg-elev:var(--gd-bone); --gd-bg-inverse:var(--gd-inkwell);
+    --gd-fg-1:var(--gd-inkwell); --gd-fg-2:var(--gd-ink-2); --gd-fg-3:var(--gd-ink-3); --gd-fg-4:var(--gd-ink-4);
+    --gd-fg-on-dark:var(--gd-parchment);
+    --gd-accent:var(--gd-terracotta); --gd-accent-soft:var(--gd-clay);
+
+    --gd-rule:rgba(26,26,24,0.18); --gd-rule-strong:rgba(26,26,24,0.42); --gd-rule-on-dark:rgba(232,226,212,0.18);
+
+    --gd-font-display:"Newsreader","Perfectly Nineties","EB Garamond",Georgia,serif;
+    --gd-font-body:"DM Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --gd-font-mono:"DM Mono",ui-monospace,"SF Mono",Menlo,monospace;
+
+    --gd-radius-md:8px; --gd-radius-pill:999px; --gd-radius-card:12px;
+    --gd-shadow-sm:0 2px 8px -2px rgba(26,26,24,0.08);
+    --gd-ease:cubic-bezier(0.2,0.6,0.2,1);
+    --gd-grain:url("/assets/grain.svg");
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--gd-parchment);}
+
+  body{
+    font-family:var(--gd-font-body); font-size:15px; line-height:1.55;
+    color:var(--gd-fg-1); background:var(--gd-bg); min-height:100vh;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+
+  /* ---------- nav (copied from index.html) ---------- */
+  .gd-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 40px;}
+  .gd-nav__brand{display:flex;align-items:center;gap:10px;font-family:var(--gd-font-display);font-size:20px;}
+  .gd-nav__brand .mark{display:inline-block;width:22px;height:22px;position:relative;}
+  .gd-nav__brand .mark span{position:absolute;width:4px;height:4px;border-radius:999px;background:currentColor;}
+  .gd-nav__brand .mark span:nth-child(1){left:4px;top:6px;}
+  .gd-nav__brand .mark span:nth-child(2){left:14px;top:6px;}
+  .gd-nav__brand .mark span:nth-child(3){left:9px;top:14px;}
+  .gd-nav__brand a{text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;}
+  .gd-nav__right{display:flex;justify-content:flex-end;}
+  .gd-nav__right a{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gd-fg-3);text-decoration:none;}
+  .gd-nav__right a:hover{color:var(--gd-accent);}
+
+  .eyebrow{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;color:var(--gd-fg-3);}
+  .eyebrow::before{content:"\25B8";color:var(--gd-terracotta);}
+
+  .wrap{max-width:1000px;margin:0 auto;padding:8px 24px 96px;}
+  .head{padding:28px 0 26px;border-bottom:1px solid var(--gd-rule);}
+  .head h1{font-family:var(--gd-font-display);font-weight:400;font-size:52px;line-height:1.03;letter-spacing:-.018em;margin:14px 0 14px;}
+  .head .lede{font-size:16px;color:var(--gd-fg-3);max-width:560px;margin:0;}
+  .source-line{margin-top:16px;font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gd-fg-4);display:inline-flex;align-items:center;gap:9px;}
+  .dot{width:7px;height:7px;border-radius:999px;display:inline-block;}
+  .dot.live{background:var(--gd-olive);box-shadow:0 0 0 3px rgba(107,122,82,0.18);}
+  .dot.pending{background:var(--gd-clay);box-shadow:0 0 0 3px rgba(212,149,106,0.18);}
+
+  /* ---------- stat strip ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px;}
+  .stat{background:var(--gd-bone);border:1px solid var(--gd-rule);border-radius:var(--gd-radius-card);padding:20px 22px;box-shadow:var(--gd-shadow-sm);}
+  .stat .k{font-family:var(--gd-font-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--gd-fg-4);}
+  .stat .v{font-family:var(--gd-font-display);font-weight:400;font-size:44px;line-height:1.05;letter-spacing:-.02em;margin-top:10px;}
+  .stat .v .pre{font-size:24px;color:var(--gd-fg-4);vertical-align:6px;}
+  .stat .sub{font-size:12.5px;color:var(--gd-fg-4);margin-top:4px;}
+  .stat .v.muted{color:var(--gd-fg-4);font-size:30px;}
+
+  /* ---------- panels ---------- */
+  .grid{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-top:18px;}
+  .panel{background:var(--gd-bone);border:1px solid var(--gd-rule);border-radius:var(--gd-radius-card);padding:24px 26px 26px;box-shadow:var(--gd-shadow-sm);}
+  .panel.full{grid-column:1 / -1;}
+  .panel__title{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gd-fg-4);display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--gd-rule);margin-bottom:18px;}
+  .panel__title .note{color:var(--gd-fg-4);text-transform:none;letter-spacing:.02em;font-size:11px;}
+
+  /* ---------- horizontal bars ---------- */
+  .bar{margin-bottom:16px;}
+  .bar:last-child{margin-bottom:0;}
+  .bar__top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px;}
+  .bar__label{font-size:14px;color:var(--gd-fg-1);font-weight:500;}
+  .bar__label .tag{font-family:var(--gd-font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--gd-inkwell);color:var(--gd-parchment);padding:2px 7px;border-radius:999px;margin-left:8px;vertical-align:1px;}
+  .bar__val{font-family:var(--gd-font-mono);font-size:13px;color:var(--gd-fg-2);}
+  .bar__val .rate{color:var(--gd-fg-4);margin-left:8px;}
+  .bar__track{height:10px;background:var(--gd-parchment-2);border-radius:999px;overflow:hidden;}
+  .bar__fill{height:100%;background:var(--gd-terracotta);border-radius:999px;transition:width 600ms var(--gd-ease);}
+  .bar__fill.soft{background:var(--gd-clay);}
+
+  /* ---------- intent rows ---------- */
+  .intent{list-style:none;padding:0;margin:0;}
+  .intent li{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--gd-rule);font-size:14px;}
+  .intent li:last-child{border-bottom:none;}
+  .intent .n{font-family:var(--gd-font-mono);font-size:18px;color:var(--gd-fg-1);}
+  .intent .hot{color:var(--gd-terracotta);}
+
+  /* ---------- funnel ---------- */
+  .funnel{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .step{background:var(--gd-parchment);border:1px solid var(--gd-rule);border-radius:var(--gd-radius-md);padding:16px 18px;}
+  .step .k{font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gd-fg-4);}
+  .step .n{font-family:var(--gd-font-display);font-size:36px;line-height:1.1;margin-top:6px;}
+  .step .pct{font-size:12px;color:var(--gd-fg-4);margin-top:2px;}
+
+  .empty{font-size:13.5px;color:var(--gd-fg-4);font-style:italic;font-family:var(--gd-font-display);padding:6px 0;}
+  .pending-note{margin-top:22px;font-size:13px;color:var(--gd-fg-4);}
+
+  .dot.manual{background:var(--gd-clay);box-shadow:0 0 0 3px rgba(212,149,106,0.18);}
+
+  /* ---------- substack north-star hero (inkwell, anchors the page) ---------- */
+  .hero{background:var(--gd-inkwell);color:var(--gd-fg-on-dark);border-radius:var(--gd-radius-card);padding:40px 42px 32px;margin-top:30px;position:relative;overflow:hidden;box-shadow:var(--gd-shadow-sm);}
+  .hero::before{content:"";position:absolute;inset:0;background-image:var(--gd-grain);background-size:240px;mix-blend-mode:overlay;opacity:.22;pointer-events:none;}
+  .hero > *{position:relative;}
+  .hero .eyebrow,.hero .eyebrow::before{color:var(--gd-clay);}
+  .hero__num{font-family:var(--gd-font-display);font-weight:400;font-size:104px;line-height:.92;letter-spacing:-.022em;margin:16px 0 4px;}
+  .hero__num.muted{color:rgba(241,236,224,0.4);font-size:64px;}
+  .hero__label{font-family:var(--gd-font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(241,236,224,0.66);}
+  .hero__delta{font-size:14px;color:rgba(241,236,224,0.78);margin-top:12px;max-width:440px;}
+  .hero__delta b{color:var(--gd-clay);font-weight:500;}
+  .hero__row{display:flex;flex-wrap:wrap;gap:48px;margin-top:28px;padding-top:24px;border-top:1px solid var(--gd-rule-on-dark);}
+  .hero__cell .k{font-family:var(--gd-font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(241,236,224,0.5);}
+  .hero__cell .v{font-family:var(--gd-font-display);font-size:32px;line-height:1.05;margin-top:8px;}
+  .hero__cell .v.muted{color:rgba(241,236,224,0.4);font-size:24px;}
+  .hero__src{margin-top:26px;font-family:var(--gd-font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(241,236,224,0.5);display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;}
+  .hero__src a{color:var(--gd-clay);text-decoration:none;}
+  .hero__src a:hover{text-decoration:underline;text-underline-offset:.15em;}
+
+  /* ---------- section divider (EmailROI sits under the hero) ---------- */
+  .section-head{margin-top:46px;padding-bottom:4px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;}
+  .section-head h2{font-family:var(--gd-font-display);font-weight:400;font-size:30px;line-height:1.1;letter-spacing:-.01em;margin:0;}
+  .section-head .source-line{margin-top:0;}
+
+  @media (max-width:760px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .grid{grid-template-columns:1fr;}
+    .funnel{grid-template-columns:1fr;}
+    .head h1{font-size:40px;}
+    .hero{padding:30px 26px 26px;}
+    .hero__num{font-size:76px;}
+    .hero__row{gap:28px;}
+    .gd-nav{padding:18px 22px;}
+  }
+</style>
+</head>
+<body>
+  <nav class="gd-nav">
+    <div class="gd-nav__brand">
+      <a href="/">
+        <span class="mark"><span></span><span></span><span></span></span>
+        Ghost Digital
+      </a>
+    </div>
+    <div></div>
+    <div class="gd-nav__right"><a href="/email-roi-calculator">View the calculator</a></div>
+  </nav>
+
+  <main class="wrap">
+    <header class="head">
+      <span class="eyebrow">Internal / Dashboard</span>
+      <h1>Dashboard</h1>
+      <p class="lede">The newsletter is the north star. The lead-magnet funnel below is what feeds it. Everything here is built to grow one number: subscribers.</p>
+    </header>
+
+    <!-- substack north-star hero -->
+    <section class="hero">
+      <span class="eyebrow">Substack / North Star</span>
+      <div class="hero__num" id="ss-subs">·</div>
+      <div class="hero__label">Subscribers</div>
+      <p class="hero__delta" id="ss-delta"></p>
+      <div class="hero__row">
+        <div class="hero__cell"><div class="k">Views, last 180 days</div><div class="v" id="ss-views">·</div></div>
+        <div class="hero__cell"><div class="k">Avg open rate</div><div class="v" id="ss-open">·</div></div>
+        <div class="hero__cell"><div class="k">Posts published</div><div class="v" id="ss-posts">·</div></div>
+      </div>
+      <div class="hero__src"><span class="dot manual"></span><span id="ss-src">Substack, manual entry</span> <a id="ss-link" href="#" target="_blank" rel="noopener">@warrenlarkam</a></div>
+    </section>
+
+    <!-- email roi section -->
+    <div class="section-head">
+      <h2>Email ROI Calculator</h2>
+      <div class="source-line"><span id="src-dot" class="dot pending"></span><span id="src-text">Supabase, emailroi_*, connecting</span></div>
+    </div>
+
+    <!-- stat strip -->
+    <section class="stats" id="stats">
+      <div class="stat"><div class="k">Total Submissions</div><div class="v" id="s-subs">·</div></div>
+      <div class="stat"><div class="k">Email Opt-ins</div><div class="v" id="s-optins">·</div></div>
+      <div class="stat"><div class="k">Avg Projected Annual</div><div class="v" id="s-proj">·</div><div class="sub">at recommended weekly cadence</div></div>
+      <div class="stat"><div class="k">Overall Opt-in Rate</div><div class="v" id="s-rate">·</div></div>
+    </section>
+
+    <div class="grid">
+      <!-- by band -->
+      <section class="panel">
+        <div class="panel__title"><span>By ROI Band</span><span class="note">submissions, with opt-in rate</span></div>
+        <div id="p-band"><div class="empty">Loading.</div></div>
+      </section>
+
+      <!-- intent split -->
+      <section class="panel">
+        <div class="panel__title"><span>Intent Split</span><span class="note">of opt-ins</span></div>
+        <ul class="intent" id="p-intent"><li><span>Loading.</span></li></ul>
+      </section>
+
+      <!-- subscriber size -->
+      <section class="panel">
+        <div class="panel__title"><span>Subscriber Size</span><span class="note">list size at submit</span></div>
+        <div id="p-size"><div class="empty">Loading.</div></div>
+      </section>
+
+      <!-- funnel -->
+      <section class="panel">
+        <div class="panel__title"><span>Funnel</span><span class="note">events</span></div>
+        <div class="funnel" id="p-funnel">
+          <div class="step"><div class="k">Viewed</div><div class="n" id="f-view">·</div></div>
+          <div class="step"><div class="k">Completed</div><div class="n" id="f-done">·</div></div>
+          <div class="step"><div class="k">Opted in</div><div class="n" id="f-opt">·</div><div class="pct" id="f-opt-pct"></div></div>
+        </div>
+      </section>
+    </div>
+
+    <p class="pending-note" id="note"></p>
+  </main>
+
+<script>
+  // ---- formatting helpers ----
+  var fmt = function (n) { return Number(n).toLocaleString('en-US'); };
+  var money = function (n) {
+    if (n == null) return null;
+    var v = Number(n);
+    if (v >= 1000000) return { pre: '$', body: (v / 1000000).toFixed(1) + 'M' };
+    if (v >= 1000) return { pre: '$', body: Math.round(v / 1000) + 'k' };
+    return { pre: '$', body: fmt(Math.round(v)) };
+  };
+  var setMoney = function (id, n) {
+    var el = document.getElementById(id);
+    var m = money(n);
+    if (!m) { el.className = 'v muted'; el.textContent = 'pending'; return; }
+    el.className = 'v';
+    el.innerHTML = '<span class="pre">' + m.pre + '</span>' + m.body;
+  };
+  var setNum = function (id, n) {
+    var el = document.getElementById(id);
+    if (n == null) { el.className = 'v muted'; el.textContent = 'pending'; return; }
+    el.className = 'v';
+    el.textContent = fmt(n);
+  };
+
+  function bars(containerId, rows, opts) {
+    opts = opts || {};
+    var box = document.getElementById(containerId);
+    if (!rows || !rows.length) { box.innerHTML = '<div class="empty">No data yet. Fills as traffic grows.</div>'; return; }
+    var max = Math.max.apply(null, rows.map(function (r) { return r.value; })) || 1;
+    box.innerHTML = rows.map(function (r) {
+      var pct = Math.max(4, Math.round((r.value / max) * 100));
+      var tag = r.tag ? '<span class="tag">' + r.tag + '</span>' : '';
+      var rate = (opts.showRate && r.rate != null) ? '<span class="rate">' + r.rate + '% opt-in</span>' : '';
+      return '<div class="bar">' +
+        '<div class="bar__top"><span class="bar__label">' + r.label + tag + '</span>' +
+        '<span class="bar__val">' + fmt(r.value) + rate + '</span></div>' +
+        '<div class="bar__track"><div class="bar__fill' + (opts.soft ? ' soft' : '') + '" style="width:' + pct + '%"></div></div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function render(d) {
+    // stat strip
+    setNum('s-subs', d.total_submissions);
+    setNum('s-optins', d.total_optins);
+    setMoney('s-proj', d.avg_projected_annual);
+    var rateEl = document.getElementById('s-rate');
+    if (d.total_submissions == null) { rateEl.className = 'v muted'; rateEl.textContent = 'pending'; }
+    else {
+      var rate = d.total_submissions > 0 ? Math.round((d.total_optins / d.total_submissions) * 1000) / 10 : 0;
+      rateEl.className = 'v'; rateEl.innerHTML = rate + '<span class="pre">%</span>';
+    }
+
+    // by band
+    bars('p-band', (d.by_band || []).map(function (b) {
+      return { label: b.name, value: b.submissions, rate: b.optin_rate, tag: b.band === 'compounding' ? 'top' : '' };
+    }), { showRate: true });
+
+    // intent split
+    var intentBox = document.getElementById('p-intent');
+    var it = d.intent || {};
+    var totalOpt = d.total_optins || 0;
+    if (totalOpt === 0) {
+      intentBox.innerHTML = '<li class="empty" style="border:none;">No opt-ins yet. ' + fmt(d.total_submissions || 0) + ' people finished without leaving an email.</li>';
+    } else {
+      intentBox.innerHTML =
+        '<li class="hot"><span>Wants a call <span class="bar__label" style="font-weight:400;color:var(--gd-fg-4)">(hot)</span></span><span class="n hot">' + fmt(it.opt_in_call || 0) + '</span></li>' +
+        '<li><span>Notify on launch</span><span class="n">' + fmt(it.opt_in_notify || 0) + '</span></li>' +
+        '<li><span>Join the list</span><span class="n">' + fmt(it.opt_in_list || 0) + '</span></li>';
+    }
+
+    // subscriber size
+    bars('p-size', (d.by_subscriber_band || []).map(function (b) {
+      return { label: b.bucket, value: b.submissions };
+    }), { soft: true });
+
+    // funnel
+    var f = d.funnel || {};
+    var views = f.funnel_view || 0, done = f.completed || 0, opt = totalOpt;
+    document.getElementById('f-view').textContent = fmt(views);
+    document.getElementById('f-done').textContent = fmt(done);
+    document.getElementById('f-opt').textContent = fmt(opt);
+    // Opt-ins are a true subset of completions, so this ratio is always 0 to 100.
+    // Views and completions are independent event counts, so we do not cross-divide them.
+    if (done > 0) document.getElementById('f-opt-pct').textContent = Math.round((opt / done) * 100) + '% of completions';
+
+    document.getElementById('note').textContent =
+      'Sample is still small, so treat bands and averages as directional. The section is correct now and sharpens as quiz traffic grows.';
+  }
+
+  function pending() {
+    ['s-subs','s-optins','s-proj','s-rate'].forEach(function (id) {
+      var el = document.getElementById(id); el.className = 'v muted'; el.textContent = 'pending';
+    });
+    document.getElementById('p-band').innerHTML = '<div class="empty">Source unavailable. Retrying on reload.</div>';
+    document.getElementById('p-intent').innerHTML = '<li class="empty" style="border:none;">Source unavailable.</li>';
+    document.getElementById('p-size').innerHTML = '<div class="empty">Source unavailable.</div>';
+    document.getElementById('note').textContent = 'The metrics endpoint did not return data. The dashboard reads it on every load, so a refresh once the source is back will populate this.';
+  }
+
+  function setSource(live) {
+    document.getElementById('src-dot').className = 'dot ' + (live ? 'live' : 'pending');
+    document.getElementById('src-text').textContent = live ? 'Supabase, emailroi_*, live' : 'Supabase, emailroi_*, pending';
+  }
+
+  // ---- Substack: manual source (no analytics API) ----
+  // Update these by hand from your Substack stats, then bump as_of. A null
+  // value renders as a muted "pending"; 0 would render as a real 0.
+  var SUBSTACK = {
+    subscribers: 3,
+    views_180d:  234,
+    net_new_30d: null,   // fill once you track month-over-month
+    open_rate:   null,   // percent, e.g. 52
+    posts:       null,   // total posts published
+    as_of:       'May 29, 2026',
+    url:         'https://substack.com/@warrenlarkam',
+    handle:      '@warrenlarkam'
+  };
+
+  function renderSubstack(s) {
+    var subsEl = document.getElementById('ss-subs');
+    if (s.subscribers == null) { subsEl.className = 'hero__num muted'; subsEl.textContent = 'pending'; }
+    else { subsEl.className = 'hero__num'; subsEl.textContent = fmt(s.subscribers); }
+
+    var delta = document.getElementById('ss-delta');
+    if (s.net_new_30d != null) {
+      delta.innerHTML = '<b>' + (s.net_new_30d >= 0 ? '+' : '') + fmt(s.net_new_30d) + '</b> net new in the last 30 days.';
+    } else if (s.views_180d != null && s.subscribers != null) {
+      delta.innerHTML = 'Starting line. <b>' + fmt(s.views_180d) + ' views</b> in 180 days, ' + fmt(s.subscribers) + ' turned into subscribers. The subscribe ask is the lever to pull.';
+    } else {
+      delta.textContent = '';
+    }
+
+    var cell = function (id, val, suffix) {
+      var el = document.getElementById(id);
+      if (val == null) { el.className = 'v muted'; el.textContent = 'pending'; }
+      else { el.className = 'v'; el.textContent = fmt(val) + (suffix || ''); }
+    };
+    cell('ss-views', s.views_180d);
+    cell('ss-open', s.open_rate, '%');
+    cell('ss-posts', s.posts);
+
+    document.getElementById('ss-src').textContent = 'Substack, manual entry, as of ' + s.as_of;
+    var link = document.getElementById('ss-link');
+    link.href = s.url; link.textContent = s.handle;
+  }
+  renderSubstack(SUBSTACK);
+
+  fetch('/api/metrics', { headers: { accept: 'application/json' }, credentials: 'same-origin' })
+    .then(function (r) {
+      if (r.status === 401) { location = '/login?next=/dashboard'; return null; }
+      return r.json();
+    })
+    .then(function (j) {
+      if (!j) return; // redirecting to login
+      var live = j && j.sources && j.sources.emailroi === 'live' && j.emailroi;
+      setSource(!!live);
+      if (live) render(j.emailroi); else pending();
+    })
+    .catch(function () { setSource(false); pending(); });
+</script>
+</body>
+</html>

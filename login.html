@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sign in · Ghost Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gd-parchment:#E8E2D4; --gd-bone:#F1ECE0; --gd-inkwell:#1A1A18;
+    --gd-fg-2:#2A2A26; --gd-fg-3:#555048; --gd-fg-4:#8A8378;
+    --gd-terracotta:#C0714A; --gd-clay:#D4956A;
+    --gd-rule:rgba(26,26,24,0.18); --gd-rule-strong:rgba(26,26,24,0.42);
+    --gd-font-display:"Newsreader",Georgia,serif;
+    --gd-font-body:"DM Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --gd-font-mono:"DM Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --gd-radius-md:8px; --gd-radius-card:12px;
+    --gd-shadow-sm:0 2px 8px -2px rgba(26,26,24,0.08);
+    --gd-grain:url("/assets/grain.svg");
+  }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:var(--gd-parchment);color:var(--gd-inkwell);font-family:var(--gd-font-body);
+    -webkit-font-smoothing:antialiased;padding:24px;}
+  .card{width:100%;max-width:400px;background:var(--gd-bone);border:1px solid var(--gd-rule);
+    border-radius:var(--gd-radius-card);padding:40px 38px 34px;box-shadow:var(--gd-shadow-sm);
+    position:relative;overflow:hidden;}
+  .card::before{content:"";position:absolute;inset:0;background-image:var(--gd-grain);
+    background-size:240px;mix-blend-mode:overlay;opacity:.18;pointer-events:none;}
+  .card > *{position:relative;}
+  .brand{display:flex;align-items:center;gap:9px;font-family:var(--gd-font-display);font-size:18px;margin-bottom:26px;}
+  .brand .mark{display:inline-block;width:20px;height:20px;position:relative;}
+  .brand .mark span{position:absolute;width:4px;height:4px;border-radius:999px;background:currentColor;}
+  .brand .mark span:nth-child(1){left:3px;top:5px;}
+  .brand .mark span:nth-child(2){left:13px;top:5px;}
+  .brand .mark span:nth-child(3){left:8px;top:13px;}
+  .eyebrow{font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gd-fg-4);display:inline-flex;align-items:center;gap:6px;}
+  .eyebrow::before{content:"\25B8";color:var(--gd-terracotta);}
+  h1{font-family:var(--gd-font-display);font-weight:400;font-size:34px;line-height:1.05;letter-spacing:-.012em;margin:12px 0 22px;}
+  label{display:block;font-family:var(--gd-font-mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--gd-fg-4);margin-bottom:8px;}
+  input{width:100%;padding:13px 14px;background:var(--gd-parchment);border:1px solid var(--gd-rule-strong);
+    border-radius:var(--gd-radius-md);color:var(--gd-inkwell);font-family:var(--gd-font-body);font-size:16px;outline:0;}
+  input:focus{outline:2px solid var(--gd-terracotta);outline-offset:1px;}
+  button{width:100%;margin-top:18px;padding:14px;background:var(--gd-inkwell);color:var(--gd-parchment);
+    border:0;border-radius:999px;font-family:var(--gd-font-body);font-size:15px;font-weight:500;cursor:pointer;
+    transition:background 200ms ease;}
+  button:hover{background:#000;}
+  button:disabled{opacity:.6;cursor:default;}
+  .err{color:var(--gd-terracotta);font-size:13px;min-height:1.2em;margin-top:10px;}
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand"><span class="mark"><span></span><span></span><span></span></span> Ghost Digital</div>
+    <span class="eyebrow">Internal / Dashboard</span>
+    <h1>Sign in</h1>
+    <form id="f">
+      <label for="pw">Password</label>
+      <input id="pw" type="password" required autocomplete="current-password" autofocus>
+      <div class="err" id="e"></div>
+      <button id="b" type="submit">Enter</button>
+    </form>
+  </main>
+<script>
+  var f = document.getElementById('f'), e = document.getElementById('e'), b = document.getElementById('b');
+  f.addEventListener('submit', async function (ev) {
+    ev.preventDefault(); e.textContent = ''; b.disabled = true; b.textContent = 'Checking';
+    try {
+      var r = await fetch('/api/login', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ password: document.getElementById('pw').value }),
+        credentials: 'same-origin'
+      });
+      if (r.ok) {
+        location = new URLSearchParams(location.search).get('next') || '/dashboard';
+      } else {
+        e.textContent = r.status === 429 ? 'Too many attempts. Wait a minute.' : 'Wrong password.';
+        b.disabled = false; b.textContent = 'Enter';
+      }
+    } catch (err) {
+      e.textContent = 'Network error.'; b.disabled = false; b.textContent = 'Enter';
+    }
+  });
+</script>
+</body>
+</html>
