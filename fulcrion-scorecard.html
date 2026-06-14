@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Engineering Team Health Scorecard — Fulcrion</title>
+<meta name="description" content="15 questions, 5 minutes. Find out exactly where your engineering team is losing velocity — and how close you are to the Complexity Ceiling.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Has your engineering team hit the wall?">
+<meta property="og:description" content="A free 5-minute diagnostic across 5 dimensions. Get your team health score and your single biggest blocker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     FULCRION — page-scoped tokens, inferred from fulcrion.com.
+     Scoped to this tool page only (each tool has its own inline
+     <style>), so there is no shared stylesheet to desync.
+     ============================================================ */
+  :root {
+    --fc-navy:#000d32; --fc-navy-2:#0a1a40; --fc-slate:#2c3345;
+    --fc-ink:#11213f; --fc-fg:#2c3345; --fc-fg-2:#565a7c; --fc-fg-3:#8893a8;
+    --fc-blue:#188bf6; --fc-blue-2:#0285ff; --fc-blue-deep:#155eef; --fc-sky:#85cfff;
+    --fc-mist:#f3f8fb; --fc-mist-2:#f1f9ff; --fc-white:#ffffff; --fc-paper:#fafbfd;
+    --fc-line:#e4ebf3; --fc-line-2:#cbd5e0;
+    --fc-amber:#f6ad55; --fc-coral:#ff6240; --fc-green:#2bb673;
+
+    --fc-rule-on-dark:rgba(232,238,250,0.16);
+    --fc-font-display:"Plus Jakarta Sans",-apple-system,system-ui,"Segoe UI",sans-serif;
+    --fc-font-body:"Inter",-apple-system,system-ui,"Segoe UI",Arial,sans-serif;
+
+    --fc-radius:10px; --fc-radius-lg:16px; --fc-pill:999px;
+    --fc-shadow:0 2px 14px -4px rgba(17,33,63,0.12), 0 1px 3px rgba(17,33,63,0.06);
+    --fc-shadow-lg:0 18px 48px -18px rgba(17,33,63,0.30);
+    --fc-ease:cubic-bezier(0.2,0.7,0.2,1);
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--fc-mist);}
+  img{max-width:100%;display:block}
+
+  .fc{
+    font-family:var(--fc-font-body); font-size:15.5px; line-height:1.55;
+    color:var(--fc-fg); background:var(--fc-mist);
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; min-height:100vh;
+  }
+  .fc h1,.fc h2,.fc h3,.fc h4{font-family:var(--fc-font-display);font-weight:700;margin:0;color:var(--fc-ink);letter-spacing:-.02em;}
+  .fc p{margin:0 0 1em;color:var(--fc-fg-2);text-wrap:pretty;}
+  .fc a{color:inherit;}
+
+  /* ---------- nav ---------- */
+  .fc-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:20px 40px;max-width:1180px;margin:0 auto;}
+  .fc-brand{display:flex;align-items:center;gap:11px;font-family:var(--fc-font-display);font-weight:800;font-size:21px;color:var(--fc-ink);text-decoration:none;letter-spacing:-.02em;}
+  .fc-brand .mark{width:26px;height:26px;flex-shrink:0;}
+  .fc-nav__center{display:flex;gap:30px;justify-content:center;}
+  .fc-nav__center a{font-size:14px;color:var(--fc-fg-2);text-decoration:none;font-weight:500;}
+  .fc-nav__center a:hover{color:var(--fc-blue);}
+  .fc-nav__right{display:flex;justify-content:flex-end;}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--fc-font-body);font-weight:600;font-size:15px;
+    padding:12px 22px;border-radius:var(--fc-pill);border:1px solid transparent;cursor:pointer;text-decoration:none;
+    transition:all 220ms var(--fc-ease);white-space:nowrap;}
+  .btn .arr{transition:transform 220ms var(--fc-ease);}
+  .btn:hover .arr{transform:translateX(3px);}
+  .btn-primary{background:var(--fc-blue);color:#fff;box-shadow:0 6px 18px -6px rgba(24,139,246,.6);}
+  .btn-primary:hover{background:var(--fc-blue-2);}
+  .btn-ghost{background:transparent;color:var(--fc-ink);border-color:var(--fc-line-2);}
+  .btn-ghost:hover{border-color:var(--fc-blue);color:var(--fc-blue);}
+  .btn-sm{font-size:13.5px;padding:9px 16px;}
+  .btn-light{background:#fff;color:var(--fc-navy);}
+  .btn-light:hover{background:var(--fc-mist);}
+  .btn[aria-disabled="true"]{opacity:.4;pointer-events:none;}
+
+  .eyebrow{font-family:var(--fc-font-body);font-weight:600;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--fc-blue);display:inline-flex;align-items:center;gap:7px;}
+  .eyebrow::before{content:"";width:18px;height:2px;background:var(--fc-blue);border-radius:2px;}
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:740px;margin:0 auto;padding:8px 24px 100px;}
+  .head{padding:30px 0 8px;text-align:center;}
+  .head h1{font-size:50px;line-height:1.04;margin:16px 0 16px;}
+  .head .lede{font-size:18px;color:var(--fc-fg-2);max-width:560px;margin:0 auto;}
+  .head .meta{margin-top:18px;font-size:13.5px;color:var(--fc-fg-3);display:flex;gap:18px;justify-content:center;flex-wrap:wrap;}
+  .head .meta b{color:var(--fc-fg);font-weight:600;}
+
+  .card{background:#fff;border:1px solid var(--fc-line);border-radius:var(--fc-radius-lg);box-shadow:var(--fc-shadow);padding:32px 34px;margin-top:26px;}
+
+  /* ---------- intro ---------- */
+  .dims-preview{list-style:none;padding:0;margin:6px 0 26px;display:grid;gap:2px;}
+  .dims-preview li{display:flex;gap:14px;align-items:flex-start;padding:15px 2px;border-bottom:1px solid var(--fc-line);}
+  .dims-preview li:last-child{border-bottom:none;}
+  .dims-preview .n{font-family:var(--fc-font-display);font-weight:700;font-size:14px;color:var(--fc-blue);background:var(--fc-mist-2);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .dims-preview .dl{display:block;font-weight:600;color:var(--fc-ink);font-size:15.5px;}
+  .dims-preview .db{display:block;font-size:13.5px;color:var(--fc-fg-2);margin-top:3px;}
+
+  /* ---------- stepper ---------- */
+  #stepper{display:none;}
+  .progress{display:flex;align-items:center;gap:14px;margin-bottom:6px;}
+  .progress__bar{flex:1;height:6px;background:var(--fc-line);border-radius:999px;overflow:hidden;}
+  .progress__fill{height:100%;background:linear-gradient(90deg,var(--fc-blue),var(--fc-blue-2));border-radius:999px;width:20%;transition:width 360ms var(--fc-ease);}
+  .progress__label{font-family:var(--fc-font-body);font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--fc-fg-3);white-space:nowrap;}
+
+  .step__dim{margin:22px 0 4px;}
+  .step__dim h2{font-size:30px;line-height:1.1;}
+  .step__dim .blurb{font-size:15px;color:var(--fc-fg-2);margin-top:8px;}
+
+  .q{padding:24px 0;border-bottom:1px solid var(--fc-line);}
+  .q:last-of-type{border-bottom:none;}
+  .q__stem{font-weight:600;font-size:16px;color:var(--fc-ink);margin-bottom:14px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;padding:13px 15px;border:1px solid var(--fc-line-2);border-radius:var(--fc-radius);margin-bottom:9px;cursor:pointer;transition:all 160ms var(--fc-ease);background:var(--fc-paper);}
+  .opt:last-child{margin-bottom:0;}
+  .opt:hover{border-color:var(--fc-sky);background:var(--fc-mist-2);}
+  .opt input{position:absolute;opacity:0;width:0;height:0;}
+  .opt .dot{width:19px;height:19px;border-radius:999px;border:2px solid var(--fc-line-2);flex-shrink:0;margin-top:1px;transition:all 160ms var(--fc-ease);position:relative;}
+  .opt .ol{font-size:14.5px;color:var(--fc-fg);line-height:1.45;}
+  .opt.sel{border-color:var(--fc-blue);background:var(--fc-mist-2);box-shadow:0 0 0 1px var(--fc-blue);}
+  .opt.sel .dot{border-color:var(--fc-blue);background:var(--fc-blue);}
+  .opt.sel .dot::after{content:"";position:absolute;inset:3px;border-radius:999px;background:#fff;}
+  .opt.sel .ol{color:var(--fc-ink);font-weight:500;}
+
+  .step__nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:12px;}
+  .step__err{color:var(--fc-coral);font-size:13.5px;font-weight:500;display:none;}
+
+  /* ---------- result ---------- */
+  #result{display:none;}
+  .result-hero{text-align:center;padding:6px 0 2px;}
+  .score-num{font-family:var(--fc-font-display);font-weight:800;font-size:88px;line-height:1;color:var(--fc-ink);letter-spacing:-.03em;}
+  .score-num .of{font-size:30px;color:var(--fc-fg-3);font-weight:600;}
+  .claim{font-family:var(--fc-font-display);font-weight:800;font-size:40px;line-height:1.05;margin:6px 0 6px;letter-spacing:-.025em;}
+  .claim.in_it{color:var(--fc-coral);}
+  .claim.approaching{color:var(--fc-amber);}
+  .claim.through{color:var(--fc-green);}
+  .tagline{font-style:italic;font-size:19px;color:var(--fc-fg);max-width:460px;margin:8px auto 0;font-family:var(--fc-font-display);font-weight:500;}
+
+  .meter{margin:26px auto 4px;max-width:520px;}
+  .meter__track{height:10px;border-radius:999px;background:linear-gradient(90deg,#ffe0d8 0%,#ffefd6 45%,#d8f3e6 100%);position:relative;}
+  .meter__seg{position:absolute;top:-4px;width:1px;height:18px;background:var(--fc-line-2);}
+  .meter__ptr{position:absolute;top:-7px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:11px solid var(--fc-ink);transform:translateX(-8px);transition:left 600ms var(--fc-ease);}
+  .meter__labels{display:flex;justify-content:space-between;margin-top:12px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--fc-fg-3);}
+
+  .narrative{text-align:center;max-width:560px;margin:22px auto 0;color:var(--fc-fg-2);font-size:15.5px;}
+
+  .blocker{background:var(--fc-navy);color:#fff;border-radius:var(--fc-radius-lg);padding:28px 30px;margin:28px 0;position:relative;overflow:hidden;}
+  .blocker::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:999px;background:radial-gradient(circle,rgba(24,139,246,.35),transparent 70%);}
+  .blocker > *{position:relative;}
+  .blocker .lbl{font-weight:600;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--fc-sky);}
+  .blocker h3{color:#fff;font-size:26px;margin:8px 0 10px;}
+  .blocker p{color:rgba(232,238,250,.82);margin:0;font-size:15px;}
+
+  .sec-title{font-family:var(--fc-font-body);font-weight:700;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--fc-fg-3);margin:30px 0 12px;}
+
+  .dim-row{padding:16px 0;border-bottom:1px solid var(--fc-line);}
+  .dim-row:last-child{border-bottom:none;}
+  .dim-row__top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .dim-row__name{font-weight:600;color:var(--fc-ink);font-size:15.5px;}
+  .dim-row__score{font-family:var(--fc-font-display);font-weight:700;font-size:15px;color:var(--fc-fg);}
+  .dim-row__bar{height:7px;border-radius:999px;background:var(--fc-line);margin:9px 0 9px;overflow:hidden;}
+  .dim-row__fill{height:100%;border-radius:999px;width:0;transition:width 700ms var(--fc-ease);}
+  .dim-row__fill.holding{background:var(--fc-green);}
+  .dim-row__fill.strained{background:var(--fc-amber);}
+  .dim-row__fill.blocked{background:var(--fc-coral);}
+  .chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;}
+  .chip.holding{background:#e0f5ec;color:#1b8a5a;}
+  .chip.strained{background:#fdefd9;color:#b6781e;}
+  .chip.blocked{background:#ffe6e0;color:#d8412a;}
+  .dim-row__rec{font-size:14px;color:var(--fc-fg-2);margin-top:2px;}
+
+  .next-list{list-style:none;padding:0;margin:6px 0 0;}
+  .next-list li{padding:14px 0;border-bottom:1px solid var(--fc-line);font-size:14.5px;color:var(--fc-fg-2);}
+  .next-list li:last-child{border-bottom:none;}
+  .next-list li b{color:var(--fc-ink);font-weight:600;}
+
+  .share-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+
+  /* ---------- funnel ---------- */
+  .funnel{background:var(--fc-navy);color:#fff;border-radius:var(--fc-radius-lg);padding:36px 34px;margin-top:28px;position:relative;overflow:hidden;box-shadow:var(--fc-shadow-lg);}
+  .funnel::before{content:"";position:absolute;left:-60px;bottom:-80px;width:260px;height:260px;border-radius:999px;background:radial-gradient(circle,rgba(24,139,246,.28),transparent 70%);}
+  .funnel > *{position:relative;}
+  .funnel .eyebrow{color:var(--fc-sky);}
+  .funnel .eyebrow::before{background:var(--fc-sky);}
+  .funnel h3{color:#fff;font-size:30px;margin:12px 0 10px;}
+  .funnel p{color:rgba(232,238,250,.82);}
+  .funnel input{width:100%;font-family:var(--fc-font-body);font-size:15px;color:#fff;background:rgba(232,238,250,.07);
+    border:1px solid var(--fc-rule-on-dark);border-radius:var(--fc-radius);padding:12px 14px;margin-top:10px;}
+  .funnel input::placeholder{color:rgba(232,238,250,.45);}
+  .funnel input:focus{outline:2px solid var(--fc-blue);outline-offset:1px;}
+  .consent{background:rgba(232,238,250,.06);border:1px solid var(--fc-rule-on-dark);border-radius:var(--fc-radius);padding:15px 17px;margin:18px 0;font-size:12.5px;line-height:1.6;color:rgba(232,238,250,.72);}
+  .consent strong{color:#fff;}
+  .optins{margin:16px 0 4px;}
+  .optin{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--fc-rule-on-dark);cursor:pointer;}
+  .optin:last-child{border-bottom:none;}
+  .optin input[type=checkbox]{margin-top:2px;width:17px;height:17px;accent-color:var(--fc-blue);flex-shrink:0;}
+  .optin .ot{font-size:14.5px;color:#fff;font-weight:500;}
+  .optin .od{font-size:12.5px;color:rgba(232,238,250,.6);}
+  .funnel-btn{width:100%;justify-content:center;margin-top:18px;padding:14px;}
+  .funnel-err{color:var(--fc-sky);font-size:13.5px;margin-top:10px;display:none;}
+  .funnel-done{display:none;text-align:center;padding:10px 0;}
+  .funnel-done h3{margin-bottom:8px;}
+
+  /* ---------- footer ---------- */
+  .fc-footer{background:var(--fc-navy);color:rgba(232,238,250,.8);padding:56px 40px 30px;}
+  .fc-footer__in{max-width:1180px;margin:0 auto;}
+  .fc-footer__cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;padding-bottom:40px;border-bottom:1px solid var(--fc-rule-on-dark);}
+  .fc-footer__quote{font-family:var(--fc-font-display);font-weight:500;font-style:italic;font-size:19px;line-height:1.4;color:#fff;max-width:380px;}
+  .fc-footer__attrib{margin-top:14px;font-size:12px;letter-spacing:.04em;color:rgba(232,238,250,.55);}
+  .fc-footer h4{font-family:var(--fc-font-body);font-weight:700;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:rgba(232,238,250,.5);margin:0 0 14px;}
+  .fc-footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;}
+  .fc-footer ul a{color:rgba(232,238,250,.8);text-decoration:none;font-size:13.5px;}
+  .fc-footer ul a:hover{color:var(--fc-sky);}
+  .fc-footer__bottom{display:flex;justify-content:space-between;padding-top:22px;font-size:11.5px;letter-spacing:.05em;color:rgba(232,238,250,.5);flex-wrap:wrap;gap:8px;}
+
+  @keyframes enter{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  .anim{animation:enter 300ms var(--fc-ease);}
+
+  @media (max-width:680px){
+    .fc-nav{grid-template-columns:1fr auto;padding:16px 20px;}
+    .fc-nav__center{display:none;}
+    .wrap{padding:4px 18px 76px;}
+    .head h1{font-size:36px;}
+    .card{padding:24px 20px;}
+    .score-num{font-size:68px;}
+    .claim{font-size:30px;}
+    .step__dim h2{font-size:24px;}
+    .funnel{padding:28px 22px;}
+    .fc-footer{padding:44px 22px 26px;}
+    .fc-footer__cols{grid-template-columns:1fr 1fr;gap:28px;}
+    .fc-footer__quote{grid-column:1 / -1;}
+    .fc-footer__bottom{flex-direction:column;}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="fc">
+
+  <nav class="fc-nav">
+    <a class="fc-brand" href="https://www.fulcrion.com/">
+      <svg class="mark" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <path d="M13 3 L23 20 H3 Z" fill="none" stroke="#188bf6" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="13" cy="13" r="2.4" fill="#188bf6"/>
+      </svg>
+      Fulcrion
+    </a>
+    <div class="fc-nav__center">
+      <a href="https://www.fulcrion.com/">Approach</a>
+      <a href="https://fulcrion.com/fulcrum">The Fulcrum</a>
+      <a href="https://www.fulcrion.com/">Engagements</a>
+    </div>
+    <div class="fc-nav__right">
+      <a class="btn btn-primary btn-sm" href="https://www.fulcrion.com/booknow">Book a call <span class="arr">→</span></a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <!-- COPY: written in Mark Alcazar / Fulcrion's voice; pending final brand-voice redline. [NEEDS_VOICE_REVIEW] -->
+    <header class="head">
+      <span class="eyebrow">Free diagnostic · Engineering Team Health</span>
+      <h1>Has your engineering team hit the wall?</h1>
+      <p class="lede">Fifteen questions across five dimensions. You’ll get a team health score, the exact place your velocity is leaking, and the one blocker to fix first. No fluff — I’ll give it to you straight.</p>
+      <div class="meta"><span><b>5 dimensions</b> · 15 questions</span><span><b>~5 minutes</b></span><span>No login</span></div>
+    </header>
+
+    <!-- ===================== INTRO ===================== -->
+    <section class="card" id="intro">
+      <span class="eyebrow">What we’ll look at</span>
+      <ul class="dims-preview" id="dimsPreview"></ul>
+      <a class="btn btn-primary" id="startBtn" role="button" tabindex="0" style="width:100%;justify-content:center;padding:15px;">
+        Start the scorecard <span class="arr">→</span>
+      </a>
+    </section>
+
+    <!-- ===================== STEPPER ===================== -->
+    <section class="card" id="stepper">
+      <div class="progress">
+        <div class="progress__bar"><div class="progress__fill" id="progFill"></div></div>
+        <div class="progress__label" id="progLabel">Dimension 1 of 5</div>
+      </div>
+      <div id="stepBody"></div>
+      <div class="step__nav">
+        <a class="btn btn-ghost" id="backBtn" role="button" tabindex="0" style="visibility:hidden;">← Back</a>
+        <span class="step__err" id="stepErr">Answer all three to continue.</span>
+        <a class="btn btn-primary" id="nextBtn" role="button" tabindex="0">Continue <span class="arr">→</span></a>
+      </div>
+    </section>
+
+    <!-- ===================== RESULT ===================== -->
+    <section id="result">
+      <div class="card">
+        <div class="result-hero">
+          <span class="eyebrow" style="justify-content:center;">Your team health score</span>
+          <div class="score-num"><span id="rScore">0</span><span class="of"> / 100</span></div>
+          <div class="claim" id="rClaim">—</div>
+          <div class="tagline" id="rTagline"></div>
+
+          <div class="meter">
+            <div class="meter__track">
+              <div class="meter__seg" style="left:40%;"></div>
+              <div class="meter__seg" style="left:70%;"></div>
+              <div class="meter__ptr" id="rPtr" style="left:0%;"></div>
+            </div>
+            <div class="meter__labels"><span>In the ceiling</span><span>Approaching</span><span>Through it</span></div>
+          </div>
+
+          <p class="narrative" id="rNarrative"></p>
+        </div>
+
+        <div class="blocker" id="rBlocker">
+          <div class="lbl">Fix this first — your binding constraint</div>
+          <h3 id="rBlockerName">—</h3>
+          <p id="rBlockerRec"></p>
+        </div>
+
+        <div class="sec-title">The breakdown, dimension by dimension</div>
+        <div id="rBreakdown"></div>
+
+        <div class="sec-title">What to do with this</div>
+        <ul class="next-list">
+          <li><b>Start with the blocker above.</b> One binding constraint is usually dragging the rest. Clear it and the other dimensions move with it — that’s where velocity comes back.</li>
+          <li><b>Re-run this in 90 days.</b> Screenshot your score. Health is a trend, not a number — the point is whether the line is moving.</li>
+          <li><b>The Top Blockers Sprint is the paid version of this.</b> A 4-week intensive that diagnoses your top engineering blockers and hands you a concrete plan — and sometimes does the work alongside your team. This scorecard is the free first look.</li>
+        </ul>
+
+        <div class="share-row">
+          <a class="btn btn-ghost btn-sm" id="copyBtn" role="button" tabindex="0"><span id="copyLabel">Copy my result</span></a>
+          <a class="btn btn-ghost btn-sm" id="againBtn" role="button" tabindex="0">Run it again</a>
+        </div>
+      </div>
+
+      <!-- ===================== FUNNEL ===================== -->
+      <div class="funnel" id="funnel">
+        <div id="funnelForm">
+          <span class="eyebrow">The conversation</span>
+          <h3>Want me to read this with you?</h3>
+          <p>I’m Mark — 28 years at Microsoft, now a fractional CTO. Book a free 30-minute call and I’ll walk your scorecard with you, name the real bottleneck behind these numbers, and tell you straight whether a Top Blockers Sprint is worth it. No pitch deck.</p>
+
+          <input type="text" id="fName" placeholder="Your name" autocomplete="name">
+          <input type="email" id="fEmail" placeholder="Work email" autocomplete="email">
+          <input type="text" id="fCompany" placeholder="Company" autocomplete="organization">
+
+          <div class="consent">
+            <strong>What we’ll do with your information:</strong> We use it to reach out to you
+            about this conversation — nothing else. We will <strong>never</strong> publish, quote,
+            or attribute your scorecard responses or anything you share without your
+            explicit, written permission. If you choose to be featured later, that’s a
+            separate conversation we’ll have with you directly.
+          </div>
+
+          <div class="optins">
+            <label class="optin">
+              <input type="checkbox" id="optCall">
+              <span><span class="ot">Yes — book me a free 30-min discovery call.</span><br><span class="od">We’ll send your scheduling link the moment you submit.</span></span>
+            </label>
+            <label class="optin">
+              <input type="checkbox" id="optNotify">
+              <span><span class="ot">Tell me when a Top Blockers Sprint slot opens.</span><br><span class="od">The 4-week intensive that clears your top engineering blockers.</span></span>
+            </label>
+            <label class="optin">
+              <input type="checkbox" id="optList">
+              <span><span class="ot">Send me CTO Field Notes.</span><br><span class="od">Occasional field notes on scaling engineering teams past the Complexity Ceiling.</span></span>
+            </label>
+          </div>
+
+          <a class="btn btn-light funnel-btn" id="funnelBtn" role="button" tabindex="0">
+            Send it over <span class="arr">→</span>
+          </a>
+          <div class="funnel-err" id="funnelErr">Add your email so I can reach you.</div>
+        </div>
+
+        <div class="funnel-done" id="funnelDone">
+          <span class="eyebrow" style="justify-content:center;">Got it</span>
+          <h3 id="doneTitle">Thanks — talk soon.</h3>
+          <p id="doneBody" style="color:rgba(232,238,250,.82);"></p>
+          <a class="btn btn-light" id="doneCta" href="https://www.fulcrion.com/booknow" style="display:none;">Grab a time now <span class="arr">→</span></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="fc-footer">
+    <div class="fc-footer__in">
+      <div class="fc-footer__cols">
+        <div>
+          <div class="fc-footer__quote">“Mark is a leader for all waters, calm or choppy.”</div>
+          <div class="fc-footer__attrib">— Akhil Kaza, Head of Engineering, Atlassian</div>
+        </div>
+        <div>
+          <h4>Fulcrion</h4>
+          <ul>
+            <li><a href="https://www.fulcrion.com/">Approach</a></li>
+            <li><a href="https://fulcrion.com/fulcrum">The Fulcrum (blog)</a></li>
+            <li><a href="https://substack.com/@markatfulcrion">CTO Field Notes</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Start</h4>
+          <ul>
+            <li><a href="https://www.fulcrion.com/booknow">Book a free call</a></li>
+            <li><a href="/fulcrion-scorecard">Team Health Scorecard</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="fc-footer__bottom">
+        <span>FULCRION · FRACTIONAL CTO · GREATER SEATTLE</span>
+        <span>Build systems and leaders that thrive without daily intervention.</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script type="module">
+import { scoreScorecard, DIMENSIONS, QUESTIONS, BANDS, RECS } from '/tools/fulcrion/scoring.js';
+
+const $ = (id) => document.getElementById(id);
+const sessionId = (crypto.randomUUID && crypto.randomUUID()) ||
+  ('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+  }));
+let submissionId = null;
+
+const answers = {};            // qid -> score (0..3)
+let stepIdx = 0;               // 0..DIMENSIONS.length-1
+
+async function post(path, payload) {
+  try {
+    const r = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return r.ok ? await r.json() : null;
+  } catch { return null; }
+}
+
+// ---- intro preview ----
+$('dimsPreview').innerHTML = DIMENSIONS.map((d, i) => `
+  <li>
+    <span class="n">${i + 1}</span>
+    <span><span class="dl">${d.label}</span><span class="db">${d.blurb}</span></span>
+  </li>`).join('');
+
+// ---- stepper render ----
+function renderStep() {
+  const dim = DIMENSIONS[stepIdx];
+  const items = QUESTIONS.filter((q) => q.dim === dim.id);
+
+  const html = `
+    <div class="step__dim">
+      <span class="eyebrow">Dimension ${stepIdx + 1} of ${DIMENSIONS.length}</span>
+      <h2>${dim.label}</h2>
+      <p class="blurb">${dim.blurb}</p>
+    </div>
+    ${items.map((q) => `
+      <div class="q" data-qid="${q.id}">
+        <div class="q__stem">${q.stem}</div>
+        ${q.options.map((o, oi) => `
+          <label class="opt${answers[q.id] === o.score ? ' sel' : ''}" data-qid="${q.id}" data-score="${o.score}">
+            <input type="radio" name="${q.id}" value="${o.score}" ${answers[q.id] === o.score ? 'checked' : ''}>
+            <span class="dot"></span><span class="ol">${o.label}</span>
+          </label>`).join('')}
+      </div>`).join('')}
+  `;
+
+  // clone-replace so the .anim entrance re-fires each step
+  const old = $('stepBody');
+  const fresh = old.cloneNode(false);
+  fresh.className = 'anim';
+  fresh.innerHTML = html;
+  old.parentElement.replaceChild(fresh, old);
+  fresh.id = 'stepBody';
+
+  fresh.querySelectorAll('.opt').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const qid = el.dataset.qid;
+      const score = parseInt(el.dataset.score, 10);
+      answers[qid] = score;
+      fresh.querySelectorAll(`.opt[data-qid="${qid}"]`).forEach((s) => s.classList.remove('sel'));
+      el.classList.add('sel');
+      const input = el.querySelector('input');
+      if (input) input.checked = true;
+      $('stepErr').style.display = 'none';
+    });
+  });
+
+  $('progFill').style.width = ((stepIdx + 1) / DIMENSIONS.length) * 100 + '%';
+  $('progLabel').textContent = `Dimension ${stepIdx + 1} of ${DIMENSIONS.length}`;
+  $('backBtn').style.visibility = stepIdx === 0 ? 'hidden' : 'visible';
+  $('nextBtn').innerHTML = stepIdx === DIMENSIONS.length - 1
+    ? 'See my results <span class="arr">→</span>'
+    : 'Continue <span class="arr">→</span>';
+}
+
+function currentStepAnswered() {
+  return QUESTIONS.filter((q) => q.dim === DIMENSIONS[stepIdx].id).every((q) => answers[q.id] !== undefined);
+}
+
+function next() {
+  if (!currentStepAnswered()) { $('stepErr').style.display = 'block'; return; }
+  $('stepErr').style.display = 'none';
+  if (stepIdx < DIMENSIONS.length - 1) {
+    stepIdx++;
+    renderStep();
+    $('stepper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    finish();
+  }
+}
+function back() {
+  if (stepIdx > 0) { stepIdx--; renderStep(); $('stepper').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+// ---- results ----
+function renderResult(r) {
+  const band = BANDS.find((b) => b.id === r.band);
+  $('rScore').textContent = r.overall;
+  $('rClaim').textContent = band.name;
+  $('rClaim').className = 'claim ' + band.id;
+  $('rTagline').textContent = band.tagline;
+  $('rNarrative').textContent = band.narrative;
+
+  $('rBlockerName').textContent = r.bindingLabel;
+  $('rBlockerRec').textContent = r.bindingRec;
+
+  $('rBreakdown').innerHTML = DIMENSIONS.map((d) => {
+    const score = r.dimensions[d.id];
+    const st = r.statuses[d.id];
+    const stLabel = st === 'holding' ? 'Holding' : st === 'strained' ? 'Strained' : 'Blocked';
+    return `
+      <div class="dim-row">
+        <div class="dim-row__top">
+          <span class="dim-row__name">${d.label}</span>
+          <span class="dim-row__score">${score} <span class="chip ${st}">${stLabel}</span></span>
+        </div>
+        <div class="dim-row__bar"><div class="dim-row__fill ${st}" data-w="${score}"></div></div>
+        <div class="dim-row__rec">${RECS[d.id][st]}</div>
+      </div>`;
+  }).join('');
+
+  $('result').style.display = 'block';
+  $('intro').style.display = 'none';
+  $('stepper').style.display = 'none';
+  $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // animate the meter pointer + bars after paint
+  requestAnimationFrame(() => {
+    $('rPtr').style.left = r.overall + '%';
+    document.querySelectorAll('.dim-row__fill').forEach((el) => { el.style.width = el.dataset.w + '%'; });
+  });
+}
+
+async function finish() {
+  const r = scoreScorecard(answers);
+  renderResult(r);
+
+  const computed = {
+    overall: r.overall, band: r.band, dimensions: r.dimensions,
+    statuses: r.statuses, bindingConstraint: r.bindingConstraint,
+  };
+  const out = await post('/api/fulcrion-submit', {
+    session_id: sessionId, responses: answers, computed, referrer: document.referrer || null,
+  });
+  if (out && out.id) submissionId = out.id;
+  post('/api/fulcrion-event', { session_id: sessionId, event_type: 'completed', metadata: { band: r.band, overall: r.overall } });
+}
+
+function bindBtn(el, fn) {
+  el.addEventListener('click', (e) => { e.preventDefault(); fn(); });
+  el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); } });
+}
+
+bindBtn($('startBtn'), () => {
+  $('intro').style.display = 'none';
+  $('stepper').style.display = 'block';
+  stepIdx = 0;
+  renderStep();
+  post('/api/fulcrion-event', { session_id: sessionId, event_type: 'started' });
+});
+bindBtn($('nextBtn'), next);
+bindBtn($('backBtn'), back);
+bindBtn($('againBtn'), () => {
+  for (const k of Object.keys(answers)) delete answers[k];
+  stepIdx = 0;
+  $('result').style.display = 'none';
+  $('intro').style.display = 'block';
+  $('funnelForm').style.display = 'block';
+  $('funnelDone').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+bindBtn($('copyBtn'), async () => {
+  const score = $('rScore').textContent;
+  const claim = $('rClaim').textContent;
+  const blocker = $('rBlockerName').textContent;
+  const text = `My engineering team health score: ${score}/100 — "${claim}". Biggest blocker: ${blocker}. ` +
+    `Found out with Fulcrion's free Engineering Team Health Scorecard: ${location.href}`;
+  try {
+    await navigator.clipboard.writeText(text);
+    $('copyLabel').textContent = 'Copied ✓';
+    setTimeout(() => { $('copyLabel').textContent = 'Copy my result'; }, 2500);
+  } catch { $('copyLabel').textContent = 'Press ⌘C to copy'; }
+});
+
+// ---- funnel ----
+async function submitContact() {
+  const email = $('fEmail').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $('funnelErr').style.display = 'block'; return; }
+  $('funnelErr').style.display = 'none';
+  const optCall = $('optCall').checked;
+
+  await post('/api/fulcrion-contact', {
+    submission_id: submissionId,
+    email,
+    name: $('fName').value.trim() || null,
+    company: $('fCompany').value.trim() || null,
+    opt_in_call: optCall,
+    opt_in_notify: $('optNotify').checked,
+    opt_in_list: $('optList').checked,
+  });
+  post('/api/fulcrion-event', { session_id: sessionId, event_type: 'contact_submitted', metadata: { call: optCall } });
+
+  $('funnelForm').style.display = 'none';
+  $('funnelDone').style.display = 'block';
+  if (optCall) {
+    $('doneTitle').textContent = 'Let’s get it on the calendar.';
+    $('doneBody').textContent = 'Pick a 30-minute slot that works — I’ll come ready to walk your scorecard line by line.';
+    $('doneCta').style.display = 'inline-flex';
+  } else {
+    $('doneTitle').textContent = 'Got it — talk soon.';
+    $('doneBody').textContent = 'You’re on the list. I’ll be in touch.';
+  }
+}
+bindBtn($('funnelBtn'), submitContact);
+
+// fire funnel_view once when it scrolls into view
+let funnelSeen = false;
+new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting && !funnelSeen) {
+      funnelSeen = true;
+      post('/api/fulcrion-event', { session_id: sessionId, event_type: 'funnel_view' });
+    }
+  });
+}, { threshold: 0.3 }).observe($('funnel'));
+</script>
+</body>
+</html>

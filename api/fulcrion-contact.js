@@ -1,0 +1,43 @@
+// POST /api/fulcrion-contact — records an email opt-in linked to a scorecard submission.
+//
+// IMPORTANT: this endpoint is Supabase-ONLY. It deliberately does NOT enroll the
+// contact in any Kit/ConvertKit sequence. The connected Kit account is Warren's
+// personal account; Fulcrion (Mark's) leads must never be written there. Supabase
+// is the single source of truth for this tool. (Contrast: emailroi-contact.js,
+// which does enroll in Kit because that is Ghost Digital's own funnel.)
+const { randomUUID } = require('node:crypto');
+const { insert, readBody, isUuid } = require('./_supabase.js');
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const clip = (v, n) => (typeof v === 'string' ? v.trim().slice(0, n) : null);
+
+module.exports = async (req, res) => {
+  res.setHeader('cache-control', 'no-store');
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'method_not_allowed' });
+    return;
+  }
+  const body = readBody(req);
+  const email = clip(body.email, 200);
+  if (!email || !EMAIL_RE.test(email)) {
+    res.status(400).json({ error: 'invalid_email' });
+    return;
+  }
+  try {
+    await insert('fulcrion_contacts', {
+      id: randomUUID(),
+      submission_id: isUuid(body.submission_id) ? body.submission_id : null,
+      email,
+      name: clip(body.name, 120),
+      company: clip(body.company, 200),
+      opt_in_call: body.opt_in_call === true,
+      opt_in_notify: body.opt_in_notify === true,
+      opt_in_list: body.opt_in_list === true,
+      consent_to_outreach: true,
+    });
+    res.status(200).json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({ error: 'store_failed' });
+  }
+};
