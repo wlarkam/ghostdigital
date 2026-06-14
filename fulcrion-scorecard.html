@@ -188,6 +188,10 @@
 
   /* contact / connect block */
   .connect{margin-top:26px;border-top:1px dashed var(--line-2);padding-top:24px;}
+  /* gate = a contained, faintly-glowing card so the email step reads as the unlock, not a footer */
+  .gate{margin-top:24px;border:1px solid rgba(58,155,255,.35);border-radius:12px;background:rgba(58,155,255,.05);
+    padding:24px 24px 26px;box-shadow:0 0 0 1px rgba(58,155,255,.04), 0 18px 50px -28px rgba(0,0,0,.7);}
+  .lockico{font-size:.82em;vertical-align:1px;}
   .connect__cmd{font-size:19px;margin-bottom:6px;}
   .connect__cmd .prompt{font-weight:600;}
   .connect__q{font-family:var(--display);font-weight:700;font-size:25px;color:#fff;letter-spacing:-.018em;margin:8px 0 8px;}
@@ -253,8 +257,8 @@
     <header class="hero">
       <span class="eyebrow">Free diagnostic · engineering team health</span>
       <h1>Has your engineering team hit <span class="hl">the wall</span>?</h1>
-      <p class="lede">Run a 5-minute diagnostic on your org. 15 checks across 5 subsystems return a <b>verdict, a score, and the one blocker</b> killing your velocity, so you know exactly how close you are to the Complexity Ceiling. No email required.</p>
-      <div class="meta"><span><b>15</b> checks</span><span><b>5</b> subsystems</span><span><b>~5</b> min</span><span>no email</span></div>
+      <p class="lede">Run a 5-minute diagnostic on your org. 15 checks across 5 subsystems return a <b>verdict, a score, and the one blocker</b> killing your velocity, so you know exactly how close you are to the Complexity Ceiling.</p>
+      <div class="meta"><span><b>15</b> checks</span><span><b>5</b> subsystems</span><span><b>~5</b> min</span><span>free</span></div>
     </header>
 
     <div class="term">
@@ -315,7 +319,7 @@ function renderBoot(){
   body.className='term__body boot anim';
   body.innerHTML = `
     <p class="ln cmt"># Fulcrion Engineering Team Health Diagnostic v1.0</p>
-    <p class="ln cmt"># 15 checks across 5 subsystems · ~5 min · no email required</p>
+    <p class="ln cmt"># 15 checks across 5 subsystems · ~5 min · free</p>
     <p class="ln cmt"># I'll show you exactly where your velocity is leaking,</p>
     <p class="ln cmt"># and how close you are to the Complexity Ceiling.</p>
     <p class="ln">&nbsp;</p>
@@ -462,32 +466,12 @@ function renderReport(r){
       <p class="rnarr">${esc(band.narrative)}</p>
     </div>
 
-    <div class="grid">${rows}</div>
-
-    <div class="block">
-      <div class="k">▲ BINDING CONSTRAINT · fix this first</div>
-      <div class="n">${r.bindingLabel}</div>
-      <div class="r">${esc(r.bindingRec)}</div>
-    </div>
-
-    <p class="ln dim" style="margin-bottom:6px">› recommended next steps</p>
-    <ul class="recs">
-      <li><span class="c">01</span> Start with the binding constraint above. Clear it, and the other subsystems move with it. That's where velocity comes back.</li>
-      <li><span class="c">02</span> Re-run this in 90 days. A score is a snapshot. The trend is the real signal.</li>
-      <li><span class="c">03</span> The <b style="color:var(--fg)">Top Blockers Sprint</b> is the paid version of this readout: a 4-week intensive that diagnoses your top blockers and hands you the plan. This diagnostic is the free first pass.</li>
-    </ul>
-
-    <div class="report__row">
-      <button class="lnk" id="copyBtn" style="color:var(--sky)">› copy result</button>
-      <button class="lnk" id="againBtn">› run again</button>
-    </div>
-
-    <!-- connect -->
-    <div class="connect" id="connect">
+    <!-- GATE: the full readout is locked behind email -->
+    <div class="connect gate" id="connect">
       <div id="connectForm">
-        <p class="ln connect__cmd"><span class="prompt">connect --with mark</span></p>
-        <div class="connect__q">Want your readout in your inbox?</div>
-        <p>Enter your email and I'll send this full scorecard over, plus a short note on the one blocker to fix first.</p>
+        <p class="ln connect__cmd"><span class="prompt">unlock --full-readout</span></p>
+        <div class="connect__q"><span class="lockico">🔒</span> Unlock your full readout</div>
+        <p>That's your score. The part that matters is locked: your full breakdown across all 5 subsystems, the one blocker to fix first, and what to do about it. Drop your email to unlock it now. I'll send the whole thing to your inbox too.</p>
         <div class="frow"><label>name&gt;</label><input type="text" id="fName" autocomplete="name" placeholder="your name"></div>
         <div class="frow"><label>email&gt;</label><input type="email" id="fEmail" autocomplete="email" placeholder="you@company.com"></div>
         <div class="frow"><label>org&gt;</label><input type="text" id="fCompany" autocomplete="organization" placeholder="company"></div>
@@ -502,14 +486,38 @@ function renderReport(r){
           <span class="path__main"><span class="path__t">Subscribe to CTO Field Notes Substack</span><span class="path__d">Occasional notes on scaling engineering teams past the ceiling.</span></span>
         </label>
 
-        <button class="runbtn sendbtn" id="sendBtn">▶ email me my results</button>
-        <div class="ferr" id="ferr">› add your email so I can send your results.</div>
+        <button class="runbtn sendbtn" id="sendBtn">▶ unlock my full readout</button>
+        <div class="ferr" id="ferr">› add your email to unlock your readout.</div>
+        <button class="lnk" id="startOverBtn" style="margin-top:14px">‹ start over</button>
       </div>
       <div class="done" id="done">
-        <p class="ln"><span class="ret">✓ connection established.</span></p>
-        <div class="ok-big" id="doneTitle">Thanks. Talk soon.</div>
+        <p class="ln"><span class="ret">✓ unlocked.</span></p>
+        <div class="ok-big" id="doneTitle">Your full readout's below.</div>
         <p id="doneBody" style="color:var(--fg-2);font-family:var(--sans)"></p>
         <a class="runbtn" id="doneCta" href="https://www.fulcrion.com/booknow" style="display:none;">▶ grab a time now</a>
+      </div>
+    </div>
+
+    <!-- LOCKED: revealed only after the email is given -->
+    <div id="lockedReport" style="display:none">
+      <div class="grid">${rows}</div>
+
+      <div class="block">
+        <div class="k">▲ BINDING CONSTRAINT · fix this first</div>
+        <div class="n">${r.bindingLabel}</div>
+        <div class="r">${esc(r.bindingRec)}</div>
+      </div>
+
+      <p class="ln dim" style="margin-bottom:6px">› recommended next steps</p>
+      <ul class="recs">
+        <li><span class="c">01</span> Start with the binding constraint above. Clear it, and the other subsystems move with it. That's where velocity comes back.</li>
+        <li><span class="c">02</span> Re-run this in 90 days. A score is a snapshot. The trend is the real signal.</li>
+        <li><span class="c">03</span> The <b style="color:var(--fg)">Top Blockers Sprint</b> is the paid version of this readout: a 4-week intensive that diagnoses your top blockers and hands you the plan. This diagnostic is the free first pass.</li>
+      </ul>
+
+      <div class="report__row">
+        <button class="lnk" id="copyBtn" style="color:var(--sky)">› copy result</button>
+        <button class="lnk" id="againBtn">› run again</button>
       </div>
     </div>
 
@@ -526,10 +534,8 @@ function renderReport(r){
     </div>
   `;
 
-  requestAnimationFrame(()=>{
-    document.querySelectorAll('.grow__bar').forEach(el=>el.style.width=el.dataset.w+'%');
-    const p=$('meterPtr'); if(p) p.style.left=r.overall+'%';
-  });
+  // only the meter animates on render; the breakdown bars animate when unlocked
+  requestAnimationFrame(()=>{ const p=$('meterPtr'); if(p) p.style.left=r.overall+'%'; });
 
   // store
   const computed={overall:r.overall,band:r.band,dimensions:r.dimensions,statuses:r.statuses,bindingConstraint:r.bindingConstraint};
@@ -537,12 +543,12 @@ function renderReport(r){
   post('/api/fulcrion-event',{session_id:sessionId,event_type:'completed',metadata:{band:r.band,overall:r.overall}});
   post('/api/fulcrion-event',{session_id:sessionId,event_type:'funnel_view'});
 
+  const resetAll=()=>{ for(const k of Object.keys(answers)) delete answers[k]; renderBoot(); window.scrollTo({top:0,behavior:'smooth'}); };
   $('copyBtn').addEventListener('click',()=>copyResult(r,band));
-  $('againBtn').addEventListener('click',()=>{ for(const k of Object.keys(answers)) delete answers[k]; renderBoot(); window.scrollTo({top:0,behavior:'smooth'}); });
+  $('againBtn').addEventListener('click',resetAll);
+  $('startOverBtn').addEventListener('click',resetAll);
   $('sendBtn').addEventListener('click',submitContact);
-  // show the verdict, not the bottom: one deterministic smooth scroll that
-  // brings the terminal (now holding the report) to the top of the viewport.
-  // offsetTop is absolute (independent of current scroll/late layout shifts).
+  // show the verdict + gate at the top of the viewport (instant: smooth is no-op under reduced motion)
   setTimeout(()=>{ const t=document.querySelector('.term'); window.scrollTo(0,Math.max(0,t.offsetTop-14)); },140);
 }
 
@@ -559,9 +565,12 @@ async function submitContact(){
   await post('/api/fulcrion-contact',{submission_id:submissionId,email,name:$('fName').value.trim()||null,company:$('fCompany').value.trim()||null,opt_in_call:optCall,opt_in_notify:false,opt_in_list:$('optList').checked});
   post('/api/fulcrion-event',{session_id:sessionId,event_type:'contact_submitted',metadata:{call:optCall}});
   $('connectForm').style.display='none'; $('done').style.display='block';
-  if(optCall){ $('doneTitle').textContent='Your readout’s on its way.'; $('doneBody').textContent='And let’s get that call booked. Grab a 30-minute slot below and I’ll walk it with you, line by line.'; $('doneCta').style.display='inline-flex'; }
-  else { $('doneTitle').textContent='Your readout’s on its way.'; $('doneBody').textContent='I’ll get it to your inbox shortly. Talk soon.'; }
-  $('connect').scrollIntoView({behavior:'smooth',block:'center'});
+  // unlock the full readout and animate its bars in
+  const locked=$('lockedReport');
+  if(locked){ locked.style.display='block'; setTimeout(()=>{ locked.querySelectorAll('.grow__bar').forEach(el=>el.style.width=el.dataset.w+'%'); }, 60); }
+  if(optCall){ $('doneTitle').textContent='Your full readout’s below.'; $('doneBody').textContent='It’s on its way to your inbox too. Now let’s get that call booked. Grab a 30-minute slot below and I’ll walk it with you, line by line.'; $('doneCta').style.display='inline-flex'; }
+  else { $('doneTitle').textContent='Your full readout’s below.'; $('doneBody').textContent='I’ll send a copy to your inbox shortly. Scroll down for the full breakdown.'; }
+  if(locked) locked.scrollIntoView({block:'start'});
 }
 
 renderBoot();
