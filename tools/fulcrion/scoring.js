@@ -17,7 +17,7 @@ export const DIMENSIONS = [
   {
     id: 'team_structure',
     label: 'Team Structure',
-    blurb: 'Does the org map to the size you’ve grown to — or are you running the shape you had at half the headcount?',
+    blurb: 'Does the org map to the size you’ve grown to, or are you running the shape you had at half the headcount?',
   },
   {
     id: 'communication',
@@ -27,7 +27,7 @@ export const DIMENSIONS = [
   {
     id: 'decisions',
     label: 'Decision-Making Speed',
-    blurb: 'Do teams decide inside clear guardrails — or does everything wait on you?',
+    blurb: 'Do teams decide inside clear guardrails, or does everything wait on you?',
   },
   {
     id: 'architecture',
@@ -37,7 +37,7 @@ export const DIMENSIONS = [
   {
     id: 'ai_readiness',
     label: 'AI Adoption Readiness',
-    blurb: 'Are you using AI as a leveraged junior engineer — or reacting to board pressure with no plan?',
+    blurb: 'Are you using AI as a leveraged junior engineer, or reacting to board pressure with no plan?',
   },
 ];
 
@@ -51,7 +51,7 @@ export const QUESTIONS = [
     options: [
       { label: 'Every system has a clear owner; the on-call path is obvious.', score: 3 },
       { label: 'Most areas have an owner, with a few gray zones.', score: 2 },
-      { label: 'It depends who’s around — ownership is informal.', score: 1 },
+      { label: 'It depends who’s around. Ownership is informal.', score: 1 },
       { label: 'Almost everything routes through one or two people (often me).', score: 0 },
     ],
   },
@@ -59,10 +59,10 @@ export const QUESTIONS = [
     id: 'ts2', dim: 'team_structure',
     stem: 'If your most critical engineer took two weeks off, what happens?',
     options: [
-      { label: 'Barely a ripple — the team is cross-covered by design.', score: 3 },
+      { label: 'Barely a ripple. The team is cross-covered by design.', score: 3 },
       { label: 'We’d slow down, but we’d still ship.', score: 2 },
       { label: 'A couple of things would stall until they’re back.', score: 1 },
-      { label: 'Real work would freeze — only they know key systems.', score: 0 },
+      { label: 'Real work would freeze. Only they know key systems.', score: 0 },
     ],
   },
   {
@@ -70,7 +70,7 @@ export const QUESTIONS = [
     stem: 'How well does your current org structure fit the size you’ve grown to?',
     options: [
       { label: 'We’ve restructured as we scaled; teams map to clear domains.', score: 3 },
-      { label: 'Mostly fits — a couple of teams are overloaded.', score: 2 },
+      { label: 'Mostly fits. A couple of teams are overloaded.', score: 2 },
       { label: 'We’re running the structure we had at half this size.', score: 1 },
       { label: 'It’s one big group; there’s no real structure yet.', score: 0 },
     ],
@@ -81,7 +81,7 @@ export const QUESTIONS = [
     stem: 'How much of your engineers’ week goes to meetings and coordination?',
     options: [
       { label: 'Protected maker time is the default; meetings are the exception.', score: 3 },
-      { label: 'Reasonable — a few standing meetings, mostly heads-down.', score: 2 },
+      { label: 'Reasonable. A few standing meetings, mostly heads-down.', score: 2 },
       { label: 'Calendars are filling up; people complain about focus time.', score: 1 },
       { label: 'Engineers say they can’t get real work done during the day.', score: 0 },
     ],
@@ -100,9 +100,9 @@ export const QUESTIONS = [
     id: 'co3', dim: 'communication',
     stem: 'How does important context move through the org?',
     options: [
-      { label: 'Written, async, and findable — decisions get documented.', score: 3 },
+      { label: 'Written, async, and findable. Decisions get documented.', score: 3 },
       { label: 'Mostly good; some of it lives in people’s heads.', score: 2 },
-      { label: 'Tribal knowledge — you have to know who to ask.', score: 1 },
+      { label: 'Tribal knowledge. You have to know who to ask.', score: 1 },
       { label: 'Context lives with me and a few others; we’re the bottleneck.', score: 0 },
     ],
   },
@@ -114,14 +114,14 @@ export const QUESTIONS = [
       { label: 'Teams decide within clear guardrails; they don’t wait on me.', score: 3 },
       { label: 'Teams decide small things; the bigger ones come to me.', score: 2 },
       { label: 'Most non-trivial decisions wait for me or a lead.', score: 1 },
-      { label: 'I’m in nearly every decision — I’m the bottleneck.', score: 0 },
+      { label: 'I’m in nearly every decision. I’m the bottleneck.', score: 0 },
     ],
   },
   {
     id: 'dm2', dim: 'decisions',
     stem: 'How often do decisions stall because no one can break the tie?',
     options: [
-      { label: 'Rarely — we have decision frameworks people trust.', score: 3 },
+      { label: 'Rarely. We have decision frameworks people trust.', score: 3 },
       { label: 'Occasionally, on genuinely hard calls.', score: 2 },
       { label: 'Often enough that it slows delivery.', score: 1 },
       { label: 'Teams are regularly deadlocked, waiting on a verdict.', score: 0 },
@@ -131,7 +131,7 @@ export const QUESTIONS = [
     id: 'dm3', dim: 'decisions',
     stem: 'How often do you re-open decisions that were supposedly made?',
     options: [
-      { label: 'They stick — we disagree-and-commit and move.', score: 3 },
+      { label: 'They stick. We disagree-and-commit and move.', score: 3 },
       { label: 'We revisit sometimes, with good reason.', score: 2 },
       { label: 'We relitigate more than we’d like.', score: 1 },
       { label: 'Decisions rarely feel final; we keep going in circles.', score: 0 },
@@ -142,7 +142,7 @@ export const QUESTIONS = [
     id: 'ar1', dim: 'architecture',
     stem: 'Can a mid-level engineer explain how your core system fits together?',
     options: [
-      { label: 'Yes — the architecture is documented and teachable.', score: 3 },
+      { label: 'Yes. The architecture is documented and teachable.', score: 3 },
       { label: 'Mostly; a couple of areas are murky.', score: 2 },
       { label: 'Only a few senior people really understand it.', score: 1 },
       { label: 'Honestly, no one holds the full picture anymore.', score: 0 },
@@ -162,7 +162,7 @@ export const QUESTIONS = [
     id: 'ar3', dim: 'architecture',
     stem: 'When you ship a change, how confident is the team it won’t break something elsewhere?',
     options: [
-      { label: 'High — tests and clear boundaries catch regressions.', score: 3 },
+      { label: 'High. Tests and clear boundaries catch regressions.', score: 3 },
       { label: 'Reasonably; we catch most issues.', score: 2 },
       { label: 'We hold our breath on the bigger changes.', score: 1 },
       { label: 'Changes routinely cause surprises in unrelated areas.', score: 0 },
@@ -175,7 +175,7 @@ export const QUESTIONS = [
     options: [
       { label: 'We have a deliberate strategy and we’re executing it.', score: 3 },
       { label: 'Experimenting intentionally; learning what works.', score: 2 },
-      { label: 'Ad hoc — some engineers use tools, no real plan.', score: 1 },
+      { label: 'Ad hoc. Some engineers use tools, no real plan.', score: 1 },
       { label: 'The board’s pushing and we don’t have an answer yet.', score: 0 },
     ],
   },
@@ -183,7 +183,7 @@ export const QUESTIONS = [
     id: 'ai2', dim: 'ai_readiness',
     stem: 'How is your team using AI coding tools?',
     options: [
-      { label: 'As a leveraged junior — reviewed, guardrailed, accelerating us.', score: 3 },
+      { label: 'As a leveraged junior. Reviewed, guardrailed, accelerating us.', score: 3 },
       { label: 'On real work, still finding the right guardrails.', score: 2 },
       { label: 'Scattered use; quality and review are inconsistent.', score: 1 },
       { label: 'Either banned outright, or used with no oversight at all.', score: 0 },
@@ -193,10 +193,10 @@ export const QUESTIONS = [
     id: 'ai3', dim: 'ai_readiness',
     stem: 'If you went all-in on AI-assisted delivery tomorrow, could the team absorb it?',
     options: [
-      { label: 'Yes — the review culture and practices are already in place.', score: 3 },
+      { label: 'Yes. The review culture and practices are already in place.', score: 3 },
       { label: 'Mostly; we’d need to tighten a few things first.', score: 2 },
-      { label: 'Not yet — we’d create as many problems as we solve.', score: 1 },
-      { label: 'No — we don’t have the foundations to do it safely.', score: 0 },
+      { label: 'Not yet. We’d create as many problems as we solve.', score: 1 },
+      { label: 'No. We don’t have the foundations to do it safely.', score: 0 },
     ],
   },
 ];
@@ -211,7 +211,7 @@ export const BANDS = [
     name: 'In the Ceiling',
     tagline: 'You’re not approaching the wall. You’re against it.',
     narrative:
-      'This is the Complexity Ceiling — the point where everything that worked at half this size suddenly doesn’t. ' +
+      'This is the Complexity Ceiling, the point where everything that worked at half this size suddenly doesn’t. ' +
       'Velocity is dropping, you’re the bottleneck on too many calls, and the team is overworked, underwater, and fighting fires. ' +
       'None of this means the team is bad. It means the systems haven’t caught up to the size you’ve grown to.',
   },
@@ -220,10 +220,10 @@ export const BANDS = [
     min: 40,
     max: 69,
     name: 'Approaching the Wall',
-    tagline: 'It still mostly works — but you can feel the drag.',
+    tagline: 'It still mostly works, but you can feel the drag.',
     narrative:
       'You’re growing, and the cracks are starting to show. A few dimensions are still holding, but momentum is getting harder to sustain ' +
-      'and the early signs of the Complexity Ceiling are here. This is the cheapest moment to fix it — before the wall, not in it. ' +
+      'and the early signs of the Complexity Ceiling are here. This is the cheapest moment to fix it, while the wall is still ahead of you. ' +
       'The pattern below shows exactly where velocity is leaking first.',
   },
   {
@@ -233,9 +233,9 @@ export const BANDS = [
     name: 'Through the Wall',
     tagline: 'You’ve built systems that scale without you in the room.',
     narrative:
-      'You’ve done the hard part — the team runs on durable systems, not on you. Velocity is holding as you grow, decisions don’t pile up ' +
-      'on your desk, and the structure fits the size. The risk at this level isn’t hitting the ceiling; it’s letting one weak dimension ' +
-      'quietly drag the rest back down. Watch your lowest score below.',
+      'You’ve done the hard part. The team runs on durable systems instead of on you. Velocity is holding as you grow, decisions don’t pile up ' +
+      'on your desk, and the structure fits the size. The danger now is different: one weak dimension can ' +
+      'drag the rest back down. Watch your lowest score below.',
   },
 ];
 
@@ -244,7 +244,7 @@ export const BANDS = [
 // bridge to the Top Blockers Sprint. [NEEDS_VOICE_REVIEW]
 export const RECS = {
   team_structure: {
-    blocked: 'Ownership runs through you. Map every critical system to a named owner and a backup this week — single points of failure are the first thing the ceiling exploits.',
+    blocked: 'Ownership runs through you. Map every critical system to a named owner and a backup this week. Single points of failure are the first thing the ceiling exploits.',
     strained: 'The shape is lagging the size. Pick the one overloaded team and split it along a clean domain boundary before it becomes the bottleneck.',
     holding: 'Structure is fitting the size. Keep re-checking domain boundaries every time you add ~10 engineers.',
   },
@@ -254,7 +254,7 @@ export const RECS = {
     holding: 'Communication is paying its way. Keep documenting decisions so the next 10 hires inherit context instead of interrupting people.',
   },
   decisions: {
-    blocked: 'You are the bottleneck. Write decision frameworks that let teams decide inside clear guardrails — and stop being the tiebreaker on reversible calls.',
+    blocked: 'You are the bottleneck. Write decision frameworks that let teams decide inside clear guardrails, and stop being the tiebreaker on reversible calls.',
     strained: 'Too many decisions still climb to you. Define which calls are one-way doors (yours) and which are two-way (theirs), and push the rest down.',
     holding: 'Decisions move without you. Keep widening the guardrails as the team earns it.',
   },
@@ -264,7 +264,7 @@ export const RECS = {
     holding: 'Architecture is clear enough to scale on. Keep the docs current and the boundaries clean.',
   },
   ai_readiness: {
-    blocked: 'You’re reacting to AI, not leading it. Set a deliberate adoption strategy with review guardrails — delegate to AI as a leveraged junior, don’t abdicate to it.',
+    blocked: 'You’re reacting to AI instead of leading it. Set a deliberate adoption strategy with review guardrails. Delegate to AI as a leveraged junior; don’t abdicate to it.',
     strained: 'You’re experimenting without a system. Standardize how AI gets used and reviewed so the gains are real and the risk is contained.',
     holding: 'AI is leverage, not chaos. Keep tightening the review loop as you scale usage.',
   },
