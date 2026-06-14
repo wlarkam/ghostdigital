@@ -162,9 +162,12 @@
   .tag.ok{color:var(--ok);} .tag.warn{color:var(--warn);} .tag.fail{color:var(--fail);}
   .grow__name{color:#fff;font-family:var(--sans);font-size:14.5px;font-weight:500;}
   .grow__meter{display:flex;align-items:center;gap:10px;}
-  .grow__track{width:100px;height:7px;background:var(--bar);border-radius:99px;overflow:hidden;}
-  /* bar colour is set per score in JS, on a red→green scale */
-  .grow__bar{height:100%;border-radius:99px;width:0;transition:width .7s ease;}
+  .grow__track{width:120px;height:8px;background:var(--bar);border-radius:99px;overflow:hidden;}
+  /* each bar is a red→gold→green gradient mapped to the 0–100 scale, revealed
+     by its fill width — so colour + reach show how close the score is to 100 */
+  .grow__bar{height:100%;border-radius:99px;width:0;transition:width .7s ease;
+    background:linear-gradient(90deg,#ff4d4d 0%,#ffb020 50%,#2fd47a 100%);
+    background-size:120px 100%;background-position:left center;background-repeat:no-repeat;}
   .grow__num{font-size:13px;color:var(--fg-2);width:26px;text-align:right;}
   .grow__rec{font-family:var(--sans);font-size:13px;color:var(--fg-2);line-height:1.5;margin-top:9px;padding-left:72px;}
   @media(max-width:640px){ .grow__rec{padding-left:0;} .rhero .vscore{font-size:60px;} .rhero .vclaim{font-size:28px;} }
@@ -432,7 +435,7 @@ function renderReport(r){
       <div class="grow__head">
         <span class="tag ${cls}">[${tag}]</span>
         <span class="grow__name">${d.label}${isBind?' <span class="dim">← binding</span>':''}</span>
-        <span class="grow__meter"><span class="grow__track"><span class="grow__bar" data-w="${sc}" style="background:${scoreColor(sc)}"></span></span><span class="grow__num">${sc}</span></span>
+        <span class="grow__meter"><span class="grow__track"><span class="grow__bar" data-w="${sc}"></span></span><span class="grow__num">${sc}</span></span>
       </div>
       <div class="grow__rec">${esc(RECS[d.id][st])}</div>
     </div>`;
