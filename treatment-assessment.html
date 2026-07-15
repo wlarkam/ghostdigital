@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Private Treatment Path Assessment — Wholesome Empire YYC</title>
+<meta name="description" content="A private, 2-minute assessment that gives you a personalized starting point for scar revision, camouflage, scalp micropigmentation, or brows." />
+<meta name="robots" content="index,follow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   WHOLESOME EMPIRE YYC — Private Treatment Path Assessment
+   Client brand tokens are namespaced --we-* so they never shadow the host
+   repo's --gd-* system. Bold editorial paramedical aesthetic: B/W foundation,
+   condensed uppercase display, olive accent used sparingly.
+   ========================================================================== */
+:root {
+  --we-black:#000000; --we-charcoal:#1A1A1A; --we-white:#FFFFFF;
+  --we-offwhite:#F7F7F4; --we-grey-100:#EDEDEA; --we-grey-200:#E8E8E4;
+  --we-grey-400:#9B9B95; --we-grey-600:#5B5B55;
+  --we-olive:#3F4A3C; --we-olive-600:#333D31; --we-olive-tint:#E8EDE5;
+
+  --we-bg:var(--we-offwhite); --we-surface:var(--we-white);
+  --we-ink:var(--we-charcoal); --we-ink-soft:var(--we-grey-600);
+  --we-rule:var(--we-grey-200); --we-accent:var(--we-olive);
+
+  --we-font-display:"Oswald","Helvetica Neue",Arial,sans-serif;
+  --we-font-body:"Inter",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+
+  --we-radius:14px; --we-radius-sm:10px; --we-radius-pill:999px;
+  --we-shadow:0 1px 2px rgba(26,26,26,.04), 0 12px 32px -18px rgba(26,26,26,.22);
+  --we-ease:cubic-bezier(.2,.6,.2,1);
+  --we-maxw:640px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--we-bg); color:var(--we-ink);
+  font-family:var(--we-font-body); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+button{font-family:inherit}
+
+/* --- masthead ------------------------------------------------------------ */
+.we-nav{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 24px; border-bottom:1px solid var(--we-rule);
+  background:var(--we-white);
+}
+.we-nav__brand{
+  font-family:var(--we-font-display); font-weight:600; font-size:17px;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--we-black);
+  text-decoration:none; display:flex; align-items:center; gap:10px;
+}
+.we-nav__brand .mark{
+  width:9px;height:9px;border-radius:50%;background:var(--we-olive);
+  display:inline-block;flex:none;
+}
+.we-nav__tag{
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--we-grey-400); font-weight:500;
+}
+@media(max-width:520px){ .we-nav__tag{display:none} }
+
+/* --- shell --------------------------------------------------------------- */
+.we-shell{ max-width:var(--we-maxw); margin:0 auto; padding:0 24px; }
+.we-main{ min-height:calc(100vh - 61px); display:flex; flex-direction:column; }
+
+/* --- progress ------------------------------------------------------------ */
+.we-progress{ padding:28px 0 4px; }
+.we-progress__row{
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--we-grey-400); font-weight:600; margin-bottom:10px;
+}
+.we-progress__back{
+  background:none; border:none; cursor:pointer; padding:4px 0;
+  font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--we-ink-soft); font-weight:600; display:inline-flex; align-items:center; gap:6px;
+}
+.we-progress__back:hover{ color:var(--we-olive) }
+.we-progress__back[hidden]{ display:none }
+.we-track{ height:4px; background:var(--we-grey-200); border-radius:var(--we-radius-pill); overflow:hidden; }
+.we-track__fill{
+  height:100%; background:var(--we-olive); border-radius:var(--we-radius-pill);
+  width:0%; transition:width 420ms var(--we-ease);
+}
+
+/* --- screen container ---------------------------------------------------- */
+.we-screen{ flex:1; padding:34px 0 40px; animation:we-enter 360ms var(--we-ease); }
+@keyframes we-enter{ from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none} }
+@media(prefers-reduced-motion:reduce){ .we-screen{animation:none} .we-track__fill{transition:none} }
+
+.we-eyebrow{
+  font-family:var(--we-font-display); font-weight:500; font-size:12px;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--we-olive); margin:0 0 14px;
+}
+.we-h1{
+  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
+  font-size:clamp(30px,7vw,46px); line-height:1.02; letter-spacing:.005em;
+  color:var(--we-black); margin:0 0 16px;
+}
+.we-q{
+  font-family:var(--we-font-display); font-weight:500; text-transform:uppercase;
+  font-size:clamp(23px,5vw,32px); line-height:1.08; letter-spacing:.01em;
+  color:var(--we-black); margin:0 0 8px;
+}
+.we-help{ color:var(--we-ink-soft); font-size:15px; margin:0 0 24px; }
+.we-lede{ color:var(--we-ink-soft); font-size:17px; line-height:1.6; margin:0 0 26px; }
+
+/* --- option cards -------------------------------------------------------- */
+.we-options{ display:flex; flex-direction:column; gap:12px; }
+.we-option{
+  text-align:left; width:100%; cursor:pointer;
+  background:var(--we-surface); border:1.5px solid var(--we-rule);
+  border-radius:var(--we-radius); padding:18px 20px;
+  font-size:16px; font-weight:500; color:var(--we-ink);
+  display:flex; align-items:center; gap:14px;
+  transition:border-color 160ms var(--we-ease), background 160ms var(--we-ease), transform 120ms var(--we-ease);
+}
+.we-option:hover{ border-color:var(--we-olive); background:var(--we-white); }
+.we-option:active{ transform:scale(.994) }
+.we-option:focus-visible{ outline:2px solid var(--we-olive); outline-offset:2px }
+.we-option.is-selected{ border-color:var(--we-olive); background:var(--we-olive-tint); }
+.we-option__tick{
+  flex:none; width:20px; height:20px; border-radius:50%;
+  border:1.5px solid var(--we-grey-400); position:relative; transition:all 160ms var(--we-ease);
+}
+.we-option.is-selected .we-option__tick{ border-color:var(--we-olive); background:var(--we-olive); }
+.we-option.is-selected .we-option__tick::after{
+  content:""; position:absolute; left:6px; top:3px; width:5px; height:9px;
+  border:solid var(--we-white); border-width:0 2px 2px 0; transform:rotate(45deg);
+}
+
+/* --- buttons ------------------------------------------------------------- */
+.we-btn{
+  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
+  letter-spacing:.1em; font-size:15px; cursor:pointer;
+  border:none; border-radius:var(--we-radius-pill); padding:16px 30px;
+  background:var(--we-black); color:var(--we-white);
+  transition:background 180ms var(--we-ease), transform 120ms var(--we-ease);
+  display:inline-flex; align-items:center; gap:10px;
+}
+.we-btn:hover{ background:var(--we-olive) }
+.we-btn:active{ transform:translateY(1px) }
+.we-btn:disabled{ opacity:.5; cursor:not-allowed }
+.we-btn--full{ width:100%; justify-content:center }
+.we-btn--ghost{
+  background:transparent; color:var(--we-ink); border:1.5px solid var(--we-ink);
+}
+.we-btn--ghost:hover{ background:var(--we-black); color:var(--we-white) }
+.we-microcopy{ font-size:13px; color:var(--we-grey-400); margin:16px 0 0; }
+
+/* --- disclaimer ---------------------------------------------------------- */
+.we-disclaimer{
+  font-size:12.5px; line-height:1.55; color:var(--we-grey-400);
+  border-left:2px solid var(--we-grey-200); padding:2px 0 2px 14px; margin:22px 0 0;
+}
+
+/* --- form ---------------------------------------------------------------- */
+.we-field{ margin:0 0 16px }
+.we-label{ display:block; font-size:13px; font-weight:600; letter-spacing:.04em; color:var(--we-ink); margin:0 0 7px; }
+.we-label .opt{ color:var(--we-grey-400); font-weight:500; text-transform:none; letter-spacing:0 }
+.we-input{
+  width:100%; padding:14px 16px; font-size:16px; font-family:inherit;
+  border:1.5px solid var(--we-rule); border-radius:var(--we-radius-sm);
+  background:var(--we-white); color:var(--we-ink);
+}
+.we-input:focus{ outline:none; border-color:var(--we-olive) }
+.we-check{ display:flex; align-items:flex-start; gap:11px; margin:6px 0 4px; cursor:pointer; }
+.we-check input{ margin-top:3px; width:17px; height:17px; accent-color:var(--we-olive); flex:none }
+.we-check span{ font-size:13.5px; color:var(--we-ink-soft); line-height:1.5 }
+.we-err{ color:#8a2f22; font-size:13px; margin:6px 0 0; min-height:1px }
+
+/* --- result report ------------------------------------------------------- */
+.we-report__eyebrow{
+  font-family:var(--we-font-display); font-weight:500; font-size:12px;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--we-olive); margin:0 0 12px;
+}
+.we-report__title{
+  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
+  font-size:clamp(26px,6vw,40px); line-height:1.04; letter-spacing:.01em;
+  color:var(--we-black); margin:0 0 22px;
+}
+.we-card{
+  background:var(--we-surface); border:1px solid var(--we-rule);
+  border-radius:var(--we-radius); padding:22px 24px; margin:0 0 14px; box-shadow:var(--we-shadow);
+}
+.we-card__label{
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--we-grey-400); font-weight:600; margin:0 0 8px;
+}
+.we-path{
+  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
+  font-size:clamp(22px,4.5vw,28px); line-height:1.1; color:var(--we-black); margin:0;
+}
+.we-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--we-olive-tint); color:var(--we-olive-600);
+  border:1px solid rgba(63,74,60,.25); border-radius:var(--we-radius-pill);
+  padding:8px 16px; font-family:var(--we-font-display); font-weight:600;
+  text-transform:uppercase; letter-spacing:.06em; font-size:14px;
+}
+.we-body{ color:var(--we-ink-soft); font-size:15.5px; line-height:1.62; margin:0 }
+.we-list{ list-style:none; margin:6px 0 0; padding:0; display:grid; gap:9px; }
+.we-list li{ display:flex; align-items:flex-start; gap:11px; font-size:15px; color:var(--we-ink); }
+.we-list li::before{
+  content:""; flex:none; width:7px; height:7px; margin-top:8px; border-radius:2px;
+  background:var(--we-olive); transform:rotate(45deg);
+}
+.we-check-list li::before{
+  content:""; width:15px; height:15px; margin-top:2px; border-radius:4px; background:transparent;
+  border:1.5px solid var(--we-olive); transform:none;
+}
+.we-next{
+  background:var(--we-black); color:var(--we-white); border-radius:var(--we-radius);
+  padding:26px 24px; margin:6px 0 14px;
+}
+.we-next .we-card__label{ color:rgba(255,255,255,.55) }
+.we-next__head{
+  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
+  font-size:22px; line-height:1.1; margin:0 0 6px;
+}
+.we-next__note{ color:rgba(255,255,255,.7); font-size:14.5px; margin:0 0 18px }
+.we-cta-row{ display:flex; flex-direction:column; gap:10px; }
+.we-caution{
+  background:#FBF7EF; border:1px solid #E7DCC4; border-radius:var(--we-radius-sm);
+  padding:14px 16px; margin:0 0 14px;
+}
+.we-caution .we-card__label{ color:#9a7b3a }
+.we-caution ul{ margin:6px 0 0; padding-left:18px; font-size:14px; color:#6b5a33 }
+
+/* --- footer -------------------------------------------------------------- */
+.we-footer{
+  border-top:1px solid var(--we-rule); background:var(--we-charcoal); color:var(--we-grey-400);
+  padding:26px 24px; margin-top:20px; text-align:center; font-size:12.5px; line-height:1.6;
+}
+.we-footer strong{ color:var(--we-white); font-family:var(--we-font-display); letter-spacing:.14em; text-transform:uppercase; font-weight:600; }
+.we-hidden{ display:none !important }
+.we-spinner{ display:inline-block; width:15px; height:15px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:we-spin .7s linear infinite; }
+@keyframes we-spin{ to{transform:rotate(360deg)} }
+</style>
+</head>
+<body>
+<nav class="we-nav">
+  <a class="we-nav__brand" href="/"><span class="mark"></span>Wholesome Empire</a>
+  <span class="we-nav__tag">The Art of Healing · YYC</span>
+</nav>
+
+<main class="we-main">
+  <div class="we-shell">
+    <div class="we-progress we-hidden" id="progress">
+      <div class="we-progress__row">
+        <button class="we-progress__back" id="back" hidden>← Back</button>
+        <span id="stepLabel"></span>
+      </div>
+      <div class="we-track"><div class="we-track__fill" id="fill"></div></div>
+    </div>
+    <div id="screen" class="we-screen"></div>
+  </div>
+</main>
+
+<footer class="we-footer">
+  <strong>Wholesome Empire YYC</strong><br />
+  Where mastery meets compassion. Restoring confidence, naturally.<br />
+  This assessment is for general guidance only and does not replace a consultation or medical advice.
+</footer>
+
+<script type="module">
+import { assess } from '/tools/wholesome/assessment.js';
+import { SCREENS, flowFor, REPORT, FLAG_LABELS, DISCLAIMER } from '/tools/wholesome/content.js';
+
+// --- session + telemetry ---------------------------------------------------
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID()
+  : '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
+
+let sessionId = sessionStorage.getItem('we_sid');
+if (!sessionId) { sessionId = uuid(); sessionStorage.setItem('we_sid', sessionId); }
+
+const utmSource = new URLSearchParams(location.search).get('utm_source');
+const referrer = document.referrer || null;
+
+function track(event_type, metadata) {
+  try {
+    navigator.sendBeacon?.('/api/wholesome-event',
+      new Blob([JSON.stringify({ session_id: sessionId, event_type, metadata })], { type: 'application/json' }))
+      || fetch('/api/wholesome-event', { method: 'POST', headers: { 'content-type': 'application/json' },
+           body: JSON.stringify({ session_id: sessionId, event_type, metadata }), keepalive: true });
+  } catch (_) {}
+}
+
+// --- state -----------------------------------------------------------------
+const answers = {};
+let stack = [];          // visited screen ids, for Back
+let submissionId = null;
+
+let $screen = document.getElementById('screen');
+const $progress = document.getElementById('progress');
+const $fill = document.getElementById('fill');
+const $stepLabel = document.getElementById('stepLabel');
+const $back = document.getElementById('back');
+
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+
+// Re-render a fresh #screen node so the enter animation re-fires (no framework).
+function paint(html) {
+  const fresh = $screen.cloneNode(false);
+  fresh.innerHTML = html;
+  $screen.parentElement.replaceChild(fresh, $screen);
+  $screen = fresh; // keep the module reference pointing at the live node
+  return fresh;
+}
+
+// --- flow helpers ----------------------------------------------------------
+// Question screens that carry a progress step (everything except 'result').
+function stepScreens() {
+  return flowFor(answers.concern).filter(id => id !== 'result');
+}
+function updateProgress(currentId) {
+  const steps = stepScreens();
+  const idx = steps.indexOf(currentId);
+  if (idx < 0) { $progress.classList.add('we-hidden'); return; }
+  $progress.classList.remove('we-hidden');
+  $stepLabel.textContent = `Step ${idx + 1} of ${steps.length}`;
+  $fill.style.width = `${((idx + 1) / steps.length) * 100}%`;
+  $back.hidden = stack.length === 0;
+}
+
+// --- screens ---------------------------------------------------------------
+function showWelcome() {
+  $progress.classList.add('we-hidden');
+  const el = paint(`
+    <p class="we-eyebrow">Not sure where to start?</p>
+    <h1 class="we-h1">Private Treatment<br>Path Assessment</h1>
+    <p class="we-lede">Answer a few private questions and get a personalized starting point for
+      scar revision, camouflage, scalp micropigmentation, or brows.</p>
+    <button class="we-btn we-btn--full" id="start">Find My Treatment Path</button>
+    <p class="we-microcopy">Takes about 2 minutes. No pressure to book.</p>
+    <p class="we-disclaimer">This assessment is for general guidance only. A specialist will confirm whether treatment is right for you.</p>
+  `);
+  el.querySelector('#start').addEventListener('click', () => {
+    track('started', { utm_source: utmSource });
+    goto('concern');
+  });
+}
+
+function showQuestion(screenId) {
+  const s = SCREENS[screenId];
+  if (!s) return;
+  updateProgress(screenId);
+  const selected = answers[screenId];
+  const opts = s.options.map(o => `
+    <button class="we-option ${selected === o.id ? 'is-selected' : ''}" data-id="${esc(o.id)}">
+      <span class="we-option__tick"></span><span>${esc(o.label)}</span>
+    </button>`).join('');
+  const el = paint(`
+    <p class="we-eyebrow">${esc(s.eyebrow || '')}</p>
+    <h2 class="we-q">${esc(s.question)}</h2>
+    ${s.help ? `<p class="we-help">${esc(s.help)}</p>` : ''}
+    <div class="we-options">${opts}</div>
+  `);
+  el.querySelectorAll('.we-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      answers[screenId] = btn.dataset.id;
+      if (screenId === 'concern') track('concern_selected', { concern: btn.dataset.id });
+      // brief visual confirm, then advance
+      el.querySelectorAll('.we-option').forEach(b => b.classList.remove('is-selected'));
+      btn.classList.add('is-selected');
+      setTimeout(advance, 170);
+    });
+  });
+}
+
+function showContact() {
+  updateProgress('contact');
+  const el = paint(`
+    <p class="we-eyebrow">Almost there</p>
+    <h2 class="we-q">Your report is ready</h2>
+    <p class="we-help">Enter your details to view your private treatment readiness report and receive a copy by email.</p>
+    <div class="we-field">
+      <label class="we-label" for="fn">First name</label>
+      <input class="we-input" id="fn" type="text" autocomplete="given-name" />
+    </div>
+    <div class="we-field">
+      <label class="we-label" for="em">Email</label>
+      <input class="we-input" id="em" type="email" autocomplete="email" inputmode="email" />
+    </div>
+    <div class="we-field">
+      <label class="we-label" for="ph">Phone <span class="opt">(optional)</span></label>
+      <input class="we-input" id="ph" type="tel" autocomplete="tel" inputmode="tel" />
+    </div>
+    <label class="we-check">
+      <input type="checkbox" id="consent" />
+      <span>I understand this is general guidance and agree to be contacted about my inquiry.</span>
+    </label>
+    <label class="we-check">
+      <input type="checkbox" id="sms" />
+      <span>You can also text me (optional).</span>
+    </label>
+    <p class="we-err" id="err"></p>
+    <button class="we-btn we-btn--full" id="view">View My Report</button>
+    <p class="we-microcopy">Your information will only be used to follow up about your inquiry. No spam.</p>
+  `);
+  track('reached_contact');
+  const $err = el.querySelector('#err');
+  el.querySelector('#view').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    const first = el.querySelector('#fn').value.trim();
+    const email = el.querySelector('#em').value.trim();
+    const phone = el.querySelector('#ph').value.trim();
+    const consent = el.querySelector('#consent').checked;
+    const sms = el.querySelector('#sms').checked;
+    $err.textContent = '';
+    if (!first) return ($err.textContent = 'Please enter your first name.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return ($err.textContent = 'Please enter a valid email.');
+    if (!consent) return ($err.textContent = 'Please check the box so we can send your report.');
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="we-spinner"></span> Building your report…';
+
+    const computed = assess(answers, { name: first });
+    // 1) store the completion (best-effort; result still shows if it fails)
+    try {
+      const r = await fetch('/api/wholesome-submit', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId, responses: answers, computed, referrer, utm_source: utmSource }),
+      });
+      if (r.ok) { const j = await r.json(); submissionId = j.id; sessionId = j.session_id || sessionId; }
+    } catch (_) {}
+    // 2) store the contact opt-in
+    try {
+      await fetch('/api/wholesome-contact', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ submission_id: submissionId, first_name: first, email, phone, opt_in_sms: sms }),
+      });
+    } catch (_) {}
+    track('contact_submitted', { path: computed.bestFitPath, stage: computed.readinessStage });
+    track('completed', { path: computed.bestFitPath, stage: computed.readinessStage });
+    showResult(computed, first);
+  });
+}
+
+function showResult(computed, firstName) {
+  $progress.classList.add('we-hidden');
+  stack = []; // report is terminal — hide Back
+  const fam = computed.pathFamily;
+  const means = REPORT.whatThisMeans[fam] || REPORT.whatThisMeans.match;
+  const affects = REPORT.whatAffects[fam] || REPORT.whatAffects.match;
+  const checklist = REPORT.checklist[computed.checklistKey] || REPORT.checklist.unsure;
+  const stageMeaning = REPORT.readinessMeaning[computed.readinessStage] || '';
+  const step = REPORT.nextStep[computed.nextStepId] || REPORT.nextStep.photo_review;
+
+  const cautions = (computed.cautionFlags || [])
+    .filter(f => f !== 'wait_prepare') // the stage already communicates this
+    .map(f => FLAG_LABELS[f]).filter(Boolean);
+
+  const affectsHtml = affects.map(a => `<li>${esc(a)}</li>`).join('');
+  const checkHtml = checklist.map(c => `<li>${esc(c)}</li>`).join('');
+  const cautionHtml = cautions.length ? `
+    <div class="we-caution">
+      <p class="we-card__label">Worth mentioning to your specialist</p>
+      <ul>${cautions.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+    </div>` : '';
+
+  // Secondary CTA differs from primary by next-step type.
+  const secondary = computed.nextStepId === 'consult_phone' || computed.nextStepId === 'consult_brow'
+    ? 'Email Me My Report' : 'Learn More About This Treatment';
+
+  paint(`
+    <p class="we-report__eyebrow">${esc(firstName ? firstName + ', your' : 'Your')} result</p>
+    <h1 class="we-report__title">Your Treatment<br>Readiness Report</h1>
+
+    <div class="we-card">
+      <p class="we-card__label">Best-fit path</p>
+      <p class="we-path">${esc(computed.bestFitPath)}</p>
+    </div>
+
+    <div class="we-card">
+      <p class="we-card__label">Readiness stage</p>
+      <span class="we-badge">${esc(computed.readinessStage)}</span>
+      ${stageMeaning ? `<p class="we-body" style="margin-top:14px">${esc(stageMeaning)}</p>` : ''}
+    </div>
+
+    <div class="we-card">
+      <p class="we-card__label">What this means</p>
+      <p class="we-body">${esc(means)}</p>
+    </div>
+
+    <div class="we-card">
+      <p class="we-card__label">What may affect your result</p>
+      <ul class="we-list">${affectsHtml}</ul>
+    </div>
+
+    ${cautionHtml}
+
+    <div class="we-next">
+      <p class="we-card__label">Your next best step</p>
+      <p class="we-next__head">${esc(step.primary)}</p>
+      <p class="we-next__note">${esc(step.note)}</p>
+      <div class="we-cta-row">
+        <a class="we-btn we-btn--full" href="mailto:hello@wholesomeempire.ca?subject=${encodeURIComponent(step.primary + ' — ' + computed.bestFitPath)}">${esc(step.primary)}</a>
+        <button class="we-btn we-btn--ghost we-btn--full" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)" id="secondary">${esc(secondary)}</button>
+      </div>
+    </div>
+
+    <div class="we-card">
+      <p class="we-card__label">Consult prep checklist</p>
+      <ul class="we-list we-check-list">${checkHtml}</ul>
+    </div>
+
+    <p class="we-disclaimer">${esc(DISCLAIMER)}</p>
+  `);
+
+  const sec = document.getElementById('secondary');
+  sec && sec.addEventListener('click', () => {
+    window.location.href = 'mailto:hello@wholesomeempire.ca?subject=' +
+      encodeURIComponent('Question about ' + computed.bestFitPath);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// --- navigation ------------------------------------------------------------
+let current = null; // id of the screen on display
+
+function goto(id) {
+  current = id;
+  if (id === 'contact') showContact();
+  else showQuestion(id);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Called after an option is chosen — walk one step forward in the branch flow.
+function advance() {
+  const flow = flowFor(answers.concern);
+  const next = flow[flow.indexOf(current) + 1];
+  stack.push(current);
+  if (!next || next === 'result') return; // result is shown after contact submit
+  goto(next);
+}
+
+$back.addEventListener('click', () => {
+  if (!stack.length) return;
+  goto(stack.pop());
+});
+
+// boot
+showWelcome();
+</script>
+</body>
+</html>
