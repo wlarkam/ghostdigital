@@ -4,42 +4,45 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Private Treatment Path Assessment — Wholesome Empire YYC</title>
-<meta name="description" content="A private, 2-minute assessment that gives you a personalized starting point for scar revision, camouflage, scalp micropigmentation, or brows." />
+<meta name="description" content="A private, unhurried assessment that gives you a personalized starting point for scar revision, camouflage, scalp micropigmentation, or brows." />
 <meta name="robots" content="index,follow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
 <style>
 /* ==========================================================================
    WHOLESOME EMPIRE YYC — Private Treatment Path Assessment
-   Client brand tokens are namespaced --we-* so they never shadow the host
-   repo's --gd-* system. Bold editorial paramedical aesthetic: B/W foundation,
-   condensed uppercase display, olive accent used sparingly.
+   "Studio at dusk" — dim, intimate, restorative. Client brand namespaced
+   --we-* so it never shadows the host repo's --gd-* tokens.
    ========================================================================== */
 :root {
-  --we-black:#000000; --we-charcoal:#1A1A1A; --we-white:#FFFFFF;
-  --we-offwhite:#F7F7F4; --we-grey-100:#EDEDEA; --we-grey-200:#E8E8E4;
-  --we-grey-400:#9B9B95; --we-grey-600:#5B5B55;
-  --we-olive:#3F4A3C; --we-olive-600:#333D31; --we-olive-tint:#E8EDE5;
-
-  --we-bg:var(--we-offwhite); --we-surface:var(--we-white);
-  --we-ink:var(--we-charcoal); --we-ink-soft:var(--we-grey-600);
-  --we-rule:var(--we-grey-200); --we-accent:var(--we-olive);
+  /* dusk foundation — warm near-black, cream ink, olive that glows on dark */
+  --we-void:#141311; --we-bg:#17161A; --we-surface:#1E1D21; --we-surface-2:#26242A;
+  --we-ink:#ECE7DD; --we-ink-2:#C9C3B7; --we-ink-soft:#8F897E;
+  --we-rule:rgba(236,231,221,.11); --we-rule-2:rgba(236,231,221,.20);
+  --we-olive:#8E9C72; --we-olive-soft:#A6B48A; --we-olive-deep:#3F4A3C;
+  --we-olive-tint:rgba(142,156,114,.13);
+  --we-cream:#EFEAE0;
 
   --we-font-display:"Oswald","Helvetica Neue",Arial,sans-serif;
   --we-font-body:"Inter",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 
-  --we-radius:14px; --we-radius-sm:10px; --we-radius-pill:999px;
-  --we-shadow:0 1px 2px rgba(26,26,26,.04), 0 12px 32px -18px rgba(26,26,26,.22);
-  --we-ease:cubic-bezier(.2,.6,.2,1);
+  --we-radius:16px; --we-radius-sm:11px; --we-radius-pill:999px;
+  --we-ease:cubic-bezier(.19,.68,.24,1);
   --we-maxw:640px;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
   background:var(--we-bg); color:var(--we-ink);
-  font-family:var(--we-font-body); font-size:16px; line-height:1.6;
+  font-family:var(--we-font-body); font-size:16px; line-height:1.62;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  position:relative; min-height:100vh;
+}
+/* film grain — the "studio" texture, sits over everything, ignores pointer */
+body::after{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:99;
+  background-image:url("/assets/grain.svg"); background-size:260px; opacity:.05; mix-blend-mode:overlay;
 }
 img{max-width:100%;display:block}
 button{font-family:inherit}
@@ -47,200 +50,246 @@ button{font-family:inherit}
 /* --- masthead ------------------------------------------------------------ */
 .we-nav{
   display:flex; align-items:center; justify-content:space-between;
-  padding:18px 24px; border-bottom:1px solid var(--we-rule);
-  background:var(--we-white);
+  padding:20px 26px; border-bottom:1px solid var(--we-rule); position:relative; z-index:5;
 }
 .we-nav__brand{
-  font-family:var(--we-font-display); font-weight:600; font-size:17px;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--we-black);
-  text-decoration:none; display:flex; align-items:center; gap:10px;
+  font-family:var(--we-font-display); font-weight:500; font-size:17px;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--we-ink);
+  text-decoration:none; display:flex; align-items:center; gap:11px;
 }
 .we-nav__brand .mark{
   width:9px;height:9px;border-radius:50%;background:var(--we-olive);
-  display:inline-block;flex:none;
+  box-shadow:0 0 12px 1px rgba(142,156,114,.6); display:inline-block;flex:none;
 }
-.we-nav__tag{
-  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--we-grey-400); font-weight:500;
-}
+.we-nav__tag{ font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--we-ink-soft); font-weight:500; }
 @media(max-width:520px){ .we-nav__tag{display:none} }
 
-/* --- shell --------------------------------------------------------------- */
-.we-shell{ max-width:var(--we-maxw); margin:0 auto; padding:0 24px; }
-.we-main{ min-height:calc(100vh - 61px); display:flex; flex-direction:column; }
+/* --- shell / dusk light -------------------------------------------------- */
+.we-main{ min-height:calc(100vh - 62px); display:flex; flex-direction:column; position:relative; z-index:2; }
+/* warm light through a window, upper-left, fading into the dark */
+.we-main::before{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:-1;
+  background:
+    radial-gradient(120% 80% at 18% 0%, rgba(150,140,96,.16) 0%, rgba(150,140,96,.05) 30%, transparent 62%),
+    radial-gradient(90% 70% at 92% 100%, rgba(63,74,60,.20) 0%, transparent 60%),
+    linear-gradient(180deg, var(--we-bg) 0%, var(--we-void) 100%);
+}
+.we-shell{ max-width:var(--we-maxw); margin:0 auto; padding:0 26px; width:100%; }
 
 /* --- progress ------------------------------------------------------------ */
-.we-progress{ padding:28px 0 4px; }
+.we-progress{ padding:30px 0 4px; }
 .we-progress__row{
   display:flex; align-items:center; justify-content:space-between;
-  font-size:12px; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--we-grey-400); font-weight:600; margin-bottom:10px;
+  font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--we-ink-soft); font-weight:500; margin-bottom:11px;
 }
 .we-progress__back{
   background:none; border:none; cursor:pointer; padding:4px 0;
-  font-size:12px; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--we-ink-soft); font-weight:600; display:inline-flex; align-items:center; gap:6px;
+  font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--we-ink-soft); font-weight:500; display:inline-flex; align-items:center; gap:6px;
+  transition:color 200ms var(--we-ease);
 }
-.we-progress__back:hover{ color:var(--we-olive) }
+.we-progress__back:hover{ color:var(--we-olive-soft) }
 .we-progress__back[hidden]{ display:none }
-.we-track{ height:4px; background:var(--we-grey-200); border-radius:var(--we-radius-pill); overflow:hidden; }
+.we-track{ height:3px; background:rgba(236,231,221,.09); border-radius:var(--we-radius-pill); overflow:hidden; }
 .we-track__fill{
-  height:100%; background:var(--we-olive); border-radius:var(--we-radius-pill);
-  width:0%; transition:width 420ms var(--we-ease);
+  height:100%; background:linear-gradient(90deg,var(--we-olive-deep),var(--we-olive));
+  box-shadow:0 0 10px rgba(142,156,114,.5);
+  border-radius:var(--we-radius-pill); width:0%; transition:width 620ms var(--we-ease);
 }
 
-/* --- screen container ---------------------------------------------------- */
-.we-screen{ flex:1; padding:34px 0 40px; animation:we-enter 360ms var(--we-ease); }
-@keyframes we-enter{ from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none} }
-@media(prefers-reduced-motion:reduce){ .we-screen{animation:none} .we-track__fill{transition:none} }
+/* --- screen container + motion ------------------------------------------- */
+.we-screen{ flex:1; padding:40px 0 48px; animation:we-enter 620ms var(--we-ease) both; }
+@keyframes we-enter{ from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:none} }
+@keyframes we-rise{ from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:none} }
+@keyframes we-reveal{ 0%{opacity:0; transform:translateY(24px) scale(.985); filter:blur(3px)} 100%{opacity:1; transform:none; filter:none} }
+@keyframes we-draw{ from{transform:scaleX(0)} to{transform:scaleX(1)} }
+@media(prefers-reduced-motion:reduce){
+  .we-screen,.we-reveal,.we-stagger>*{animation:none!important}
+  .we-track__fill{transition:none}
+}
 
 .we-eyebrow{
-  font-family:var(--we-font-display); font-weight:500; font-size:12px;
-  letter-spacing:.22em; text-transform:uppercase; color:var(--we-olive); margin:0 0 14px;
+  font-family:var(--we-font-display); font-weight:400; font-size:12px;
+  letter-spacing:.24em; text-transform:uppercase; color:var(--we-olive-soft); margin:0 0 16px;
 }
 .we-h1{
-  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
-  font-size:clamp(30px,7vw,46px); line-height:1.02; letter-spacing:.005em;
-  color:var(--we-black); margin:0 0 16px;
+  font-family:var(--we-font-display); font-weight:500; text-transform:uppercase;
+  font-size:clamp(34px,8.5vw,54px); line-height:1.0; letter-spacing:.01em;
+  color:var(--we-cream); margin:0 0 20px;
 }
 .we-q{
-  font-family:var(--we-font-display); font-weight:500; text-transform:uppercase;
-  font-size:clamp(23px,5vw,32px); line-height:1.08; letter-spacing:.01em;
-  color:var(--we-black); margin:0 0 8px;
+  font-family:var(--we-font-display); font-weight:400; text-transform:uppercase;
+  font-size:clamp(24px,5.4vw,34px); line-height:1.08; letter-spacing:.012em;
+  color:var(--we-cream); margin:0 0 10px;
 }
-.we-help{ color:var(--we-ink-soft); font-size:15px; margin:0 0 24px; }
-.we-lede{ color:var(--we-ink-soft); font-size:17px; line-height:1.6; margin:0 0 26px; }
+.we-help{ color:var(--we-ink-soft); font-size:15px; margin:0 0 26px; }
+.we-lede{ color:var(--we-ink-2); font-size:17.5px; line-height:1.62; margin:0 0 30px; max-width:34em; }
 
 /* --- option cards -------------------------------------------------------- */
-.we-options{ display:flex; flex-direction:column; gap:12px; }
+.we-options{ display:flex; flex-direction:column; gap:11px; }
 .we-option{
   text-align:left; width:100%; cursor:pointer;
-  background:var(--we-surface); border:1.5px solid var(--we-rule);
+  background:var(--we-surface); border:1px solid var(--we-rule);
   border-radius:var(--we-radius); padding:18px 20px;
-  font-size:16px; font-weight:500; color:var(--we-ink);
-  display:flex; align-items:center; gap:14px;
-  transition:border-color 160ms var(--we-ease), background 160ms var(--we-ease), transform 120ms var(--we-ease);
+  font-size:16px; font-weight:450; color:var(--we-ink);
+  display:flex; align-items:center; gap:15px;
+  transition:border-color 220ms var(--we-ease), background 220ms var(--we-ease), transform 160ms var(--we-ease), box-shadow 220ms var(--we-ease);
 }
-.we-option:hover{ border-color:var(--we-olive); background:var(--we-white); }
-.we-option:active{ transform:scale(.994) }
+.we-option:hover{ border-color:var(--we-rule-2); background:var(--we-surface-2); box-shadow:0 0 0 1px var(--we-olive-tint), 0 14px 40px -28px rgba(0,0,0,.9); }
+.we-option:active{ transform:scale(.993) }
 .we-option:focus-visible{ outline:2px solid var(--we-olive); outline-offset:2px }
 .we-option.is-selected{ border-color:var(--we-olive); background:var(--we-olive-tint); }
 .we-option__tick{
   flex:none; width:20px; height:20px; border-radius:50%;
-  border:1.5px solid var(--we-grey-400); position:relative; transition:all 160ms var(--we-ease);
+  border:1.5px solid var(--we-ink-soft); position:relative; transition:all 220ms var(--we-ease);
 }
-.we-option.is-selected .we-option__tick{ border-color:var(--we-olive); background:var(--we-olive); }
+.we-option.is-selected .we-option__tick{ border-color:var(--we-olive); background:var(--we-olive); box-shadow:0 0 12px rgba(142,156,114,.6); }
 .we-option.is-selected .we-option__tick::after{
   content:""; position:absolute; left:6px; top:3px; width:5px; height:9px;
-  border:solid var(--we-white); border-width:0 2px 2px 0; transform:rotate(45deg);
+  border:solid var(--we-void); border-width:0 2px 2px 0; transform:rotate(45deg);
 }
 
 /* --- buttons ------------------------------------------------------------- */
 .we-btn{
-  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
-  letter-spacing:.1em; font-size:15px; cursor:pointer;
-  border:none; border-radius:var(--we-radius-pill); padding:16px 30px;
-  background:var(--we-black); color:var(--we-white);
-  transition:background 180ms var(--we-ease), transform 120ms var(--we-ease);
-  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--we-font-display); font-weight:500; text-transform:uppercase;
+  letter-spacing:.11em; font-size:15px; cursor:pointer;
+  border:none; border-radius:var(--we-radius-pill); padding:17px 32px;
+  background:var(--we-cream); color:var(--we-void);
+  transition:background 240ms var(--we-ease), transform 160ms var(--we-ease), box-shadow 240ms var(--we-ease);
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
 }
-.we-btn:hover{ background:var(--we-olive) }
+.we-btn:hover{ background:var(--we-olive-soft); box-shadow:0 0 30px -6px rgba(142,156,114,.55); }
 .we-btn:active{ transform:translateY(1px) }
-.we-btn:disabled{ opacity:.5; cursor:not-allowed }
-.we-btn--full{ width:100%; justify-content:center }
-.we-btn--ghost{
-  background:transparent; color:var(--we-ink); border:1.5px solid var(--we-ink);
-}
-.we-btn--ghost:hover{ background:var(--we-black); color:var(--we-white) }
-.we-microcopy{ font-size:13px; color:var(--we-grey-400); margin:16px 0 0; }
+.we-btn:disabled{ opacity:.55; cursor:not-allowed }
+.we-btn--full{ width:100% }
+.we-btn--ghost{ background:transparent; color:var(--we-ink); border:1px solid var(--we-rule-2); }
+.we-btn--ghost:hover{ background:transparent; border-color:var(--we-olive); color:var(--we-olive-soft); box-shadow:none; }
+.we-microcopy{ font-size:13px; color:var(--we-ink-soft); margin:18px 0 0; }
 
 /* --- disclaimer ---------------------------------------------------------- */
 .we-disclaimer{
-  font-size:12.5px; line-height:1.55; color:var(--we-grey-400);
-  border-left:2px solid var(--we-grey-200); padding:2px 0 2px 14px; margin:22px 0 0;
+  font-size:12.5px; line-height:1.6; color:var(--we-ink-soft);
+  border-left:1px solid var(--we-rule-2); padding:2px 0 2px 15px; margin:26px 0 0;
 }
 
 /* --- form ---------------------------------------------------------------- */
-.we-field{ margin:0 0 16px }
-.we-label{ display:block; font-size:13px; font-weight:600; letter-spacing:.04em; color:var(--we-ink); margin:0 0 7px; }
-.we-label .opt{ color:var(--we-grey-400); font-weight:500; text-transform:none; letter-spacing:0 }
+.we-field{ margin:0 0 17px }
+.we-label{ display:block; font-size:12.5px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--we-ink-2); margin:0 0 8px; }
+.we-label .opt{ color:var(--we-ink-soft); font-weight:400; text-transform:none; letter-spacing:0 }
 .we-input{
-  width:100%; padding:14px 16px; font-size:16px; font-family:inherit;
-  border:1.5px solid var(--we-rule); border-radius:var(--we-radius-sm);
-  background:var(--we-white); color:var(--we-ink);
+  width:100%; padding:15px 16px; font-size:16px; font-family:inherit;
+  border:1px solid var(--we-rule-2); border-radius:var(--we-radius-sm);
+  background:rgba(0,0,0,.22); color:var(--we-ink);
 }
-.we-input:focus{ outline:none; border-color:var(--we-olive) }
-.we-check{ display:flex; align-items:flex-start; gap:11px; margin:6px 0 4px; cursor:pointer; }
+.we-input::placeholder{ color:var(--we-ink-soft) }
+.we-input:focus{ outline:none; border-color:var(--we-olive); box-shadow:0 0 0 3px var(--we-olive-tint) }
+.we-check{ display:flex; align-items:flex-start; gap:12px; margin:8px 0 4px; cursor:pointer; }
 .we-check input{ margin-top:3px; width:17px; height:17px; accent-color:var(--we-olive); flex:none }
-.we-check span{ font-size:13.5px; color:var(--we-ink-soft); line-height:1.5 }
-.we-err{ color:#8a2f22; font-size:13px; margin:6px 0 0; min-height:1px }
+.we-check span{ font-size:13.5px; color:var(--we-ink-2); line-height:1.5 }
+.we-err{ color:#E0987F; font-size:13px; margin:8px 0 0; min-height:1px }
 
-/* --- result report ------------------------------------------------------- */
-.we-report__eyebrow{
-  font-family:var(--we-font-display); font-weight:500; font-size:12px;
-  letter-spacing:.22em; text-transform:uppercase; color:var(--we-olive); margin:0 0 12px;
+/* --- result: the letter -------------------------------------------------- */
+.we-letter__eyebrow{
+  font-family:var(--we-font-display); font-weight:400; font-size:11.5px;
+  letter-spacing:.24em; text-transform:uppercase; color:var(--we-olive-soft); margin:0 0 18px;
 }
-.we-report__title{
-  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
-  font-size:clamp(26px,6vw,40px); line-height:1.04; letter-spacing:.01em;
-  color:var(--we-black); margin:0 0 22px;
+.we-letter__salutation{
+  font-family:var(--we-font-display); font-weight:500; text-transform:uppercase;
+  font-size:clamp(30px,7vw,46px); line-height:1.0; letter-spacing:.01em;
+  color:var(--we-cream); margin:0 0 18px;
 }
-.we-card{
-  background:var(--we-surface); border:1px solid var(--we-rule);
-  border-radius:var(--we-radius); padding:22px 24px; margin:0 0 14px; box-shadow:var(--we-shadow);
+.we-letter__lede{ color:var(--we-ink-2); font-size:16.5px; line-height:1.64; margin:0 0 26px; }
+.we-ack{
+  font-family:var(--we-font-display); font-weight:300; text-transform:none;
+  font-size:clamp(19px,3.6vw,23px); line-height:1.34; letter-spacing:.005em;
+  color:var(--we-olive-soft); border-left:2px solid var(--we-olive);
+  padding:4px 0 4px 18px; margin:0 0 34px;
 }
-.we-card__label{
-  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--we-grey-400); font-weight:600; margin:0 0 8px;
+
+.we-block{ margin:0 0 30px; }
+.we-block__label{
+  font-family:var(--we-font-display); font-weight:400; font-size:11.5px;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--we-ink-soft); margin:0 0 12px;
 }
 .we-path{
-  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
-  font-size:clamp(22px,4.5vw,28px); line-height:1.1; color:var(--we-black); margin:0;
+  font-family:var(--we-font-display); font-weight:500; text-transform:uppercase;
+  font-size:clamp(27px,6vw,40px); line-height:1.04; letter-spacing:.01em;
+  color:var(--we-cream); margin:0; padding:0 0 16px; position:relative;
+}
+.we-path::after{
+  content:""; display:block; height:1px; margin-top:16px; width:100%;
+  background:linear-gradient(90deg,var(--we-olive),transparent);
+  transform-origin:left; animation:we-draw 900ms var(--we-ease) 500ms both;
 }
 .we-badge{
-  display:inline-flex; align-items:center; gap:8px;
-  background:var(--we-olive-tint); color:var(--we-olive-600);
-  border:1px solid rgba(63,74,60,.25); border-radius:var(--we-radius-pill);
-  padding:8px 16px; font-family:var(--we-font-display); font-weight:600;
-  text-transform:uppercase; letter-spacing:.06em; font-size:14px;
+  display:inline-flex; align-items:center; gap:9px;
+  background:var(--we-olive-tint); color:var(--we-olive-soft);
+  border:1px solid rgba(142,156,114,.35); border-radius:var(--we-radius-pill);
+  padding:9px 18px; font-family:var(--we-font-display); font-weight:500;
+  text-transform:uppercase; letter-spacing:.07em; font-size:14px;
 }
-.we-body{ color:var(--we-ink-soft); font-size:15.5px; line-height:1.62; margin:0 }
-.we-list{ list-style:none; margin:6px 0 0; padding:0; display:grid; gap:9px; }
-.we-list li{ display:flex; align-items:flex-start; gap:11px; font-size:15px; color:var(--we-ink); }
+.we-body{ color:var(--we-ink-2); font-size:15.5px; line-height:1.66; margin:14px 0 0 }
+.we-list{ list-style:none; margin:4px 0 0; padding:0; display:grid; gap:10px; }
+.we-list li{ display:flex; align-items:flex-start; gap:12px; font-size:15px; color:var(--we-ink); }
 .we-list li::before{
-  content:""; flex:none; width:7px; height:7px; margin-top:8px; border-radius:2px;
-  background:var(--we-olive); transform:rotate(45deg);
+  content:""; flex:none; width:6px; height:6px; margin-top:8px; border-radius:1px;
+  background:var(--we-olive); transform:rotate(45deg); box-shadow:0 0 8px rgba(142,156,114,.5);
 }
 .we-check-list li::before{
-  content:""; width:15px; height:15px; margin-top:2px; border-radius:4px; background:transparent;
-  border:1.5px solid var(--we-olive); transform:none;
+  content:""; width:14px; height:14px; margin-top:2px; border-radius:4px; background:transparent;
+  border:1.5px solid var(--we-olive); transform:none; box-shadow:none;
 }
+/* the fear answered — the emotional centerpiece */
+.we-fear{
+  background:linear-gradient(180deg, rgba(142,156,114,.10), rgba(142,156,114,.04));
+  border:1px solid rgba(142,156,114,.28); border-radius:var(--we-radius);
+  padding:24px 24px; margin:0 0 30px;
+}
+.we-fear .we-block__label{ color:var(--we-olive-soft) }
+.we-fear p{ color:var(--we-ink); font-size:16px; line-height:1.66; margin:12px 0 0 }
+
+/* next step — the one bright, warm card (the action) */
 .we-next{
-  background:var(--we-black); color:var(--we-white); border-radius:var(--we-radius);
-  padding:26px 24px; margin:6px 0 14px;
+  background:var(--we-cream); color:var(--we-void); border-radius:var(--we-radius);
+  padding:28px 26px; margin:0 0 30px; box-shadow:0 24px 60px -30px rgba(0,0,0,.9);
 }
-.we-next .we-card__label{ color:rgba(255,255,255,.55) }
-.we-next__head{
-  font-family:var(--we-font-display); font-weight:600; text-transform:uppercase;
-  font-size:22px; line-height:1.1; margin:0 0 6px;
-}
-.we-next__note{ color:rgba(255,255,255,.7); font-size:14.5px; margin:0 0 18px }
-.we-cta-row{ display:flex; flex-direction:column; gap:10px; }
+.we-next__label{ font-family:var(--we-font-display); font-weight:400; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:rgba(20,19,17,.5); margin:0 0 10px; }
+.we-next__head{ font-family:var(--we-font-display); font-weight:600; text-transform:uppercase; font-size:24px; line-height:1.08; margin:0 0 7px; color:var(--we-void); }
+.we-next__note{ color:rgba(20,19,17,.66); font-size:14.5px; margin:0 0 20px }
+.we-next .we-btn{ background:var(--we-void); color:var(--we-cream); }
+.we-next .we-btn:hover{ background:var(--we-olive-deep); color:var(--we-cream) }
+.we-next .we-btn--ghost{ background:transparent; color:var(--we-void); border-color:rgba(20,19,17,.28); }
+.we-next .we-btn--ghost:hover{ border-color:var(--we-void); color:var(--we-void); }
+.we-cta-row{ display:flex; flex-direction:column; gap:11px; }
+
 .we-caution{
-  background:#FBF7EF; border:1px solid #E7DCC4; border-radius:var(--we-radius-sm);
-  padding:14px 16px; margin:0 0 14px;
+  background:rgba(0,0,0,.22); border:1px solid var(--we-rule-2); border-radius:var(--we-radius-sm);
+  padding:15px 17px; margin:0 0 30px;
 }
-.we-caution .we-card__label{ color:#9a7b3a }
-.we-caution ul{ margin:6px 0 0; padding-left:18px; font-size:14px; color:#6b5a33 }
+.we-caution ul{ margin:8px 0 0; padding-left:18px; font-size:14px; color:var(--we-ink-soft) }
+
+/* closing — the restorative reframe, held */
+.we-closing{
+  border-top:1px solid var(--we-rule); padding:32px 0 0; margin:8px 0 0;
+}
+.we-closing p{
+  font-family:var(--we-font-display); font-weight:300; font-size:clamp(19px,3.8vw,24px);
+  line-height:1.42; color:var(--we-ink); margin:0 0 22px; letter-spacing:.006em;
+}
+.we-signoff{ font-family:var(--we-font-display); font-weight:400; text-transform:uppercase; letter-spacing:.12em; font-size:13.5px; color:var(--we-olive-soft); white-space:pre-line; line-height:1.7; }
+
+/* stagger children of the report for a soft cascade */
+.we-stagger>*{ animation:we-rise 640ms var(--we-ease) both; }
 
 /* --- footer -------------------------------------------------------------- */
 .we-footer{
-  border-top:1px solid var(--we-rule); background:var(--we-charcoal); color:var(--we-grey-400);
-  padding:26px 24px; margin-top:20px; text-align:center; font-size:12.5px; line-height:1.6;
+  border-top:1px solid var(--we-rule); background:var(--we-void); color:var(--we-ink-soft);
+  padding:30px 26px; text-align:center; font-size:12.5px; line-height:1.65; position:relative; z-index:2;
 }
-.we-footer strong{ color:var(--we-white); font-family:var(--we-font-display); letter-spacing:.14em; text-transform:uppercase; font-weight:600; }
+.we-footer strong{ color:var(--we-ink); font-family:var(--we-font-display); letter-spacing:.16em; text-transform:uppercase; font-weight:500; }
 .we-hidden{ display:none !important }
-.we-spinner{ display:inline-block; width:15px; height:15px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:we-spin .7s linear infinite; }
+.we-spinner{ display:inline-block; width:15px; height:15px; border:2px solid rgba(20,19,17,.3); border-top-color:var(--we-void); border-radius:50%; animation:we-spin .7s linear infinite; }
 @keyframes we-spin{ to{transform:rotate(360deg)} }
 </style>
 </head>
@@ -265,13 +314,13 @@ button{font-family:inherit}
 
 <footer class="we-footer">
   <strong>Wholesome Empire YYC</strong><br />
-  Where mastery meets compassion. Restoring confidence, naturally.<br />
+  Where mastery meets compassion.<br />
   This assessment is for general guidance only and does not replace a consultation or medical advice.
 </footer>
 
 <script type="module">
 import { assess } from '/tools/wholesome/assessment.js';
-import { SCREENS, flowFor, REPORT, FLAG_LABELS, DISCLAIMER } from '/tools/wholesome/content.js';
+import { SCREENS, flowFor, REPORT, FLAG_LABELS, DISCLAIMER, LETTER } from '/tools/wholesome/content.js';
 
 // --- session + telemetry ---------------------------------------------------
 const uuid = () => (crypto.randomUUID ? crypto.randomUUID()
@@ -295,7 +344,7 @@ function track(event_type, metadata) {
 
 // --- state -----------------------------------------------------------------
 const answers = {};
-let stack = [];          // visited screen ids, for Back
+let stack = [];
 let submissionId = null;
 
 let $screen = document.getElementById('screen');
@@ -306,17 +355,16 @@ const $back = document.getElementById('back');
 
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
 
-// Re-render a fresh #screen node so the enter animation re-fires (no framework).
-function paint(html) {
+function paint(html, cls) {
   const fresh = $screen.cloneNode(false);
+  if (cls) fresh.className = 'we-screen ' + cls;
   fresh.innerHTML = html;
   $screen.parentElement.replaceChild(fresh, $screen);
-  $screen = fresh; // keep the module reference pointing at the live node
+  $screen = fresh;
   return fresh;
 }
 
 // --- flow helpers ----------------------------------------------------------
-// Question screens that carry a progress step (everything except 'result').
 function stepScreens() {
   return flowFor(answers.concern).filter(id => id !== 'result');
 }
@@ -336,10 +384,11 @@ function showWelcome() {
   const el = paint(`
     <p class="we-eyebrow">Not sure where to start?</p>
     <h1 class="we-h1">Private Treatment<br>Path Assessment</h1>
-    <p class="we-lede">Answer a few private questions and get a personalized starting point for
-      scar revision, camouflage, scalp micropigmentation, or brows.</p>
+    <p class="we-lede">Take a few quiet minutes. Answer honestly, and you'll leave with a personalized
+      starting point for scar revision, camouflage, scalp micropigmentation, or brows —
+      and a clearer sense of what's possible for you.</p>
     <button class="we-btn we-btn--full" id="start">Find My Treatment Path</button>
-    <p class="we-microcopy">Takes about 2 minutes. No pressure to book.</p>
+    <p class="we-microcopy">About 2 minutes. Private. No photos required, and no pressure to book.</p>
     <p class="we-disclaimer">This assessment is for general guidance only. A specialist will confirm whether treatment is right for you.</p>
   `);
   el.querySelector('#start').addEventListener('click', () => {
@@ -367,10 +416,9 @@ function showQuestion(screenId) {
     btn.addEventListener('click', () => {
       answers[screenId] = btn.dataset.id;
       if (screenId === 'concern') track('concern_selected', { concern: btn.dataset.id });
-      // brief visual confirm, then advance
       el.querySelectorAll('.we-option').forEach(b => b.classList.remove('is-selected'));
       btn.classList.add('is-selected');
-      setTimeout(advance, 170);
+      setTimeout(advance, 240);
     });
   });
 }
@@ -380,7 +428,7 @@ function showContact() {
   const el = paint(`
     <p class="we-eyebrow">Almost there</p>
     <h2 class="we-q">Your report is ready</h2>
-    <p class="we-help">Enter your details to view your private treatment readiness report and receive a copy by email.</p>
+    <p class="we-help">Enter your details to read your private treatment readiness report and receive a copy by email. This stays between you and the clinic.</p>
     <div class="we-field">
       <label class="we-label" for="fn">First name</label>
       <input class="we-input" id="fn" type="text" autocomplete="given-name" />
@@ -403,7 +451,7 @@ function showContact() {
     </label>
     <p class="we-err" id="err"></p>
     <button class="we-btn we-btn--full" id="view">View My Report</button>
-    <p class="we-microcopy">Your information will only be used to follow up about your inquiry. No spam.</p>
+    <p class="we-microcopy">Your information is only used to follow up about your inquiry. No spam, ever.</p>
   `);
   track('reached_contact');
   const $err = el.querySelector('#err');
@@ -420,10 +468,9 @@ function showContact() {
     if (!consent) return ($err.textContent = 'Please check the box so we can send your report.');
 
     btn.disabled = true;
-    btn.innerHTML = '<span class="we-spinner"></span> Building your report…';
+    btn.innerHTML = '<span class="we-spinner"></span> Preparing your report…';
 
     const computed = assess(answers, { name: first });
-    // 1) store the completion (best-effort; result still shows if it fails)
     try {
       const r = await fetch('/api/wholesome-submit', {
         method: 'POST', headers: { 'content-type': 'application/json' },
@@ -431,7 +478,6 @@ function showContact() {
       });
       if (r.ok) { const j = await r.json(); submissionId = j.id; sessionId = j.session_id || sessionId; }
     } catch (_) {}
-    // 2) store the contact opt-in
     try {
       await fetch('/api/wholesome-contact', {
         method: 'POST', headers: { 'content-type': 'application/json' },
@@ -446,76 +492,98 @@ function showContact() {
 
 function showResult(computed, firstName) {
   $progress.classList.add('we-hidden');
-  stack = []; // report is terminal — hide Back
+  stack = [];
   const fam = computed.pathFamily;
   const means = REPORT.whatThisMeans[fam] || REPORT.whatThisMeans.match;
   const affects = REPORT.whatAffects[fam] || REPORT.whatAffects.match;
   const checklist = REPORT.checklist[computed.checklistKey] || REPORT.checklist.unsure;
   const stageMeaning = REPORT.readinessMeaning[computed.readinessStage] || '';
   const step = REPORT.nextStep[computed.nextStepId] || REPORT.nextStep.photo_review;
+  const ack = REPORT.acknowledgment[computed.branch] || '';
+  const fearReply = computed.barrier ? REPORT.barrierResponse[computed.barrier] : '';
 
   const cautions = (computed.cautionFlags || [])
-    .filter(f => f !== 'wait_prepare') // the stage already communicates this
+    .filter(f => f !== 'wait_prepare')
     .map(f => FLAG_LABELS[f]).filter(Boolean);
 
   const affectsHtml = affects.map(a => `<li>${esc(a)}</li>`).join('');
   const checkHtml = checklist.map(c => `<li>${esc(c)}</li>`).join('');
   const cautionHtml = cautions.length ? `
     <div class="we-caution">
-      <p class="we-card__label">Worth mentioning to your specialist</p>
+      <p class="we-block__label">Worth mentioning to your specialist</p>
       <ul>${cautions.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
     </div>` : '';
+  const fearHtml = fearReply ? `
+    <div class="we-fear">
+      <p class="we-block__label">About what's holding you back</p>
+      <p>${esc(fearReply)}</p>
+    </div>` : '';
 
-  // Secondary CTA differs from primary by next-step type.
   const secondary = computed.nextStepId === 'consult_phone' || computed.nextStepId === 'consult_brow'
     ? 'Email Me My Report' : 'Learn More About This Treatment';
 
-  paint(`
-    <p class="we-report__eyebrow">${esc(firstName ? firstName + ', your' : 'Your')} result</p>
-    <h1 class="we-report__title">Your Treatment<br>Readiness Report</h1>
+  const el = paint(`
+    <div class="we-stagger">
+      <p class="we-letter__eyebrow">Your Treatment Readiness Report</p>
+      <h1 class="we-letter__salutation we-reveal" style="animation:we-reveal 900ms var(--we-ease) both">${esc(LETTER.open(firstName))}</h1>
+      <p class="we-letter__lede">${esc(LETTER.lede)}</p>
+      ${ack ? `<p class="we-ack">${esc(ack)}</p>` : ''}
 
-    <div class="we-card">
-      <p class="we-card__label">Best-fit path</p>
-      <p class="we-path">${esc(computed.bestFitPath)}</p>
-    </div>
-
-    <div class="we-card">
-      <p class="we-card__label">Readiness stage</p>
-      <span class="we-badge">${esc(computed.readinessStage)}</span>
-      ${stageMeaning ? `<p class="we-body" style="margin-top:14px">${esc(stageMeaning)}</p>` : ''}
-    </div>
-
-    <div class="we-card">
-      <p class="we-card__label">What this means</p>
-      <p class="we-body">${esc(means)}</p>
-    </div>
-
-    <div class="we-card">
-      <p class="we-card__label">What may affect your result</p>
-      <ul class="we-list">${affectsHtml}</ul>
-    </div>
-
-    ${cautionHtml}
-
-    <div class="we-next">
-      <p class="we-card__label">Your next best step</p>
-      <p class="we-next__head">${esc(step.primary)}</p>
-      <p class="we-next__note">${esc(step.note)}</p>
-      <div class="we-cta-row">
-        <a class="we-btn we-btn--full" href="mailto:hello@wholesomeempire.ca?subject=${encodeURIComponent(step.primary + ' — ' + computed.bestFitPath)}">${esc(step.primary)}</a>
-        <button class="we-btn we-btn--ghost we-btn--full" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)" id="secondary">${esc(secondary)}</button>
+      <div class="we-block">
+        <p class="we-block__label">Where we'd start</p>
+        <p class="we-path">${esc(computed.bestFitPath)}</p>
       </div>
-    </div>
 
-    <div class="we-card">
-      <p class="we-card__label">Consult prep checklist</p>
-      <ul class="we-list we-check-list">${checkHtml}</ul>
-    </div>
+      <div class="we-block">
+        <p class="we-block__label">Your readiness</p>
+        <span class="we-badge">${esc(computed.readinessStage)}</span>
+        ${stageMeaning ? `<p class="we-body">${esc(stageMeaning)}</p>` : ''}
+      </div>
 
-    <p class="we-disclaimer">${esc(DISCLAIMER)}</p>
+      <div class="we-block">
+        <p class="we-block__label">What this means</p>
+        <p class="we-body" style="margin-top:0">${esc(means)}</p>
+      </div>
+
+      ${fearHtml}
+
+      <div class="we-block">
+        <p class="we-block__label">What may shape your result</p>
+        <ul class="we-list">${affectsHtml}</ul>
+      </div>
+
+      ${cautionHtml}
+
+      <div class="we-next">
+        <p class="we-next__label">Your next best step</p>
+        <p class="we-next__head">${esc(step.primary)}</p>
+        <p class="we-next__note">${esc(step.note)}</p>
+        <div class="we-cta-row">
+          <a class="we-btn we-btn--full" href="mailto:hello@wholesomeempire.ca?subject=${encodeURIComponent(step.primary + ' — ' + computed.bestFitPath)}">${esc(step.primary)}</a>
+          <button class="we-btn we-btn--ghost we-btn--full" id="secondary">${esc(secondary)}</button>
+        </div>
+      </div>
+
+      <div class="we-block">
+        <p class="we-block__label">To prepare</p>
+        <ul class="we-list we-check-list">${checkHtml}</ul>
+      </div>
+
+      <div class="we-closing">
+        <p>${esc(LETTER.closing)}</p>
+        <p class="we-signoff">${esc(LETTER.signoff)}</p>
+      </div>
+
+      <p class="we-disclaimer">${esc(DISCLAIMER)}</p>
+    </div>
   `);
 
-  const sec = document.getElementById('secondary');
+  // soft cascade on the report blocks
+  el.querySelectorAll('.we-stagger > *').forEach((node, i) => {
+    node.style.animationDelay = `${Math.min(i * 90, 720)}ms`;
+  });
+
+  const sec = el.querySelector('#secondary');
   sec && sec.addEventListener('click', () => {
     window.location.href = 'mailto:hello@wholesomeempire.ca?subject=' +
       encodeURIComponent('Question about ' + computed.bestFitPath);
@@ -524,30 +592,25 @@ function showResult(computed, firstName) {
 }
 
 // --- navigation ------------------------------------------------------------
-let current = null; // id of the screen on display
-
+let current = null;
 function goto(id) {
   current = id;
   if (id === 'contact') showContact();
   else showQuestion(id);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-// Called after an option is chosen — walk one step forward in the branch flow.
 function advance() {
   const flow = flowFor(answers.concern);
   const next = flow[flow.indexOf(current) + 1];
   stack.push(current);
-  if (!next || next === 'result') return; // result is shown after contact submit
+  if (!next || next === 'result') return;
   goto(next);
 }
-
 $back.addEventListener('click', () => {
   if (!stack.length) return;
   goto(stack.pop());
 });
 
-// boot
 showWelcome();
 </script>
 </body>

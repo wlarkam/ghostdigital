@@ -200,6 +200,23 @@ export const SCREENS = {
       { id: 'unsure', label: 'Not sure' },
     ],
   },
+
+  // The emotional pivot — the one question no clinic form asks. Every option is
+  // a real, common hesitation; there is no wrong answer. The report answers it.
+  barrier: {
+    id: 'barrier',
+    eyebrow: 'One honest question',
+    question: "What's really holding you back?",
+    help: 'There is no wrong answer here. It only helps us meet you where you are.',
+    options: [
+      { id: 'natural', label: "I worry it won't look natural" },
+      { id: 'hopeless', label: "I've been told nothing can be done" },
+      { id: 'not_ready', label: "I'm not sure I'm ready" },
+      { id: 'self_conscious', label: 'I feel self-conscious even asking' },
+      { id: 'cost', label: "Whether it's worth the cost" },
+      { id: 'nothing', label: "Honestly, nothing — I'm ready" },
+    ],
+  },
 };
 
 // ---------------------------------------------------------------------------
@@ -209,13 +226,13 @@ export const SCREENS = {
 export function flowFor(concern) {
   switch (concern) {
     case 'scars':
-      return ['concern', 'goal_scars', 'timeline', 'scar_heal', 'scar_state', 'scar_area', 'contact', 'result'];
+      return ['concern', 'goal_scars', 'timeline', 'scar_heal', 'scar_state', 'scar_area', 'barrier', 'contact', 'result'];
     case 'smp':
-      return ['concern', 'goal_smp', 'timeline', 'smp_situation', 'smp_look', 'smp_prior', 'contact', 'result'];
+      return ['concern', 'goal_smp', 'timeline', 'smp_situation', 'smp_look', 'smp_prior', 'barrier', 'contact', 'result'];
     case 'brows':
-      return ['concern', 'goal_brows', 'timeline', 'brow_fill', 'brow_prev', 'brow_style', 'contact', 'result'];
+      return ['concern', 'goal_brows', 'timeline', 'brow_fill', 'brow_prev', 'brow_style', 'barrier', 'contact', 'result'];
     case 'unsure':
-      return ['concern', 'goal_unsure', 'timeline', 'contact', 'result'];
+      return ['concern', 'goal_unsure', 'timeline', 'barrier', 'contact', 'result'];
     default:
       // Before a concern is chosen, the flow is just the first question.
       return ['concern'];
@@ -313,6 +330,53 @@ export const REPORT = {
     wait_prepare: { primary: 'Get Your Prep Guide', note: "We'll help you prepare now and revisit when the timing is right." },
     learn_more: { primary: 'Learn More First', note: 'A little context before you decide anything.' },
   },
+};
+
+// The fear answered — one warm, compliance-safe reply per hesitation. This is
+// the emotional core of the report. Never promises a result. [NEEDS_VOICE_REVIEW]
+REPORT.barrierResponse = {
+  natural:
+    "The fear of looking 'done' is the most common thing we hear — and it's exactly why good " +
+    'paramedical work is built slowly, in thin layers, matched to your own skin and colouring. ' +
+    'Looking like yourself is the entire point.',
+  hopeless:
+    "Being told 'nothing can be done' is often the reason people wait years longer than they " +
+    'needed to. What is possible has changed a great deal. It is worth a fresh look — though a ' +
+    'specialist would still need to assess your specific situation before saying anything for certain.',
+  not_ready:
+    'Not being sure is a completely valid place to stand. There is no clock here and no pressure. ' +
+    'Understanding your options — and nothing more — is a perfectly good reason to have come today.',
+  self_conscious:
+    'Reaching out took something, and we do not take that lightly. Feeling exposed is exactly why ' +
+    'this stays private: no photos are required to begin, and your first step can be a quiet ' +
+    'conversation, entirely on your terms.',
+  cost:
+    'Wondering whether it is worth it is fair and honest. The clinic can walk you through what is ' +
+    'involved and what payment options exist before you decide anything at all.',
+  nothing:
+    "Then let's not slow you down. Here is a clear place to start.",
+};
+
+// A short line of acknowledgment shown on the result, keyed by concern.
+REPORT.acknowledgment = {
+  scars: 'Scars carry stories you did not choose. This is about giving you a say in how they are seen.',
+  smp: 'Hair loss can feel like losing a piece of yourself. Wanting it back is reason enough to be here.',
+  brows: 'Brows frame everything. It makes complete sense to want them to feel like yours again.',
+  unsure: 'Not knowing where to start is its own kind of weight. Let us take the first step with you.',
+};
+
+// The letter frame — opening salutation + restorative closing. Collective clinic
+// voice (not a fabricated individual). The close carries the brand's own promise:
+// turning what you carry into strength. Emotional, never a treatment claim.
+export const LETTER = {
+  open: (first) => `${first ? first + ',' : 'Hello,'}`,
+  lede:
+    "Thank you for answering honestly. Here is what your answers tell us about where to start — " +
+    'and, just as importantly, what they tell us about you.',
+  closing:
+    "Whatever brought you here, you have carried it long enough. Healing is not about erasing what " +
+    'happened. It is about choosing how it is seen from here. When you are ready, we will be here.',
+  signoff: 'With care,\nWholesome Empire',
 };
 
 // Caution-flag codes → human labels (report + internal summary).

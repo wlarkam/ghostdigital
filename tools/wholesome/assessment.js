@@ -172,8 +172,23 @@ function tagsFor(branch, a, route, stage) {
   if (flags.includes('previous_brow_work')) tags.add('previous_brow_work');
   if (flags.includes('scalp_scar')) tags.add('scalp_scar');
   if (flags.includes('medical_clearance_possible')) tags.add('medical_clearance_possible');
+  // Hesitation (the name-the-fear answer) — powerful follow-up context.
+  if (a.barrier && a.barrier !== 'nothing') {
+    tags.add('has_hesitation');
+    tags.add(`barrier_${a.barrier}`);
+  }
   return [...tags];
 }
+
+// The hesitation, phrased as a follow-up angle for the clinic.
+const BARRIER_ANGLE = {
+  natural: 'reassure on natural-looking results',
+  hopeless: 'gently reopen what is possible — has been told nothing can be done',
+  not_ready: 'no-pressure; offer information first, not a booking',
+  self_conscious: 'lead with privacy and a low-exposure first step',
+  cost: 'be upfront about cost and payment options',
+  nothing: 'ready to move — keep momentum',
+};
 
 // --- Internal lead summary --------------------------------------------------
 function label(map, key) {
@@ -202,6 +217,9 @@ function internalSummary(name, branch, a, route, stage, nextStepId, flags) {
     learn_more: 'lead with education, no pressure to book',
   }[nextStepId];
   parts.push(`Suggested next step: ${nextText}.`);
+  if (a.barrier && a.barrier !== 'nothing' && BARRIER_ANGLE[a.barrier]) {
+    parts.push(`Follow-up angle: ${BARRIER_ANGLE[a.barrier]}.`);
+  }
   if (flags.length) {
     const flagText = flags.map((f) => f.replace(/_/g, ' ')).join(', ');
     parts.push(`Caution flags: ${flagText}.`);
@@ -234,6 +252,7 @@ export function assess(answers = {}, meta = {}) {
     branch,
     goal: goalFor(branch, a) || null,
     timeline: a.timeline || null,
+    barrier: a.barrier || null,
     pathFamily: route.family, // revision | camouflage | smp | brow | match
     bestFitPath: route.path,
     readinessStage,

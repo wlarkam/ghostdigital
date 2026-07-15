@@ -187,3 +187,28 @@ test('no diagnosis language leaks into path names', () => {
 test('event timeline tag applied', () => {
   assert.ok(assess(brow({ timeline: 'event' })).tags.includes('event_timeline'));
 });
+
+// --- Name-the-fear (barrier) -----------------------------------------------
+test('barrier is captured and tagged', () => {
+  const r = assess(scar({ barrier: 'self_conscious' }));
+  assert.equal(r.barrier, 'self_conscious');
+  assert.ok(r.tags.includes('has_hesitation'));
+  assert.ok(r.tags.includes('barrier_self_conscious'));
+});
+
+test('barrier "nothing" does not add a hesitation tag', () => {
+  const r = assess(scar({ barrier: 'nothing' }));
+  assert.equal(r.barrier, 'nothing');
+  assert.ok(!r.tags.includes('has_hesitation'));
+});
+
+test('barrier drives a follow-up angle in the internal summary', () => {
+  const r = assess(smp({ barrier: 'cost' }), { name: 'Dana' });
+  assert.match(r.internalSummary, /Follow-up angle: be upfront about cost/);
+});
+
+test('no barrier answer -> no barrier field noise', () => {
+  const r = assess(brow());
+  assert.equal(r.barrier, null);
+  assert.ok(!r.tags.includes('has_hesitation'));
+});
