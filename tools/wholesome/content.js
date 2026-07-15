@@ -214,7 +214,7 @@ export const SCREENS = {
       { id: 'not_ready', label: "I'm not sure I'm ready" },
       { id: 'self_conscious', label: 'I feel self-conscious even asking' },
       { id: 'cost', label: "Whether it's worth the cost" },
-      { id: 'nothing', label: "Honestly, nothing — I'm ready" },
+      { id: 'nothing', label: "Honestly, nothing. I'm ready" },
     ],
   },
 };
@@ -336,16 +336,16 @@ export const REPORT = {
 // the emotional core of the report. Never promises a result. [NEEDS_VOICE_REVIEW]
 REPORT.barrierResponse = {
   natural:
-    "The fear of looking 'done' is the most common thing we hear — and it's exactly why good " +
+    "The fear of looking 'done' is the most common thing we hear. It is exactly why good " +
     'paramedical work is built slowly, in thin layers, matched to your own skin and colouring. ' +
     'Looking like yourself is the entire point.',
   hopeless:
     "Being told 'nothing can be done' is often the reason people wait years longer than they " +
-    'needed to. What is possible has changed a great deal. It is worth a fresh look — though a ' +
+    'needed to. What is possible has changed a great deal. It is worth a fresh look, though a ' +
     'specialist would still need to assess your specific situation before saying anything for certain.',
   not_ready:
     'Not being sure is a completely valid place to stand. There is no clock here and no pressure. ' +
-    'Understanding your options — and nothing more — is a perfectly good reason to have come today.',
+    'Understanding your options, and nothing more, is a perfectly good reason to have come today.',
   self_conscious:
     'Reaching out took something, and we do not take that lightly. Feeling exposed is exactly why ' +
     'this stays private: no photos are required to begin, and your first step can be a quiet ' +
@@ -354,7 +354,7 @@ REPORT.barrierResponse = {
     'Wondering whether it is worth it is fair and honest. The clinic can walk you through what is ' +
     'involved and what payment options exist before you decide anything at all.',
   nothing:
-    "Then let's not slow you down. Here is a clear place to start.",
+    "Then let's not slow you down. You've got a clear place to start.",
 };
 
 // A short line of acknowledgment shown on the result, keyed by concern.
@@ -371,11 +371,11 @@ REPORT.acknowledgment = {
 export const LETTER = {
   open: (first) => `${first ? first + ',' : 'Hello,'}`,
   lede:
-    "Thank you for answering honestly. Here is what your answers tell us about where to start — " +
-    'and, just as importantly, what they tell us about you.',
+    'Thank you for answering honestly. Your answers point to where you might begin. They also say ' +
+    'something about you, and that matters just as much.',
   closing:
-    "Whatever brought you here, you have carried it long enough. Healing is not about erasing what " +
-    'happened. It is about choosing how it is seen from here. When you are ready, we will be here.',
+    'Whatever brought you here, you have carried it long enough. Healing puts you back in charge of ' +
+    'how your story is seen from here. When you are ready, we will be here.',
   signoff: 'With care,\nWholesome Empire',
 };
 
