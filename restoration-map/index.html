@@ -234,7 +234,22 @@ import { assess } from '/tools/wholesome/assessment.js';
 import { SCREENS, flowFor, REPORT, FLAG_LABELS, DISCLAIMER, LETTER, personalSummary } from '/tools/wholesome/content.js';
 
 // ---- config (swap for the clinic's real details before launch) ----
-const CONFIG = { clinicEmail: 'hello@wholesomeempire.ca', bookingUrl: '' };
+const CONFIG = {
+  clinicEmail: 'hello@wholesomeempire.ca',   // [TODO: confirm]
+  site: 'https://wholesomeempire.ca',        // [TODO: confirm] — fallback for "learn more"
+  bookingUrl: '',                            // [TODO: booking link. Empty = email fallback.]
+  prepGuideUrl: '',                          // [TODO: prep-guide page/PDF for wait-and-prepare leads]
+  treatmentUrls: { revision: '', camouflage: '', smp: '', brow: '', match: '' }, // [TODO: per-treatment pages]
+};
+const treatmentUrl = (fam) => CONFIG.treatmentUrls[fam] || CONFIG.site;
+function ctaHref(nextStepId, fam, label, path) {
+  const mail = `mailto:${CONFIG.clinicEmail}?subject=${encodeURIComponent(label + ': ' + path)}`;
+  if (nextStepId === 'learn_more') return treatmentUrl(fam);
+  if (nextStepId === 'wait_prepare') return CONFIG.prepGuideUrl || mail;
+  if (nextStepId === 'consult_phone' || nextStepId === 'consult_brow') return CONFIG.bookingUrl || mail;
+  return mail; // photo_review — photos are sent by email
+}
+const extAttr = (h) => (/^https?:/.test(h) ? ' target="_blank" rel="noopener"' : '');
 
 // ---- session ----
 const uuid = () => (crypto.randomUUID ? crypto.randomUUID()
@@ -485,8 +500,9 @@ function showReport(computed, name) {
   const step = REPORT.nextStep[computed.nextStepId] || REPORT.nextStep.photo_review;
   const told = personalSummary(answers);
   const fear = computed.barrier ? REPORT.barrierResponse[computed.barrier] : '';
-  const primaryHref = CONFIG.bookingUrl || `mailto:${CONFIG.clinicEmail}?subject=${encodeURIComponent(step.primary + ': ' + computed.bestFitPath)}`;
-  const secondary = (computed.nextStepId === 'consult_phone' || computed.nextStepId === 'consult_brow') ? 'Email me my report' : 'Learn more about this treatment';
+  const primaryHref = ctaHref(computed.nextStepId, fam, step.primary, computed.bestFitPath);
+  const secondaryHref = treatmentUrl(fam);
+  const secondary = 'Learn more about this treatment';
   const today = new Date().toLocaleDateString('en-CA');
 
   paint(`
@@ -523,8 +539,8 @@ function showReport(computed, name) {
             <p class="rm-next__h">${esc(step.primary)}</p>
             <p class="rm-next__d">${esc(step.note)}</p>
             <div class="rm-cta-row">
-              <a class="rm-btn rm-btn--full" href="${primaryHref}">${esc(step.primary)}</a>
-              <a class="rm-btn rm-btn--ghostlight rm-btn--full" href="mailto:${CONFIG.clinicEmail}?subject=${encodeURIComponent('Question about ' + computed.bestFitPath)}">${esc(secondary)}</a>
+              <a class="rm-btn rm-btn--full" href="${primaryHref}"${extAttr(primaryHref)}>${esc(step.primary)}</a>
+              <a class="rm-btn rm-btn--ghostlight rm-btn--full" href="${secondaryHref}"${extAttr(secondaryHref)}>${esc(secondary)}</a>
             </div>
           </div>
         </div>

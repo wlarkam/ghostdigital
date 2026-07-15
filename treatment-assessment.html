@@ -433,9 +433,24 @@ const $sticky = document.getElementById('sticky');
 // ---- Clinic config — swap these for the clinic's real details before launch.
 const CONFIG = {
   clinicEmail: 'hello@wholesomeempire.ca',   // [TODO: confirm with clinic]
-  bookingUrl: '',                            // [TODO: clinic's real booking link (Calendly/Acuity/site). Empty = fall back to email.]
+  site: 'https://wholesomeempire.ca',        // [TODO: confirm] — fallback for "learn more"
+  bookingUrl: '',                            // [TODO: booking link (Calendly/Acuity/site). Empty = email fallback.]
+  prepGuideUrl: '',                          // [TODO: prep-guide page/PDF for wait-and-prepare leads]
+  treatmentUrls: {                           // [TODO: deep link to each treatment page on the clinic site]
+    revision: '', camouflage: '', smp: '', brow: '', match: '',
+  },
 };
 const MAIL = CONFIG.clinicEmail;
+const treatmentUrl = (fam) => CONFIG.treatmentUrls[fam] || CONFIG.site;
+const extAttr = (h) => (/^https?:/.test(h) ? ' target="_blank" rel="noopener"' : '');
+// Point the primary CTA at the right destination for the recommended step.
+function ctaHref(nextStepId, fam, label, path) {
+  const mail = `mailto:${MAIL}?subject=${encodeURIComponent(label + ': ' + path)}`;
+  if (nextStepId === 'learn_more') return treatmentUrl(fam);
+  if (nextStepId === 'wait_prepare') return CONFIG.prepGuideUrl || mail;
+  if (nextStepId === 'consult_phone' || nextStepId === 'consult_brow') return CONFIG.bookingUrl || mail;
+  return mail; // photo_review — photos are sent by email
+}
 function hideSticky() { $sticky.classList.remove('is-shown'); $sticky.setAttribute('aria-hidden', 'true'); }
 
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
@@ -666,7 +681,7 @@ function showResult(computed, firstName) {
   const told = personalSummary(answers); // the answer-referencing paragraph
   const days = computed.branch === 'scars' ? carriedDays() : null;
 
-  const primaryHref = CONFIG.bookingUrl || `mailto:${MAIL}?subject=${encodeURIComponent(step.primary + ': ' + computed.bestFitPath)}`;
+  const primaryHref = ctaHref(computed.nextStepId, fam, step.primary, computed.bestFitPath);
 
   const cautions = (computed.cautionFlags || [])
     .filter(f => f !== 'wait_prepare')
@@ -685,8 +700,8 @@ function showResult(computed, firstName) {
       <p>${esc(fearReply)}</p>
     </div>` : '';
 
-  const secondary = computed.nextStepId === 'consult_phone' || computed.nextStepId === 'consult_brow'
-    ? 'Email Me My Report' : 'Learn More About This Treatment';
+  const secondary = 'Learn More About This Treatment';
+  const secondaryHref = treatmentUrl(fam);
 
   const el = paint(`
     <div class="we-stagger">
@@ -700,7 +715,7 @@ function showResult(computed, firstName) {
           <p class="we-plan__path">${esc(computed.bestFitPath)}</p>
           <span class="we-badge">${esc(computed.readinessStage)}</span>
         </div>
-        <a class="we-btn we-btn--full" href="${primaryHref}">${esc(step.primary)}</a>
+        <a class="we-btn we-btn--full" href="${primaryHref}"${extAttr(primaryHref)}>${esc(step.primary)}</a>
         <p class="we-plan__peek">Below: <b>what you told us</b>, what may shape your result, and your <b>consult prep checklist</b>.</p>
       </div>
 
@@ -734,8 +749,8 @@ function showResult(computed, firstName) {
         <p class="we-next__head">${esc(step.primary)}</p>
         <p class="we-next__note">${esc(step.note)}</p>
         <div class="we-cta-row">
-          <a class="we-btn we-btn--full" href="${primaryHref}">${esc(step.primary)}</a>
-          <button class="we-btn we-btn--ghost we-btn--full" id="secondary">${esc(secondary)}</button>
+          <a class="we-btn we-btn--full" href="${primaryHref}"${extAttr(primaryHref)}>${esc(step.primary)}</a>
+          <a class="we-btn we-btn--ghost we-btn--full" href="${secondaryHref}"${extAttr(secondaryHref)}>${esc(secondary)}</a>
         </div>
       </div>
 
@@ -769,15 +784,12 @@ function showResult(computed, firstName) {
     io.observe(numEl);
   }
 
-  const sec = el.querySelector('#secondary');
-  sec && sec.addEventListener('click', () => {
-    window.location.href = `mailto:${MAIL}?subject=` + encodeURIComponent('Question about ' + computed.bestFitPath);
-  });
-
   // persistent next-step bar
   document.getElementById('stickyLabel').textContent = step.primary;
   const sb = document.getElementById('stickyBtn');
   sb.setAttribute('href', primaryHref);
+  if (/^https?:/.test(primaryHref)) { sb.setAttribute('target', '_blank'); sb.setAttribute('rel', 'noopener'); }
+  else { sb.removeAttribute('target'); sb.removeAttribute('rel'); }
   sb.textContent = step.primary;
   $sticky.setAttribute('aria-hidden', 'false');
   requestAnimationFrame(() => $sticky.classList.add('is-shown'));
