@@ -172,6 +172,27 @@ button{font-family:inherit}
 .we-btn--ghost:hover{ background:transparent; border-color:var(--we-olive); color:var(--we-olive-soft); box-shadow:none; }
 .we-microcopy{ font-size:13px; color:var(--we-ink-soft); margin:18px 0 0; }
 
+/* --- concierge chat (POC, ?mode=chat) ------------------------------------ */
+.we-chat{ display:flex; flex-direction:column; min-height:calc(100vh - 62px); }
+.we-chat__log{ flex:1; display:flex; flex-direction:column; gap:14px; padding:34px 0 20px; }
+.we-msg{ max-width:82%; font-size:15.5px; line-height:1.55; padding:14px 17px; border-radius:18px; animation:we-rise 380ms var(--we-ease) both; }
+.we-msg--bot{ align-self:flex-start; background:var(--we-surface); border:1px solid var(--we-rule); border-bottom-left-radius:5px; color:var(--we-ink); }
+.we-msg--user{ align-self:flex-end; background:var(--we-olive-tint); border:1px solid rgba(142,156,114,.32); border-bottom-right-radius:5px; color:var(--we-cream); }
+.we-typing{ align-self:flex-start; display:flex; gap:5px; padding:16px 18px; background:var(--we-surface); border:1px solid var(--we-rule); border-radius:18px; border-bottom-left-radius:5px; }
+.we-typing span{ width:7px; height:7px; border-radius:50%; background:var(--we-ink-soft); animation:we-blink 1.2s infinite both; }
+.we-typing span:nth-child(2){ animation-delay:.2s } .we-typing span:nth-child(3){ animation-delay:.4s }
+@keyframes we-blink{ 0%,60%,100%{opacity:.25;transform:translateY(0)} 30%{opacity:1;transform:translateY(-3px)} }
+.we-suggest{ display:flex; flex-wrap:wrap; gap:8px; padding:2px 0 8px; }
+.we-suggest button{ cursor:pointer; font-family:var(--we-font-body); font-size:13.5px; color:var(--we-ink-2); background:transparent; border:1px solid var(--we-rule-2); border-radius:var(--we-radius-pill); padding:9px 15px; transition:all 160ms var(--we-ease); }
+.we-suggest button:hover{ border-color:var(--we-olive); color:var(--we-ink); background:var(--we-olive-tint); }
+.we-chat__bar{ position:sticky; bottom:0; display:flex; gap:10px; align-items:flex-end; padding:14px 0 20px; background:linear-gradient(180deg, transparent, var(--we-void) 26%); }
+.we-chat__input{ flex:1; resize:none; font-family:inherit; font-size:15.5px; line-height:1.4; color:var(--we-ink); background:rgba(0,0,0,.28); border:1px solid var(--we-rule-2); border-radius:20px; padding:13px 17px; max-height:120px; }
+.we-chat__input:focus{ outline:none; border-color:var(--we-olive); }
+.we-chat__input::placeholder{ color:var(--we-ink-soft); }
+.we-chat__send{ flex:none; width:46px; height:46px; border-radius:50%; border:none; cursor:pointer; background:var(--we-cream); color:var(--we-void); font-size:18px; display:flex; align-items:center; justify-content:center; transition:background 180ms var(--we-ease); }
+.we-chat__send:hover{ background:var(--we-olive-soft); }
+.we-chat__note{ text-align:center; font-size:11.5px; color:var(--we-ink-soft); padding:0 0 10px; letter-spacing:.02em; }
+
 /* --- result: plan summary strip ------------------------------------------ */
 .we-plan{
   background:linear-gradient(180deg, rgba(142,156,114,.12), rgba(142,156,114,.03));
@@ -673,7 +694,163 @@ $back.addEventListener('click', () => {
   goto(stack.pop());
 });
 
-showWelcome();
+// ===========================================================================
+// CONCIERGE — proof of concept (?mode=chat)
+// A conversational skin over the SAME engine. It only gathers answers; the
+// tested assess() still routes and showResult() still renders. In this demo
+// the "understanding" is keyword-based; the live version swaps in Claude via
+// /api/wholesome-chat.js (see tools/wholesome/concierge-prompt.md for the
+// guardrails). The deterministic engine is the safety net in both.
+// ===========================================================================
+const ACKS = ['Thank you for that.', 'That helps.', 'I appreciate you sharing that.', 'Got it — thank you.'];
+const BOT_ASK = {
+  concern: "To start — what's brought you in today? You can just tell me in your own words.",
+  goal_scars: 'When you picture the change you most want, is it more the texture and how the skin feels, or the colour and how much it stands out?',
+  goal_smp: 'What are you most hoping for with your scalp or hair?',
+  goal_brows: 'What kind of brow result are you hoping for?',
+  goal_unsure: "That's completely okay. What would feel most helpful to walk away with today?",
+  timeline: 'Good to know. And where are you in all this — just starting to look into it, or closer to ready?',
+  scar_heal: 'That helps. Roughly how long has the area been there, or been healing?',
+  scar_state: 'And when you look at it now, how would you describe it?',
+  scar_area: "Where on your body is it, if you're comfortable sharing?",
+  smp_situation: 'How would you describe your hair or scalp right now?',
+  smp_look: 'And the look you have in mind?',
+  smp_prior: 'Have you had any hair restoration or scalp work before?',
+  brow_fill: 'Do you fill your brows in day to day?',
+  brow_prev: 'Have you had brow tattooing or microblading before?',
+  brow_style: 'What style feels closest to what you want?',
+  barrier: "One last, honest question — and there's genuinely no wrong answer. What's the thing that's really been holding you back?",
+};
+const SYN = {
+  concern: { scars:['scar','stretch','mark','c-section','csection','surgery','surgical','burn','cut','wound'], smp:['hair','hairline','bald','thin','scalp','receding','density','crown','shave'], brows:['brow','eyebrow','microblad'], unsure:['not sure','unsure',"don't know",'dont know','no idea','guidance','help'] },
+  goal_scars: { texture:['texture','raised','bumpy','feel','rough','indent','damage'], colour:['colour','color','red','white','dark','visible','contrast','stands out','discolour','discolor','tone'], both:['both','and colour','and color'], unsure:['not sure','dont know',"don't know",'no idea'] },
+  timeline: { ready:['ready','soon','book','asap','now'], researching:['research','looking','browsing','info','learning','exploring','reading'], waiting:['wait','right time','later','someday','eventually'], event:['event','wedding','vacation','holiday','trip','summer','date coming'], unsure_ready:['not sure','unsure',"don't know",'dont know'] },
+  scar_heal: { lt6:['less than 6','under 6','few months','couple months','recent','new','3 month','4 month','5 month'], '6to12':['6 to 12','6-12','half a year','8 month','9 month','10 month','under a year'], over1:['over a year','more than a year','year and','1 year','a year','13 month','18 month','two year','2 year'], several:['several','years ago','long time','many years','decade','5 year','ten year','childhood','since i was'], unsure:['not sure',"don't remember",'dont remember','no idea'] },
+  scar_state: { flat:['flat','settled','smooth','healed','fine now','normal'], raised:['raised','bumpy','thick','keloid','lumpy'], indented:['indent','sunken','pitted','divot','depress'], changing:['red','pink','changing','still healing','fresh','purple'], sensitive:['sensitive','irritated','itchy','sore','painful','tender'], unsure:['not sure','dont know',"don't know"] },
+  scar_area: { stomach:['stomach','belly','tummy','abdomen','c-section','csection'], hips_thighs:['hip','thigh','leg','buttock','bum'], arms:['arm','elbow','wrist','forearm'], chest_shoulders:['chest','shoulder','breast','collar'], surgical:['surgery','surgical','operation','incision'], injury:['injury','accident','burn','fall'], other:['other','face','neck','back','elsewhere'] },
+  barrier: { natural:['natural','fake','look done','obvious','realistic','looks real'], hopeless:['nothing can be done','told','no hope','impossible','permanent','stuck','cant be',"can't be"], not_ready:['not ready','hesitant','scared','nervous'], self_conscious:['embarrass','self conscious','self-conscious','exposed','ashamed','shy','vulnerable','judge'], cost:['cost','price','money','afford','expensive','worth it','budget'], nothing:['nothing','ready','all good','lets go',"let's go",'excited','im good'] },
+};
+
+const chat = { flow: [], idx: 0, log: null, current: null, name: null, phase: 'q' };
+
+function startConcierge() {
+  $progress.classList.add('we-hidden');
+  const el = paint(`
+    <div class="we-chat">
+      <div class="we-chat__log" id="clog"></div>
+      <div class="we-chat__bar">
+        <textarea class="we-chat__input" id="cin" rows="1" placeholder="Type your reply…"></textarea>
+        <button class="we-chat__send" id="csend" aria-label="Send">→</button>
+      </div>
+      <p class="we-chat__note">Private concierge · a calm, unhurried conversation. Nothing here is shared without your say.</p>
+    </div>`, 'we-chat-wrap');
+  chat.log = el.querySelector('#clog');
+  const input = el.querySelector('#cin');
+  const submit = () => { const v = input.value.trim(); if (v) { input.value = ''; input.style.height = 'auto'; onUserText(v); } };
+  el.querySelector('#csend').addEventListener('click', submit);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); } });
+  input.addEventListener('input', () => { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 120) + 'px'; });
+  input.focus();
+  track('started', { utm_source: utmSource, mode: 'chat' });
+  botSequence([
+    "Hi — I'm really glad you're here. Take your time; there's no rush, and nothing you tell me is wrong.",
+    BOT_ASK.concern,
+  ], () => { chat.current = 'concern'; showSuggestions('concern'); });
+}
+
+function scrollLog() { chat.log.scrollTop = chat.log.scrollHeight; requestAnimationFrame(() => window.scrollTo(0, document.body.scrollHeight)); }
+function addMsg(text, who) { const d = document.createElement('div'); d.className = 'we-msg we-msg--' + who; d.textContent = text; chat.log.appendChild(d); scrollLog(); return d; }
+function typingDots() { const d = document.createElement('div'); d.className = 'we-typing'; d.innerHTML = '<span></span><span></span><span></span>'; chat.log.appendChild(d); scrollLog(); return d; }
+
+// Play bot messages with a human-feeling typing pause between each.
+function botSequence(msgs, done) {
+  let i = 0;
+  const step = () => {
+    if (i >= msgs.length) { done && done(); return; }
+    const t = typingDots();
+    setTimeout(() => { t.remove(); addMsg(msgs[i], 'bot'); i += 1; setTimeout(step, 240); }, Math.min(1000, 460 + msgs[i].length * 6));
+  };
+  step();
+}
+function botSay(text, done) { botSequence([text], done); }
+
+function showSuggestions(screenId) {
+  const s = SCREENS[screenId]; if (!s) return;
+  const old = chat.log.querySelector('.we-suggest'); if (old) old.remove();
+  const wrap = document.createElement('div'); wrap.className = 'we-suggest';
+  s.options.forEach(o => {
+    const b = document.createElement('button'); b.textContent = o.label;
+    b.addEventListener('click', () => { addMsg(o.label, 'user'); wrap.remove(); recordAnswer(screenId, o.id); });
+    wrap.appendChild(b);
+  });
+  chat.log.appendChild(wrap); scrollLog();
+}
+
+function onUserText(text) {
+  addMsg(text, 'user');
+  const old = chat.log.querySelector('.we-suggest'); if (old) old.remove();
+  if (chat.phase === 'name') { chat.name = (text.replace(/[^a-zA-Z' -]/g, '').trim().split(/\s+/)[0]) || text.trim(); askEmail(); return; }
+  if (chat.phase === 'email') {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) { botSay("That doesn't look quite like an email — mind checking it?"); return; }
+    chat.email = text.trim(); finishConcierge(); return;
+  }
+  const id = chat.current;
+  const opt = matchOption(id, text);
+  if (opt) recordAnswer(id, opt);
+  else botSay('I want to be sure I hear you right — which of these feels closest?', () => showSuggestions(id));
+}
+
+function recordAnswer(screenId, optId) {
+  answers[screenId] = optId;
+  if (screenId === 'concern') { chat.flow = flowFor(optId).filter(x => x !== 'result'); chat.idx = chat.flow.indexOf('concern'); }
+  advanceConcierge();
+}
+
+function advanceConcierge() {
+  chat.idx += 1;
+  const next = chat.flow[chat.idx];
+  if (!next || next === 'contact') { askName(); return; }
+  chat.current = next;
+  botSequence([ACKS[chat.idx % ACKS.length], BOT_ASK[next] || SCREENS[next].question], () => showSuggestions(next));
+}
+
+function askName() { chat.phase = 'name'; botSay('Thank you for trusting me with all of that. Before I put your report together — what should I call you?'); }
+function askEmail() { chat.phase = 'email'; botSay(`Lovely to meet you, ${chat.name}. And the best email to send your report to?`); }
+
+async function finishConcierge() {
+  chat.phase = 'done';
+  const computed = assess(answers, { name: chat.name });
+  botSay('Perfect. Give me one moment to put this together for you…');
+  try {
+    const r = await fetch('/api/wholesome-submit', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId, responses: answers, computed, referrer, utm_source: utmSource }) });
+    if (r.ok) { const j = await r.json(); submissionId = j.id; sessionId = j.session_id || sessionId; }
+  } catch (_) {}
+  try {
+    await fetch('/api/wholesome-contact', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ submission_id: submissionId, first_name: chat.name, email: chat.email, phone: null, opt_in_sms: false }) });
+  } catch (_) {}
+  track('contact_submitted', { path: computed.bestFitPath, mode: 'chat' });
+  track('completed', { path: computed.bestFitPath, stage: computed.readinessStage, mode: 'chat' });
+  setTimeout(() => showResult(computed, chat.name), 1000);
+}
+
+// Demo "understanding": keyword match against the current screen's options.
+// Live version replaces this with Claude (extraction + warmth), same output.
+function matchOption(screenId, text) {
+  const t = ' ' + text.toLowerCase() + ' ';
+  const syn = SYN[screenId]; if (!syn) return null;
+  const hits = [];
+  for (const [id, kws] of Object.entries(syn)) { if (kws.some(k => t.includes(k))) hits.push(id); }
+  if (!hits.length) return null;
+  if (screenId === 'goal_scars' && hits.includes('texture') && hits.includes('colour')) return 'both';
+  return hits[0];
+}
+
+// boot — tap flow by default; concierge on ?mode=chat
+const mode = new URLSearchParams(location.search).get('mode');
+if (mode === 'chat') startConcierge();
+else showWelcome();
 </script>
 </body>
 </html>
