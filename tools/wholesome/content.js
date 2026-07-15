@@ -88,7 +88,8 @@ export const SCREENS = {
   scar_heal: {
     id: 'scar_heal',
     eyebrow: 'The area',
-    question: 'How long has the area been healed or visible?',
+    question: 'When did it first appear?',
+    help: 'A rough guess is completely fine.',
     options: [
       { id: 'lt6', label: 'Less than 6 months' },
       { id: '6to12', label: '6 to 12 months' },
@@ -478,6 +479,18 @@ export function personalSummary(answers = {}) {
   const g = p.goal_unsure[a.goal_unsure];
   return `You are still weighing where to start${g ? `, and what would help most is ${g}` : ''}.`;
 }
+
+// The "days you've carried this" reflection. Framing is deliberate: strength
+// and agency, never guilt. Shown only when we can compute a real number.
+// [NEEDS_VOICE_REVIEW]
+export const DAYS_COPY = {
+  label: 'Something to sit with',
+  unit: 'days',
+  body:
+    "That's roughly how long you've carried this. It isn't a number to feel bad about — it's a " +
+    "measure of how much you've quietly handled on your own. Whenever you feel ready, this is where " +
+    'it can start to change.',
+};
 
 // Caution-flag codes → human labels (report + internal summary).
 export const FLAG_LABELS = {

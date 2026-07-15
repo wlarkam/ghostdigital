@@ -330,6 +330,26 @@ button{font-family:inherit}
 }
 .we-signoff{ font-family:var(--we-font-display); font-weight:400; text-transform:uppercase; letter-spacing:.12em; font-size:13.5px; color:var(--we-olive-soft); white-space:pre-line; line-height:1.7; }
 
+/* the "days you've carried this" moment — the emotional crescendo */
+.we-days{ text-align:center; padding:40px 8px 4px; margin:14px 0 8px; border-top:1px solid var(--we-rule); }
+.we-days__label{ font-family:var(--we-font-display); font-weight:400; font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--we-olive-soft); margin:0 0 18px; }
+.we-days__num{ font-family:var(--we-font-display); font-weight:600; font-size:clamp(64px,17vw,124px); line-height:.92; letter-spacing:-.01em; color:var(--we-cream); margin:0; font-variant-numeric:tabular-nums; text-shadow:0 0 42px rgba(142,156,114,.28); }
+.we-days__unit{ font-family:var(--we-font-display); font-weight:500; text-transform:uppercase; letter-spacing:.32em; font-size:14px; color:var(--we-olive-soft); margin:8px 0 0; }
+.we-days__copy{ color:var(--we-ink-2); font-size:15.5px; line-height:1.64; max-width:34em; margin:22px auto 0; }
+
+/* "when did it start?" picker */
+.we-when{ display:flex; flex-direction:column; gap:16px; }
+.we-when__or{ display:flex; align-items:center; gap:14px; color:var(--we-ink-soft); font-size:12.5px; letter-spacing:.04em; text-transform:uppercase; }
+.we-when__or::before, .we-when__or::after{ content:""; flex:1; height:1px; background:var(--we-rule); }
+.we-when__year{
+  width:100%; padding:16px 18px; font-family:var(--we-font-body); font-size:16px; color:var(--we-ink);
+  background:rgba(0,0,0,.22) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%238E9C72' stroke-width='1.6'/></svg>") no-repeat right 18px center;
+  border:1px solid var(--we-rule-2); border-radius:var(--we-radius); appearance:none; -webkit-appearance:none; cursor:pointer;
+}
+.we-when__year:focus{ outline:none; border-color:var(--we-olive); box-shadow:0 0 0 3px var(--we-olive-tint); }
+.we-when__unsure{ align-self:flex-start; cursor:pointer; font-family:var(--we-font-body); font-size:14px; color:var(--we-ink-soft); background:transparent; border:none; padding:4px 2px; text-decoration:underline; text-underline-offset:3px; }
+.we-when__unsure:hover{ color:var(--we-olive-soft); }
+
 /* stagger children of the report for a soft cascade */
 .we-stagger>*{ animation:we-rise 640ms var(--we-ease) both; }
 
@@ -376,7 +396,7 @@ button{font-family:inherit}
 
 <script type="module">
 import { assess } from '/tools/wholesome/assessment.js';
-import { SCREENS, flowFor, REPORT, FLAG_LABELS, DISCLAIMER, LETTER, personalSummary } from '/tools/wholesome/content.js';
+import { SCREENS, flowFor, REPORT, FLAG_LABELS, DISCLAIMER, LETTER, DAYS_COPY, personalSummary } from '/tools/wholesome/content.js';
 
 // --- session + telemetry ---------------------------------------------------
 const uuid = () => (crypto.randomUUID ? crypto.randomUUID()
@@ -464,7 +484,9 @@ function showQuestion(screenId) {
   updateProgress(screenId);
   const selected = answers[screenId];
 
-  const inputHtml = `<div class="we-options">${s.options.map(o => `
+  const inputHtml = screenId === 'scar_heal'
+    ? renderWhenPicker(selected)
+    : `<div class="we-options">${s.options.map(o => `
       <button class="we-option ${selected === o.id ? 'is-selected' : ''}" data-id="${esc(o.id)}">
         <span class="we-option__tick"></span><span>${esc(o.label)}</span>
       </button>`).join('')}</div>`;
@@ -476,8 +498,10 @@ function showQuestion(screenId) {
     ${inputHtml}
   `);
 
-  // One unified select handler for every input type (options, regions, chips,
-  // timeline nodes) — anything carrying a data-id selects and advances.
+  if (screenId === 'scar_heal') { wireWhenPicker(el); return; }
+
+  // One unified select handler for every input type — anything carrying a
+  // data-id selects and advances.
   el.querySelectorAll('[data-id]').forEach(node => {
     node.addEventListener('click', () => {
       answers[screenId] = node.dataset.id;
@@ -487,6 +511,72 @@ function showQuestion(screenId) {
       setTimeout(advance, 260);
     });
   });
+}
+
+// "When did it first appear?" — recent chip + a year select + not-sure. Feeds
+// BOTH the readiness bucket (answers.scar_heal) and the real day count
+// (answers.scar_start), which powers the "days you've carried this" moment.
+const NOW_YEAR = new Date().getFullYear();
+function renderWhenPicker(selected) {
+  let years = '';
+  for (let y = NOW_YEAR; y >= NOW_YEAR - 45; y--) years += `<option value="${y}">${y}</option>`;
+  years += `<option value="older">Before ${NOW_YEAR - 45}</option>`;
+  return `
+    <div class="we-when">
+      <button class="we-option" data-heal="lt6"><span class="we-option__tick"></span><span>Within the last few months</span></button>
+      <div class="we-when__or"><span>or the year it started</span></div>
+      <select class="we-when__year" id="whenYear" aria-label="Year it started">
+        <option value="">Choose a year…</option>
+        ${years}
+      </select>
+      <button class="we-when__unsure" data-heal="unsure">I'm not sure</button>
+    </div>`;
+}
+function wireWhenPicker(el) {
+  const commit = (heal, startYear, recent) => {
+    answers.scar_heal = heal;
+    answers.scar_start = startYear ? { year: startYear } : (recent ? { recent: true } : null);
+    setTimeout(advance, 220);
+  };
+  el.querySelector('[data-heal="lt6"]').addEventListener('click', e => {
+    e.currentTarget.classList.add('is-selected'); commit('lt6', null, true);
+  });
+  el.querySelector('[data-heal="unsure"]').addEventListener('click', e => {
+    e.currentTarget.classList.add('is-selected'); commit('unsure', null, false);
+  });
+  el.querySelector('#whenYear').addEventListener('change', ev => {
+    const v = ev.target.value;
+    if (!v) return;
+    const year = v === 'older' ? NOW_YEAR - 46 : parseInt(v, 10);
+    const yearsAgo = NOW_YEAR - year;
+    const heal = yearsAgo >= 4 ? 'several' : yearsAgo >= 1 ? 'over1' : '6to12';
+    commit(heal, year, false);
+  });
+}
+
+// Real days carried, from the start the visitor gave us. null if unknown.
+function carriedDays() {
+  const s = answers.scar_start;
+  if (!s) return null;
+  if (s.recent) return 90;
+  if (!s.year) return null;
+  const days = Math.floor((Date.now() - new Date(s.year, 6, 1).getTime()) / 86400000);
+  return days > 30 ? days : null;
+}
+
+// Count up to the number when it scrolls into view. Honors reduced-motion.
+function animateCount(el, target) {
+  const fmt = n => n.toLocaleString('en-US');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = fmt(target); return; }
+  const dur = 1400, t0 = performance.now();
+  const tick = (t) => {
+    const p = Math.min(1, (t - t0) / dur);
+    el.textContent = fmt(Math.round(target * (1 - Math.pow(1 - p, 3))));
+    if (p < 1) requestAnimationFrame(tick); else el.textContent = fmt(target);
+  };
+  requestAnimationFrame(tick);
+  // Guarantee the final value even if rAF is throttled (backgrounded tab).
+  setTimeout(() => { el.textContent = fmt(target); }, dur + 150);
 }
 
 
@@ -569,6 +659,7 @@ function showResult(computed, firstName) {
   const ack = REPORT.acknowledgment[computed.branch] || '';
   const fearReply = computed.barrier ? REPORT.barrierResponse[computed.barrier] : '';
   const told = personalSummary(answers); // the answer-referencing paragraph
+  const days = computed.branch === 'scars' ? carriedDays() : null;
 
   const primaryHref = `mailto:${MAIL}?subject=${encodeURIComponent(step.primary + ': ' + computed.bestFitPath)}`;
 
@@ -643,6 +734,13 @@ function showResult(computed, firstName) {
         </div>
       </div>
 
+      ${days ? `<div class="we-days">
+        <p class="we-days__label">${esc(DAYS_COPY.label)}</p>
+        <p class="we-days__num" data-count="${days}">0</p>
+        <p class="we-days__unit">${esc(DAYS_COPY.unit)}</p>
+        <p class="we-days__copy">${esc(DAYS_COPY.body)}</p>
+      </div>` : ''}
+
       <div class="we-closing">
         <p>${esc(LETTER.closing)}</p>
         <p class="we-signoff">${esc(LETTER.signoff)}</p>
@@ -656,6 +754,15 @@ function showResult(computed, firstName) {
   el.querySelectorAll('.we-stagger > *').forEach((node, i) => {
     node.style.animationDelay = `${Math.min(i * 80, 640)}ms`;
   });
+
+  // Count the "days carried" up as it scrolls into view.
+  const numEl = el.querySelector('.we-days__num');
+  if (numEl) {
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => { if (e.isIntersecting) { animateCount(numEl, days); obs.disconnect(); } });
+    }, { threshold: 0.6 });
+    io.observe(numEl);
+  }
 
   const sec = el.querySelector('#secondary');
   sec && sec.addEventListener('click', () => {
