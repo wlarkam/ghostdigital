@@ -172,6 +172,66 @@ button{font-family:inherit}
 .we-btn--ghost:hover{ background:transparent; border-color:var(--we-olive); color:var(--we-olive-soft); box-shadow:none; }
 .we-microcopy{ font-size:13px; color:var(--we-ink-soft); margin:18px 0 0; }
 
+/* --- tactile: body map --------------------------------------------------- */
+.we-bodymap{ display:flex; flex-direction:column; align-items:center; gap:22px; padding:6px 0 0; }
+.we-figure{ stroke:var(--we-rule-2); }
+.we-region{ cursor:pointer; }
+.we-region rect{ fill:rgba(236,231,221,.03); stroke:transparent; stroke-width:1.5; transition:fill 200ms var(--we-ease), stroke 200ms var(--we-ease); }
+.we-region:hover rect{ fill:var(--we-olive-tint); stroke:var(--we-olive-soft); }
+.we-region:focus-visible{ outline:none; }
+.we-region:focus-visible rect{ stroke:var(--we-olive); }
+.we-region.is-selected rect{ fill:rgba(142,156,114,.28); stroke:var(--we-olive); filter:drop-shadow(0 0 8px rgba(142,156,114,.5)); }
+.we-chips{ display:flex; flex-wrap:wrap; gap:9px; justify-content:center; }
+.we-chip{
+  cursor:pointer; font-family:var(--we-font-body); font-size:14px; font-weight:450;
+  color:var(--we-ink-2); background:var(--we-surface); border:1px solid var(--we-rule);
+  border-radius:var(--we-radius-pill); padding:11px 18px; transition:all 180ms var(--we-ease);
+}
+.we-chip:hover{ border-color:var(--we-olive); color:var(--we-ink); }
+.we-chip:focus-visible{ outline:2px solid var(--we-olive); outline-offset:2px; }
+.we-chip.is-selected{ border-color:var(--we-olive); background:var(--we-olive-tint); color:var(--we-ink); }
+
+/* --- tactile: timeline --------------------------------------------------- */
+.we-timeline{ position:relative; padding:20px 8px 46px; margin:6px 0 4px; }
+.we-tl-track{ position:absolute; left:8px; right:8px; top:30px; height:2px; background:rgba(236,231,221,.12); border-radius:2px; }
+.we-tl-fill{ position:absolute; left:0; top:0; height:100%; background:linear-gradient(90deg,var(--we-olive-deep),var(--we-olive)); box-shadow:0 0 10px rgba(142,156,114,.5); border-radius:2px; transition:width 380ms var(--we-ease); }
+.we-tl-nodes{ position:relative; height:2px; }
+.we-tl-node{ position:absolute; top:-9px; transform:translateX(-50%); background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:14px; padding:0; }
+.we-tl-dot{ width:18px; height:18px; border-radius:50%; background:var(--we-surface-2); border:2px solid var(--we-ink-soft); transition:all 220ms var(--we-ease); }
+.we-tl-node:hover .we-tl-dot{ border-color:var(--we-olive-soft); }
+.we-tl-node:focus-visible{ outline:none; }
+.we-tl-node:focus-visible .we-tl-dot{ box-shadow:0 0 0 3px var(--we-olive-tint); }
+.we-tl-node.is-selected .we-tl-dot{ background:var(--we-olive); border-color:var(--we-olive); box-shadow:0 0 12px rgba(142,156,114,.7); transform:scale(1.15); }
+.we-tl-label{ font-size:11.5px; letter-spacing:.03em; color:var(--we-ink-soft); white-space:nowrap; text-align:center; }
+.we-tl-node.is-selected .we-tl-label{ color:var(--we-olive-soft); }
+.we-tl-unsure{ display:block; margin:8px auto 0; }
+@media(max-width:460px){ .we-tl-label{ font-size:10px; } .we-timeline{ padding-bottom:52px } }
+
+/* --- result: plan summary strip ------------------------------------------ */
+.we-plan{
+  background:linear-gradient(180deg, rgba(142,156,114,.12), rgba(142,156,114,.03));
+  border:1px solid rgba(142,156,114,.30); border-radius:var(--we-radius);
+  padding:22px 24px 24px; margin:0 0 30px;
+}
+.we-plan__row{ display:flex; align-items:baseline; justify-content:space-between; gap:14px; flex-wrap:wrap; margin:0 0 14px; }
+.we-plan__path{ font-family:var(--we-font-display); font-weight:500; text-transform:uppercase; font-size:clamp(21px,4.4vw,27px); line-height:1.06; color:var(--we-cream); margin:0; flex:1 1 auto; }
+.we-plan__peek{ font-size:13px; color:var(--we-ink-soft); margin:16px 0 0; padding:14px 0 0; border-top:1px solid var(--we-rule); }
+.we-plan__peek b{ color:var(--we-ink-2); font-weight:600; }
+
+/* --- result: sticky next-step bar ---------------------------------------- */
+.we-sticky{
+  position:fixed; left:0; right:0; bottom:0; z-index:40;
+  background:rgba(20,19,17,.86); backdrop-filter:blur(12px) saturate(1.1); -webkit-backdrop-filter:blur(12px) saturate(1.1);
+  border-top:1px solid var(--we-rule-2); padding:12px 20px;
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  transform:translateY(120%); transition:transform 420ms var(--we-ease);
+}
+.we-sticky.is-shown{ transform:none; }
+.we-sticky__label{ font-family:var(--we-font-display); text-transform:uppercase; letter-spacing:.08em; font-size:12px; color:var(--we-ink-soft); display:flex; flex-direction:column; gap:2px; }
+.we-sticky__label b{ color:var(--we-cream); font-weight:500; font-size:14px; letter-spacing:.04em; }
+.we-sticky .we-btn{ padding:13px 24px; font-size:14px; white-space:nowrap; }
+@media(max-width:520px){ .we-sticky__label{ display:none } .we-sticky{ justify-content:center } .we-sticky .we-btn{ width:100% } }
+
 /* --- disclaimer ---------------------------------------------------------- */
 .we-disclaimer{
   font-size:12.5px; line-height:1.6; color:var(--we-ink-soft);
@@ -317,6 +377,11 @@ button{font-family:inherit}
   </div>
 </main>
 
+<div class="we-sticky" id="sticky" aria-hidden="true">
+  <span class="we-sticky__label">Your next step<b id="stickyLabel"></b></span>
+  <a class="we-btn" id="stickyBtn" href="#">Continue</a>
+</div>
+
 <footer class="we-footer">
   <strong>Wholesome Empire YYC</strong><br />
   Where mastery meets compassion.<br />
@@ -325,7 +390,7 @@ button{font-family:inherit}
 
 <script type="module">
 import { assess } from '/tools/wholesome/assessment.js';
-import { SCREENS, flowFor, REPORT, FLAG_LABELS, DISCLAIMER, LETTER } from '/tools/wholesome/content.js';
+import { SCREENS, flowFor, REPORT, FLAG_LABELS, DISCLAIMER, LETTER, personalSummary } from '/tools/wholesome/content.js';
 
 // --- session + telemetry ---------------------------------------------------
 const uuid = () => (crypto.randomUUID ? crypto.randomUUID()
@@ -357,6 +422,10 @@ const $progress = document.getElementById('progress');
 const $fill = document.getElementById('fill');
 const $stepLabel = document.getElementById('stepLabel');
 const $back = document.getElementById('back');
+const $sticky = document.getElementById('sticky');
+
+const MAIL = 'hello@wholesomeempire.ca';
+function hideSticky() { $sticky.classList.remove('is-shown'); $sticky.setAttribute('aria-hidden', 'true'); }
 
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
 
@@ -408,25 +477,94 @@ function showQuestion(screenId) {
   if (!s) return;
   updateProgress(screenId);
   const selected = answers[screenId];
-  const opts = s.options.map(o => `
-    <button class="we-option ${selected === o.id ? 'is-selected' : ''}" data-id="${esc(o.id)}">
-      <span class="we-option__tick"></span><span>${esc(o.label)}</span>
-    </button>`).join('');
+
+  // Tactile inputs replace plain multiple-choice on select screens.
+  let inputHtml;
+  if (screenId === 'scar_area') inputHtml = renderBodyMap(s, selected);
+  else if (screenId === 'scar_heal') inputHtml = renderTimeline(s, selected);
+  else inputHtml = `<div class="we-options">${s.options.map(o => `
+      <button class="we-option ${selected === o.id ? 'is-selected' : ''}" data-id="${esc(o.id)}">
+        <span class="we-option__tick"></span><span>${esc(o.label)}</span>
+      </button>`).join('')}</div>`;
+
   const el = paint(`
     <p class="we-eyebrow">${esc(s.eyebrow || '')}</p>
     <h2 class="we-q">${esc(s.question)}</h2>
     ${s.help ? `<p class="we-help">${esc(s.help)}</p>` : ''}
-    <div class="we-options">${opts}</div>
+    ${inputHtml}
   `);
-  el.querySelectorAll('.we-option').forEach(btn => {
-    btn.addEventListener('click', () => {
-      answers[screenId] = btn.dataset.id;
-      if (screenId === 'concern') track('concern_selected', { concern: btn.dataset.id });
-      el.querySelectorAll('.we-option').forEach(b => b.classList.remove('is-selected'));
-      btn.classList.add('is-selected');
-      setTimeout(advance, 240);
+
+  // One unified select handler for every input type (options, regions, chips,
+  // timeline nodes) — anything carrying a data-id selects and advances.
+  el.querySelectorAll('[data-id]').forEach(node => {
+    node.addEventListener('click', () => {
+      answers[screenId] = node.dataset.id;
+      if (screenId === 'concern') track('concern_selected', { concern: node.dataset.id });
+      el.querySelectorAll('[data-id]').forEach(n => n.classList.remove('is-selected'));
+      node.classList.add('is-selected');
+      setTimeout(advance, 260);
     });
   });
+}
+
+// A diagrammatic body — tap where the area is. Non-location scar types sit as
+// chips beneath. Every target carries data-id matching a scar_area option.
+function renderBodyMap(s, selected) {
+  const region = (id, shape) => {
+    const on = selected === id ? ' is-selected' : '';
+    return `<g class="we-region${on}" data-id="${esc(id)}" role="button" tabindex="0" aria-label="${esc(labelFor(s, id))}">${shape}</g>`;
+  };
+  const chips = ['surgical', 'injury', 'other'].map(id => `
+    <button class="we-chip ${selected === id ? 'is-selected' : ''}" data-id="${esc(id)}">${esc(labelFor(s, id))}</button>`).join('');
+  return `
+    <div class="we-bodymap">
+      <svg viewBox="0 0 220 384" width="180" role="group" aria-label="Body map">
+        <!-- figure outline -->
+        <g class="we-figure" fill="none" stroke-width="1.5">
+          <circle cx="110" cy="34" r="21"/>
+          <rect x="101" y="53" width="18" height="14" rx="7"/>
+          <rect x="73" y="64" width="74" height="116" rx="26"/>
+          <rect x="49" y="70" width="19" height="100" rx="9.5"/>
+          <rect x="152" y="70" width="19" height="100" rx="9.5"/>
+          <rect x="78" y="176" width="26" height="150" rx="13"/>
+          <rect x="116" y="176" width="26" height="150" rx="13"/>
+        </g>
+        <!-- tappable regions (transparent until selected) -->
+        ${region('chest_shoulders', '<rect x="74" y="66" width="72" height="46" rx="22"/>')}
+        ${region('stomach', '<rect x="76" y="114" width="68" height="62" rx="18"/>')}
+        ${region('hips_thighs', '<rect x="78" y="178" width="64" height="66" rx="20"/>')}
+        ${region('arms', '<rect x="49" y="70" width="19" height="100" rx="9.5"/><rect x="152" y="70" width="19" height="100" rx="9.5"/>')}
+      </svg>
+      <div class="we-chips">${chips}</div>
+    </div>`;
+}
+
+// A timeline the visitor taps along — replaces the plain "how long ago" list.
+function renderTimeline(s, selected) {
+  const nodes = [
+    { id: 'lt6', label: 'Under 6 months' },
+    { id: '6to12', label: '6–12 months' },
+    { id: 'over1', label: 'Over a year' },
+    { id: 'several', label: 'Several years' },
+  ];
+  const idx = nodes.findIndex(n => n.id === selected);
+  const fill = idx >= 0 ? (idx / (nodes.length - 1)) * 100 : 0;
+  const dots = nodes.map((n, i) => `
+    <button class="we-tl-node ${selected === n.id ? 'is-selected' : ''}" data-id="${esc(n.id)}" style="left:${(i / (nodes.length - 1)) * 100}%">
+      <span class="we-tl-dot"></span>
+      <span class="we-tl-label">${esc(n.label)}</span>
+    </button>`).join('');
+  return `
+    <div class="we-timeline">
+      <div class="we-tl-track"><span class="we-tl-fill" style="width:${fill}%"></span></div>
+      <div class="we-tl-nodes">${dots}</div>
+    </div>
+    <button class="we-chip we-tl-unsure ${selected === 'unsure' ? 'is-selected' : ''}" data-id="unsure">I'm not sure</button>`;
+}
+
+function labelFor(s, id) {
+  const o = s.options.find(x => x.id === id);
+  return o ? o.label : id;
 }
 
 function showContact() {
@@ -507,6 +645,9 @@ function showResult(computed, firstName) {
   const step = REPORT.nextStep[computed.nextStepId] || REPORT.nextStep.photo_review;
   const ack = REPORT.acknowledgment[computed.branch] || '';
   const fearReply = computed.barrier ? REPORT.barrierResponse[computed.barrier] : '';
+  const told = personalSummary(answers); // the answer-referencing paragraph
+
+  const primaryHref = `mailto:${MAIL}?subject=${encodeURIComponent(step.primary + ': ' + computed.bestFitPath)}`;
 
   const cautions = (computed.cautionFlags || [])
     .filter(f => f !== 'wait_prepare')
@@ -535,20 +676,24 @@ function showResult(computed, firstName) {
       <p class="we-letter__lede">${esc(LETTER.lede)}</p>
       ${ack ? `<p class="we-ack">${esc(ack)}</p>` : ''}
 
-      <div class="we-block">
-        <p class="we-block__label">Where we'd start</p>
-        <p class="we-path">${esc(computed.bestFitPath)}</p>
+      <div class="we-plan">
+        <div class="we-plan__row">
+          <p class="we-plan__path">${esc(computed.bestFitPath)}</p>
+          <span class="we-badge">${esc(computed.readinessStage)}</span>
+        </div>
+        <a class="we-btn we-btn--full" href="${primaryHref}">${esc(step.primary)}</a>
+        <p class="we-plan__peek">Below: <b>what you told us</b>, what may shape your result, and your <b>consult prep checklist</b>.</p>
       </div>
 
-      <div class="we-block">
-        <p class="we-block__label">Your readiness</p>
-        <span class="we-badge">${esc(computed.readinessStage)}</span>
-        ${stageMeaning ? `<p class="we-body">${esc(stageMeaning)}</p>` : ''}
-      </div>
+      ${told ? `<div class="we-block">
+        <p class="we-block__label">What you told us</p>
+        <p class="we-body" style="margin-top:0">${esc(told)}</p>
+      </div>` : ''}
 
       <div class="we-block">
-        <p class="we-block__label">What this means</p>
+        <p class="we-block__label">Why this is where we'd start</p>
         <p class="we-body" style="margin-top:0">${esc(means)}</p>
+        ${stageMeaning ? `<p class="we-body">${esc(stageMeaning)}</p>` : ''}
       </div>
 
       ${fearHtml}
@@ -560,19 +705,19 @@ function showResult(computed, firstName) {
 
       ${cautionHtml}
 
+      <div class="we-block">
+        <p class="we-block__label">Your consult prep checklist</p>
+        <ul class="we-list we-check-list">${checkHtml}</ul>
+      </div>
+
       <div class="we-next">
         <p class="we-next__label">Your next best step</p>
         <p class="we-next__head">${esc(step.primary)}</p>
         <p class="we-next__note">${esc(step.note)}</p>
         <div class="we-cta-row">
-          <a class="we-btn we-btn--full" href="mailto:hello@wholesomeempire.ca?subject=${encodeURIComponent(step.primary + ' — ' + computed.bestFitPath)}">${esc(step.primary)}</a>
+          <a class="we-btn we-btn--full" href="${primaryHref}">${esc(step.primary)}</a>
           <button class="we-btn we-btn--ghost we-btn--full" id="secondary">${esc(secondary)}</button>
         </div>
-      </div>
-
-      <div class="we-block">
-        <p class="we-block__label">To prepare</p>
-        <ul class="we-list we-check-list">${checkHtml}</ul>
       </div>
 
       <div class="we-closing">
@@ -586,14 +731,22 @@ function showResult(computed, firstName) {
 
   // soft cascade on the report blocks
   el.querySelectorAll('.we-stagger > *').forEach((node, i) => {
-    node.style.animationDelay = `${Math.min(i * 90, 720)}ms`;
+    node.style.animationDelay = `${Math.min(i * 80, 640)}ms`;
   });
 
   const sec = el.querySelector('#secondary');
   sec && sec.addEventListener('click', () => {
-    window.location.href = 'mailto:hello@wholesomeempire.ca?subject=' +
-      encodeURIComponent('Question about ' + computed.bestFitPath);
+    window.location.href = `mailto:${MAIL}?subject=` + encodeURIComponent('Question about ' + computed.bestFitPath);
   });
+
+  // persistent next-step bar
+  document.getElementById('stickyLabel').textContent = step.primary;
+  const sb = document.getElementById('stickyBtn');
+  sb.setAttribute('href', primaryHref);
+  sb.textContent = step.primary;
+  $sticky.setAttribute('aria-hidden', 'false');
+  requestAnimationFrame(() => $sticky.classList.add('is-shown'));
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -601,6 +754,7 @@ function showResult(computed, firstName) {
 let current = null;
 function goto(id) {
   current = id;
+  hideSticky(); // only the result screen shows the persistent CTA
   if (id === 'contact') showContact();
   else showQuestion(id);
   window.scrollTo({ top: 0, behavior: 'smooth' });

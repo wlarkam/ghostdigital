@@ -3,6 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { assess } from './assessment.js';
+import { personalSummary } from './content.js';
 
 // Convenience builders -------------------------------------------------------
 const scar = (o = {}) => ({
@@ -211,4 +212,30 @@ test('no barrier answer -> no barrier field noise', () => {
   const r = assess(brow());
   assert.equal(r.barrier, null);
   assert.ok(!r.tags.includes('has_hesitation'));
+});
+
+// --- Personalized report prose ---------------------------------------------
+test('personalSummary reflects the visitor\'s own scar answers', () => {
+  const s = personalSummary(scar({ scar_area: 'stomach', scar_heal: 'over1', scar_state: 'flat', goal_scars: 'texture' }));
+  assert.match(s, /your stomach/i);
+  assert.match(s, /more than a year/);
+  assert.match(s, /texture/);
+});
+
+test('personalSummary handles a surgical scar without broken grammar', () => {
+  const s = personalSummary(scar({ scar_area: 'surgical' }));
+  assert.match(s, /your surgical scar/i);
+  assert.doesNotMatch(s, /your the/i);
+});
+
+test('personalSummary handles "other" area gracefully', () => {
+  const s = personalSummary(scar({ scar_area: 'other' }));
+  assert.match(s, /the area you mentioned/i);
+  assert.doesNotMatch(s, /your area/i);
+});
+
+test('personalSummary personalizes each branch and never throws', () => {
+  assert.match(personalSummary(smp({ smp_situation: 'receding', smp_look: 'stronger' })), /receding hairline/);
+  assert.match(personalSummary(brow({ brow_fill: 'daily', goal_brows: 'natural' })), /every day/);
+  assert.match(personalSummary(unsure({ goal_unsure: 'which_fits' })), /which treatment/);
 });

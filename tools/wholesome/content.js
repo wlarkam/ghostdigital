@@ -379,6 +379,106 @@ export const LETTER = {
   signoff: 'With care,\nWholesome Empire',
 };
 
+// ---------------------------------------------------------------------------
+// Personalization — weave the visitor's ACTUAL answers into prose, so no two
+// reports read the same. This is what turns a generic quiz result into
+// something that reads like the clinic considered their specific situation.
+// Compliance-safe: it only restates what they told us. [NEEDS_VOICE_REVIEW]
+// ---------------------------------------------------------------------------
+const PHRASE = {
+  // bare nouns so "your {area}" reads correctly for both regions and scar types
+  scar_area: {
+    stomach: 'stomach', hips_thighs: 'hips or thighs', arms: 'arms',
+    chest_shoulders: 'chest or shoulders', surgical: 'surgical scar',
+    injury: 'injury scar', other: 'area',
+  },
+  scar_heal: {
+    lt6: 'has been visible for less than six months',
+    '6to12': 'has been healing for six to twelve months',
+    over1: 'has been settling for more than a year',
+    several: 'has been with you for several years',
+    unsure: 'has been there for a while',
+  },
+  scar_state: {
+    flat: 'looks flat and settled now', raised: 'still feels raised',
+    indented: 'sits a little indented', changing: 'is still red, pink, or changing',
+    sensitive: 'can be sensitive or easily irritated', unsure: 'is hard to read right now',
+  },
+  goal_scars: {
+    texture: 'its texture and how the skin looks',
+    colour: 'the colour difference and how much it stands out',
+    both: 'both the texture and the colour', unsure: 'which treatment is even right',
+  },
+  smp_situation: {
+    thinning: 'thinning, with hair still there', receding: 'a receding hairline',
+    crown: 'a thinning crown', bald: 'a bald or closely shaved scalp',
+    patchy: 'patchy loss', scalp_scar: 'a scalp or transplant scar',
+  },
+  smp_look: {
+    subtle: 'a subtle lift in density', stronger: 'a stronger, defined hairline',
+    shaved: 'a clean shaved-scalp look', blend: 'more even coverage',
+    scar_less: 'a scar that draws less attention',
+  },
+  brow_fill: { daily: 'every day', sometimes: 'now and then', rarely: 'rarely', no: 'not at all', prev_tattoo: 'over previous brow tattooing' },
+  goal_brows: {
+    natural: 'something very natural', soft: 'a soft, filled shape',
+    defined: 'a more defined brow', shape: 'better shape',
+    less_makeup: 'less time filling them in each day', unsure: 'guidance on what would suit you',
+  },
+  goal_unsure: {
+    which_fits: 'knowing which treatment might fit', am_i_ready: 'understanding whether you are ready',
+    consult_or_photo: 'knowing whether to book or send photos first',
+    what_affects: 'learning what shapes the result', talk_first: 'talking it through before deciding',
+  },
+};
+
+// Returns a 1–2 sentence reflection of the visitor's own answers, or '' if
+// there is not enough to personalize. The UI shows it as "What you told us".
+export function personalSummary(answers = {}) {
+  const a = answers, p = PHRASE;
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+  if (a.concern === 'scars') {
+    const areaWord = p.scar_area[a.scar_area];
+    const heal = p.scar_heal[a.scar_heal];
+    const state = p.scar_state[a.scar_state];
+    const goal = p.goal_scars[a.goal_scars];
+    let s;
+    if (areaWord && heal) {
+      const subject = a.scar_area === 'other' ? 'the area you mentioned' : `your ${areaWord}`;
+      s = `${cap(subject)} ${heal}`;
+      if (state) s += `, and it ${state}`;
+      s += '.';
+    } else {
+      s = 'You shared a bit about the area you want to treat.';
+    }
+    if (goal) s += ` What you most want to change is ${goal}.`;
+    return s;
+  }
+
+  if (a.concern === 'smp') {
+    const sit = p.smp_situation[a.smp_situation];
+    const look = p.smp_look[a.smp_look];
+    let s = `You described ${sit || 'your scalp'}`;
+    if (look) s += `, and the look you are after is ${look}`;
+    s += '.';
+    return s;
+  }
+
+  if (a.concern === 'brows') {
+    const fill = p.brow_fill[a.brow_fill];
+    const goal = p.goal_brows[a.goal_brows];
+    let s = `You fill your brows ${fill || 'when you need to'}`;
+    if (goal) s += `, and what you are hoping for is ${goal}`;
+    s += '.';
+    return s;
+  }
+
+  // unsure
+  const g = p.goal_unsure[a.goal_unsure];
+  return `You are still weighing where to start${g ? `, and what would help most is ${g}` : ''}.`;
+}
+
 // Caution-flag codes → human labels (report + internal summary).
 export const FLAG_LABELS = {
   wait_prepare: 'Area may still be settling',
