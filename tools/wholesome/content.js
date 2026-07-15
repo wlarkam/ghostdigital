@@ -349,8 +349,8 @@ REPORT.barrierResponse = {
     'Understanding your options, and nothing more, is a perfectly good reason to have come today.',
   self_conscious:
     'Reaching out took something, and we do not take that lightly. Feeling exposed is exactly why ' +
-    'this stays private: no photos are required to begin, and your first step can be a quiet ' +
-    'conversation, entirely on your terms.',
+    'this stays private. There is no pressure to move faster than you want to, and anything you ' +
+    'share stays between you and the clinic.',
   cost:
     'Wondering whether it is worth it is fair and honest. The clinic can walk you through what is ' +
     'involved and what payment options exist before you decide anything at all.',
