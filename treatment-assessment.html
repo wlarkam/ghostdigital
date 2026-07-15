@@ -430,7 +430,12 @@ const $stepLabel = document.getElementById('stepLabel');
 const $back = document.getElementById('back');
 const $sticky = document.getElementById('sticky');
 
-const MAIL = 'hello@wholesomeempire.ca';
+// ---- Clinic config — swap these for the clinic's real details before launch.
+const CONFIG = {
+  clinicEmail: 'hello@wholesomeempire.ca',   // [TODO: confirm with clinic]
+  bookingUrl: '',                            // [TODO: clinic's real booking link (Calendly/Acuity/site). Empty = fall back to email.]
+};
+const MAIL = CONFIG.clinicEmail;
 function hideSticky() { $sticky.classList.remove('is-shown'); $sticky.setAttribute('aria-hidden', 'true'); }
 
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
@@ -661,7 +666,7 @@ function showResult(computed, firstName) {
   const told = personalSummary(answers); // the answer-referencing paragraph
   const days = computed.branch === 'scars' ? carriedDays() : null;
 
-  const primaryHref = `mailto:${MAIL}?subject=${encodeURIComponent(step.primary + ': ' + computed.bestFitPath)}`;
+  const primaryHref = CONFIG.bookingUrl || `mailto:${MAIL}?subject=${encodeURIComponent(step.primary + ': ' + computed.bestFitPath)}`;
 
   const cautions = (computed.cautionFlags || [])
     .filter(f => f !== 'wait_prepare')
