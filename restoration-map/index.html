@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The Restoration Map — Wholesome Empire YYC</title>
+<title>The Restoration Map · Wholesome Empire YYC</title>
 <meta name="description" content="Map your starting point for scar revision, camouflage, scalp micropigmentation, or brows. A private treatment-path assessment." />
 <meta name="robots" content="index,follow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -119,9 +119,9 @@ button{font-family:inherit}
 .rm-tl-dot{ width:20px;height:20px;border-radius:50%; background:var(--rm-ink); border:2px solid rgba(246,243,238,.35); transition:all 200ms var(--rm-ease); }
 .rm-tl-node:hover .rm-tl-dot{ border-color:var(--rm-sage); }
 .rm-tl-node.is-selected .rm-tl-dot{ background:var(--rm-sage); border-color:var(--rm-sage); box-shadow:0 0 14px rgba(221,228,216,.6); transform:scale(1.15); }
-.rm-tl-lab{ font-family:var(--rm-fmono); font-weight:700; font-size:13px; letter-spacing:.03em; text-transform:uppercase; color:rgba(246,243,238,.78); text-align:center; line-height:1.25; }
+.rm-tl-lab{ font-family:var(--rm-fmono); font-weight:700; font-size:15px; letter-spacing:.02em; text-transform:uppercase; color:rgba(246,243,238,.88); text-align:center; line-height:1.25; }
 .rm-tl-node.is-selected .rm-tl-lab{ color:var(--rm-white); }
-@media(max-width:640px){ .rm-tl-lab{ font-size:11px } }
+@media(max-width:640px){ .rm-tl-lab{ font-size:12.5px } }
 
 /* --- map so far (sidebar / drawer) -------------------------------------- */
 .rm-map{ position:sticky; top:20px; border:1px solid var(--rm-line-dark); border-radius:6px; background:rgba(20,20,18,.5); overflow:hidden; }
@@ -175,6 +175,8 @@ button{font-family:inherit}
 .rm-block{ padding:24px 0; border-top:1px solid var(--rm-line); }
 .rm-block:first-child{ border-top:none; padding-top:8px; }
 .rm-mono{ font-family:var(--rm-fmono); font-weight:700; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:rgba(27,27,24,.62); margin:0 0 12px; }
+.rm-sectitle{ font-family:var(--rm-fdisplay); font-weight:700; text-transform:uppercase; font-size:clamp(23px,3.6vw,33px); line-height:1.03; letter-spacing:.01em; color:var(--rm-charcoal); margin:0 0 16px; }
+.rm-fear .rm-sectitle{ color:var(--rm-olive); }
 .rm-mono b{ color:var(--rm-charcoal); font-weight:700; }
 .rm-path{ font-family:var(--rm-fdisplay); font-weight:600; text-transform:uppercase; font-size:clamp(24px,4.4vw,34px); line-height:1.04; color:var(--rm-charcoal); margin:0; }
 .rm-body{ font-size:15.5px; line-height:1.66; color:rgba(27,27,24,.82); margin:0; }
@@ -389,7 +391,7 @@ function showWelcome() {
           <span class="rm-filecard__tag">${esc(pathId)}</span>
         </div>
         <div class="rm-filerows">
-          <div class="rm-filerow"><span>Patient</span><span>—</span></div>
+          <div class="rm-filerow"><span>Patient</span><span>Awaiting</span></div>
           <div class="rm-filerow"><span>Concern</span><span>Pending</span></div>
           <div class="rm-filerow"><span>Area</span><span>Pending</span></div>
           <div class="rm-filerow"><span>Readiness</span><span>Pending</span></div>
@@ -591,7 +593,7 @@ function showReport(computed, name) {
         <h1 class="rm-report__ttl">Your Restoration<br>Path Map</h1>
         <p class="rm-report__sub">A private starting point for understanding your options before booking.</p>
         <div class="rm-report__ids">
-          <span class="rm-report__id">Prepared for / <b>${esc(name || '—')}</b></span>
+          <span class="rm-report__id">Prepared for / <b>${esc(name || 'You')}</b></span>
           <span class="rm-report__id">Path ID / <b>${esc(pathId)}</b></span>
           <span class="rm-report__id">Date / <b>${esc(today)}</b></span>
         </div>
@@ -602,25 +604,25 @@ function showReport(computed, name) {
           <p class="rm-path">${esc(computed.bestFitPath)}</p>
         </div>
         <div class="rm-block">
-          <p class="rm-mono">Why this path fits</p>
+          <p class="rm-sectitle">Why this path fits</p>
           ${told ? `<p class="rm-body">${esc(told)}</p>` : ''}
           <p class="rm-body" style="margin-top:${told ? '12px' : '0'}">${esc(logic)}</p>
         </div>
         <div class="rm-block">
-          <p class="rm-mono">Your readiness stage</p>
+          <p class="rm-sectitle">Your readiness stage</p>
           <span class="rm-badge" data-b="${esc(computed.readinessStage)}">${esc(computed.readinessStage)}</span>
           ${stageMeaning ? `<p class="rm-body" style="margin-top:14px">${esc(stageMeaning)}</p>` : ''}
         </div>
-        ${fear ? `<div class="rm-block"><div class="rm-fear"><p class="rm-mono">About what's holding you back</p><p>${esc(fear)}</p></div></div>` : ''}
+        ${fear ? `<div class="rm-block"><div class="rm-fear"><p class="rm-sectitle">About what's holding you back</p><p>${esc(fear)}</p></div></div>` : ''}
         <div class="rm-block">
-          <p class="rm-mono">Realistic outcome guide</p>
+          <p class="rm-sectitle">Realistic outcome guide</p>
           <p class="rm-body"><b>What it may help with:</b> ${esc(outcome.helps)}</p>
           <p class="rm-mono" style="margin:18px 0 8px">What may affect your result</p>
           <ul class="rm-checkgrid">${affects.map(a => `<li>${esc(a)}</li>`).join('')}</ul>
           <p class="rm-body" style="margin-top:16px"><b>What not to expect:</b> ${esc(outcome.notExpect)}</p>
         </div>
         ${days ? `<div class="rm-block rm-days">
-          <p class="rm-mono">${esc(DAYS_COPY.label)}</p>
+          <p class="rm-sectitle">${esc(DAYS_COPY.label)}</p>
           <p class="rm-days__num" data-count="${days}">${days.toLocaleString('en-US')}</p>
           <p class="rm-days__unit">${esc(DAYS_COPY.unit)}</p>
           <p class="rm-body" style="max-width:46ch">${esc(DAYS_COPY.body)}</p>
@@ -637,12 +639,12 @@ function showReport(computed, name) {
           </div>
         </div>
         <div class="rm-block">
-          <p class="rm-mono">Your photo review shot list</p>
+          <p class="rm-sectitle">Your photo review shot list</p>
           <ul class="rm-prep">${shot.shots.map(s => `<li>${esc(s)}</li>`).join('')}</ul>
           <p class="rm-body" style="margin-top:12px; font-size:14px"><b>Light:</b> ${esc(shot.light)} &nbsp; <b>Avoid:</b> ${esc(shot.avoid)}</p>
         </div>
         <div class="rm-block">
-          <p class="rm-mono">Questions worth asking before booking</p>
+          <p class="rm-sectitle">Questions worth asking before booking</p>
           <ul class="rm-qs">${questions.map(q => `<li>${esc(q)}</li>`).join('')}</ul>
         </div>
         <p class="rm-disc">${esc(DISCLAIMER)}</p>

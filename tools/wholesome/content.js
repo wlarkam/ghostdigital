@@ -564,8 +564,8 @@ export const DAYS_COPY = {
   label: 'Something to sit with',
   unit: 'days',
   body:
-    "That's roughly how long you've carried this. It isn't a number to feel bad about — it's a " +
-    "measure of how much you've quietly handled on your own. Whenever you feel ready, this is where " +
+    "That's roughly how long you've carried this. It isn't a number to feel bad about. It's a " +
+    "measure of how much you've handled on your own. Whenever you feel ready, this is where " +
     'it can start to change.',
 };
 
