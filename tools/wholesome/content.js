@@ -276,36 +276,31 @@ export const REPORT = {
     match: ['Your main goal', 'The age and condition of the area', 'Skin tone and texture', 'Any previous treatments', 'How the area looks in natural light', 'What you want day to day'],
   },
 
-  // Consult prep checklist — by branch (service group).
+  // Consult prep. The assessment already captured the intake details, so this
+  // only asks for what the clinic does NOT have yet — mainly photos — plus a
+  // note that acknowledges we were listening. [NEEDS_VOICE_REVIEW]
+  checklistIntro:
+    "You've already shared the details that matter, so the clinic isn't starting from scratch. " +
+    'Before a consult, it just helps to have:',
   checklist: {
     scars: [
-      'Take 2 to 3 clear photos in natural light',
-      'Include a close-up and a slightly pulled-back photo',
-      'Note how long the area has been visible or healed',
-      'Share any previous treatments',
-      'Share whether the area is raised, indented, sensitive, or changing',
-      'Write down your main goal: texture, colour, or both',
+      'A couple of photos in natural light: one close-up, one from a step back',
+      'A note of any previous treatments on the area',
+      'Any questions about healing, sessions, or cost',
     ],
     smp: [
-      'Take clear photos of your hairline, crown, sides, and top of scalp',
-      'Note any hair transplant or scalp scar history',
-      'Think about your preferred hairline style',
-      'Share whether you want density, hairline definition, or a shaved scalp look',
-      'Bring reference photos if helpful',
+      'Photos of your hairline, crown, sides, and the top of your scalp',
+      'A reference photo or two of the look you have in mind',
+      'Any questions about sessions, upkeep, or what to expect',
     ],
     brows: [
-      'Take a clear photo of your brows with no makeup if possible',
-      'Bring 2 to 3 inspiration photos',
-      'Share any previous brow tattooing or microblading',
-      'Think about whether you prefer natural, soft, or defined brows',
-      'Share your usual makeup routine',
+      'A clear photo of your brows with no makeup, if you can',
+      '2 to 3 inspiration photos of the shape you like',
+      'Any questions about healing, longevity, or upkeep',
     ],
     unsure: [
-      'Note the one concern you most want to improve',
-      'Take a clear photo in natural light if you are comfortable',
-      'Write down what a good result would look like for you',
-      'Note anything that has changed recently in the area',
-      'Jot down any questions you want answered first',
+      'A clear photo in natural light, if you are comfortable',
+      'Any questions you would want answered first',
     ],
   },
 

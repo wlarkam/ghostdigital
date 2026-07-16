@@ -80,8 +80,13 @@ button{font-family:inherit}
 @media(max-width:860px){ .rm-welcome{ grid-template-columns:1fr; gap:26px } }
 .rm-filecard{ position:relative; border:1px solid var(--rm-line-dark); border-radius:6px; background:linear-gradient(160deg, rgba(62,73,56,.28), rgba(11,11,10,.2)); padding:26px; overflow:hidden; aspect-ratio:1/1.12; display:flex; flex-direction:column; justify-content:space-between; }
 .rm-filecard__tag{ font-family:var(--rm-fmono); font-weight:700; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--rm-sage); }
-.rm-filecard__title{ font-family:var(--rm-fdisplay); font-weight:600; text-transform:uppercase; font-size:26px; line-height:1; color:var(--rm-white); }
-.rm-filecard__lines{ position:absolute; inset:0; opacity:.5; pointer-events:none; display:flex; align-items:center; justify-content:center; }
+.rm-filecard__top{ display:flex; justify-content:space-between; gap:12px; }
+.rm-filerows{ display:flex; flex-direction:column; margin:auto 0; }
+.rm-filerow{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; padding:13px 0; border-bottom:1px solid var(--rm-line-dark); font-family:var(--rm-fmono); font-weight:700; font-size:12px; letter-spacing:.06em; text-transform:uppercase; }
+.rm-filerow:last-child{ border-bottom:none; }
+.rm-filerow>span:first-child{ color:rgba(246,243,238,.42); }
+.rm-filerow>span:last-child{ color:var(--rm-sage); }
+.rm-filestamp{ align-self:flex-start; font-family:var(--rm-fmono); font-weight:700; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--rm-clay); border:1.5px solid var(--rm-clay); border-radius:3px; padding:7px 12px; transform:rotate(-3deg); }
 .rm-btn{ font-family:var(--rm-fdisplay); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:15px; cursor:pointer; border:none; border-radius:2px; padding:17px 34px; background:var(--rm-white); color:var(--rm-ink); transition:background 180ms var(--rm-ease), transform 120ms var(--rm-ease); display:inline-flex; align-items:center; gap:12px; text-decoration:none; }
 .rm-btn:hover{ background:var(--rm-sage); }
 .rm-btn:active{ transform:translateY(1px); }
@@ -374,12 +379,17 @@ function showWelcome() {
         <p class="rm-privacy">⬤ Private · about 2 minutes · no pressure to book</p>
       </div>
       <div class="rm-filecard">
-        <div class="rm-filecard__lines">${contour(300, 340, 150, 170, 9, 26, 22, 'rgba(221,228,216,0.5)')}</div>
-        <div class="rm-filecard__tag">Wholesome Empire · Case File</div>
-        <div>
-          <div class="rm-filecard__tag" style="margin-bottom:8px">Path ID / ${esc(pathId)}</div>
-          <div class="rm-filecard__title">Awaiting<br>Intake</div>
+        <div class="rm-filecard__top">
+          <span class="rm-filecard__tag">Wholesome Empire · Private File</span>
+          <span class="rm-filecard__tag">${esc(pathId)}</span>
         </div>
+        <div class="rm-filerows">
+          <div class="rm-filerow"><span>Patient</span><span>—</span></div>
+          <div class="rm-filerow"><span>Concern</span><span>Pending</span></div>
+          <div class="rm-filerow"><span>Area</span><span>Pending</span></div>
+          <div class="rm-filerow"><span>Readiness</span><span>Pending</span></div>
+        </div>
+        <div class="rm-filestamp">Awaiting Intake</div>
       </div>
     </div>`, 'rm-welcome-wrap');
   el.querySelector('#start').addEventListener('click', () => { track('started', {}); goto('concern'); });
@@ -569,7 +579,6 @@ function showReport(computed, name) {
   paint(`
     <div class="rm-report rm-stagger">
       <div class="rm-report__head">
-        <div class="rm-report__lines">${contour(1100, 220, 850, 110, 10, 30, 22, 'rgba(221,228,216,1)')}</div>
         <p class="rm-report__ey">Wholesome Empire · Private File</p>
         <h1 class="rm-report__ttl">Your Treatment<br>Readiness Report</h1>
         <div class="rm-report__ids">
@@ -613,6 +622,7 @@ function showReport(computed, name) {
         </div>
         <div class="rm-block">
           <p class="rm-mono">Before your consult</p>
+          <p class="rm-body" style="margin:0 0 14px">${esc(REPORT.checklistIntro)}</p>
           <ul class="rm-prep">${checklist.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
         </div>
         <p class="rm-disc">${esc(DISCLAIMER)}</p>
