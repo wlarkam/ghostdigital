@@ -757,7 +757,7 @@ function showResult(computed, firstName) {
 
       ${days ? `<div class="we-days">
         <p class="we-days__label">${esc(DAYS_COPY.label)}</p>
-        <p class="we-days__num" data-count="${days}">0</p>
+        <p class="we-days__num" data-count="${days}">${days.toLocaleString('en-US')}</p>
         <p class="we-days__unit">${esc(DAYS_COPY.unit)}</p>
         <p class="we-days__copy">${esc(DAYS_COPY.body)}</p>
       </div>` : ''}
@@ -781,7 +781,7 @@ function showResult(computed, firstName) {
   if (numEl) {
     const io = new IntersectionObserver((entries, obs) => {
       entries.forEach(e => { if (e.isIntersecting) { animateCount(numEl, days); obs.disconnect(); } });
-    }, { threshold: 0.6 });
+    }, { threshold: 0 });
     io.observe(numEl);
   }
 

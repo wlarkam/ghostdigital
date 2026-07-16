@@ -352,8 +352,8 @@ export const REPORT = {
       notExpect: 'a result that never changes. Pigment softens over time and needs the occasional refresh.',
     },
     match: {
-      helps: 'a clearer sense of which direction fits before you spend anything.',
-      notExpect: 'a firm diagnosis from a tool. A specialist confirms the actual plan.',
+      helps: 'a clearer sense of which direction fits, so you are not guessing when you reach out.',
+      notExpect: 'a final answer today. The right path depends on details a specialist would review with you first.',
     },
   },
 

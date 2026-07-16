@@ -621,7 +621,7 @@ function showReport(computed, name) {
         </div>
         ${days ? `<div class="rm-block rm-days">
           <p class="rm-mono">${esc(DAYS_COPY.label)}</p>
-          <p class="rm-days__num" data-count="${days}">0</p>
+          <p class="rm-days__num" data-count="${days}">${days.toLocaleString('en-US')}</p>
           <p class="rm-days__unit">${esc(DAYS_COPY.unit)}</p>
           <p class="rm-body" style="max-width:46ch">${esc(DAYS_COPY.body)}</p>
         </div>` : ''}
@@ -651,7 +651,7 @@ function showReport(computed, name) {
   el_stagger();
   const numEl = $stage.querySelector('.rm-days__num');
   if (numEl) {
-    const io = new IntersectionObserver((es, o) => { es.forEach(e => { if (e.isIntersecting) { animateCount(numEl, days); o.disconnect(); } }); }, { threshold: 0.6 });
+    const io = new IntersectionObserver((es, o) => { es.forEach(e => { if (e.isIntersecting) { animateCount(numEl, days); o.disconnect(); } }); }, { threshold: 0 });
     io.observe(numEl);
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
