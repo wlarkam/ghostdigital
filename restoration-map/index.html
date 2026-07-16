@@ -191,6 +191,11 @@ button{font-family:inherit}
 .rm-prep{ list-style:none; margin:4px 0 0; padding:0; display:grid; gap:11px; }
 .rm-prep li{ display:flex; align-items:flex-start; gap:12px; font-size:15px; color:var(--rm-charcoal); }
 .rm-prep li::before{ content:""; flex:none; width:15px; height:15px; margin-top:2px; border:1.5px solid var(--rm-olive); border-radius:3px; }
+.rm-report__sub{ font-family:var(--rm-fbody); font-size:15px; color:rgba(246,243,238,.72); margin:0 0 18px; max-width:46ch; position:relative; }
+.rm-body b{ color:var(--rm-charcoal); font-weight:600; }
+.rm-qs{ list-style:none; margin:6px 0 0; padding:0; display:grid; gap:11px; }
+.rm-qs li{ display:flex; align-items:flex-start; gap:11px; font-size:15px; line-height:1.5; color:var(--rm-charcoal); }
+.rm-qs li::before{ content:"?"; font-family:var(--rm-fmono); font-weight:700; color:var(--rm-clay); flex:none; }
 .rm-next{ background:var(--rm-charcoal); color:var(--rm-white); border-radius:6px; padding:24px 24px; }
 .rm-next .rm-mono{ color:rgba(246,243,238,.5); }
 .rm-next .rm-mono b{ color:var(--rm-white); }
@@ -564,9 +569,12 @@ function showBuilding(computed, name) {
 function showReport(computed, name) {
   showMap(false); renderStrip(4);
   const fam = computed.pathFamily;
-  const means = REPORT.whatThisMeans[fam] || REPORT.whatThisMeans.match;
+  const logic = REPORT.pathLogic[fam] || REPORT.pathLogic.match;
+  const outcome = REPORT.outcomeGuide[fam] || REPORT.outcomeGuide.match;
   const affects = REPORT.whatAffects[fam] || REPORT.whatAffects.match;
-  const checklist = REPORT.checklist[computed.checklistKey] || REPORT.checklist.unsure;
+  const shot = REPORT.shotList[computed.checklistKey] || REPORT.shotList.unsure;
+  const questions = REPORT.consultQuestions[fam] || REPORT.consultQuestions.match;
+  const stageMeaning = REPORT.readinessMeaning[computed.readinessStage] || '';
   const step = REPORT.nextStep[computed.nextStepId] || REPORT.nextStep.photo_review;
   const told = personalSummary(answers);
   const fear = computed.barrier ? REPORT.barrierResponse[computed.barrier] : '';
@@ -580,25 +588,37 @@ function showReport(computed, name) {
     <div class="rm-report rm-stagger">
       <div class="rm-report__head">
         <p class="rm-report__ey">Wholesome Empire · Private File</p>
-        <h1 class="rm-report__ttl">Your Treatment<br>Readiness Report</h1>
+        <h1 class="rm-report__ttl">Your Restoration<br>Path Map</h1>
+        <p class="rm-report__sub">A private starting point for understanding your options before booking.</p>
         <div class="rm-report__ids">
-          <span class="rm-report__id">Generated for / <b>${esc(name || '—')}</b></span>
+          <span class="rm-report__id">Prepared for / <b>${esc(name || '—')}</b></span>
           <span class="rm-report__id">Path ID / <b>${esc(pathId)}</b></span>
           <span class="rm-report__id">Date / <b>${esc(today)}</b></span>
         </div>
       </div>
       <div class="rm-report__body">
         <div class="rm-block">
-          <p class="rm-mono">Path / <b>Best fit</b></p>
+          <p class="rm-mono">Your likely path / <b>Best fit</b></p>
           <p class="rm-path">${esc(computed.bestFitPath)}</p>
         </div>
         <div class="rm-block">
-          <p class="rm-mono">Readiness stage</p>
-          <span class="rm-badge" data-b="${esc(computed.readinessStage)}">${esc(computed.readinessStage)}</span>
+          <p class="rm-mono">Why this path fits</p>
+          ${told ? `<p class="rm-body">${esc(told)}</p>` : ''}
+          <p class="rm-body" style="margin-top:${told ? '12px' : '0'}">${esc(logic)}</p>
         </div>
-        ${told ? `<div class="rm-block"><p class="rm-mono">From your file</p><p class="rm-body">${esc(told)}</p></div>` : ''}
-        <div class="rm-block"><p class="rm-mono">What this means</p><p class="rm-body">${esc(means)}</p></div>
+        <div class="rm-block">
+          <p class="rm-mono">Your readiness stage</p>
+          <span class="rm-badge" data-b="${esc(computed.readinessStage)}">${esc(computed.readinessStage)}</span>
+          ${stageMeaning ? `<p class="rm-body" style="margin-top:14px">${esc(stageMeaning)}</p>` : ''}
+        </div>
         ${fear ? `<div class="rm-block"><div class="rm-fear"><p class="rm-mono">About what's holding you back</p><p>${esc(fear)}</p></div></div>` : ''}
+        <div class="rm-block">
+          <p class="rm-mono">Realistic outcome guide</p>
+          <p class="rm-body"><b>What it may help with:</b> ${esc(outcome.helps)}</p>
+          <p class="rm-mono" style="margin:18px 0 8px">What may affect your result</p>
+          <ul class="rm-checkgrid">${affects.map(a => `<li>${esc(a)}</li>`).join('')}</ul>
+          <p class="rm-body" style="margin-top:16px"><b>What not to expect:</b> ${esc(outcome.notExpect)}</p>
+        </div>
         ${days ? `<div class="rm-block rm-days">
           <p class="rm-mono">${esc(DAYS_COPY.label)}</p>
           <p class="rm-days__num" data-count="${days}">0</p>
@@ -606,12 +626,8 @@ function showReport(computed, name) {
           <p class="rm-body" style="max-width:46ch">${esc(DAYS_COPY.body)}</p>
         </div>` : ''}
         <div class="rm-block">
-          <p class="rm-mono">What may affect your result</p>
-          <ul class="rm-checkgrid">${affects.map(a => `<li>${esc(a)}</li>`).join('')}</ul>
-        </div>
-        <div class="rm-block">
           <div class="rm-next">
-            <p class="rm-mono">Next step / <b>${esc(step.primary)}</b></p>
+            <p class="rm-mono">Your next best move / <b>${esc(step.primary)}</b></p>
             <p class="rm-next__h">${esc(step.primary)}</p>
             <p class="rm-next__d">${esc(step.note)}</p>
             <div class="rm-cta-row">
@@ -621,9 +637,13 @@ function showReport(computed, name) {
           </div>
         </div>
         <div class="rm-block">
-          <p class="rm-mono">Before your consult</p>
-          <p class="rm-body" style="margin:0 0 14px">${esc(REPORT.checklistIntro)}</p>
-          <ul class="rm-prep">${checklist.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+          <p class="rm-mono">Your photo review shot list</p>
+          <ul class="rm-prep">${shot.shots.map(s => `<li>${esc(s)}</li>`).join('')}</ul>
+          <p class="rm-body" style="margin-top:12px; font-size:14px"><b>Light:</b> ${esc(shot.light)} &nbsp; <b>Avoid:</b> ${esc(shot.avoid)}</p>
+        </div>
+        <div class="rm-block">
+          <p class="rm-mono">Questions worth asking before booking</p>
+          <ul class="rm-qs">${questions.map(q => `<li>${esc(q)}</li>`).join('')}</ul>
         </div>
         <p class="rm-disc">${esc(DISCLAIMER)}</p>
       </div>

@@ -304,6 +304,88 @@ export const REPORT = {
     ],
   },
 
+  // "Why this path fits" — plain-English treatment logic (the confusing part:
+  // do I need revision, camouflage, SMP, brows?). Keyed by path family.
+  // [NEEDS_VOICE_REVIEW]
+  pathLogic: {
+    revision:
+      'You pointed to texture, raised or uneven skin, or visible skin damage as the main thing you want ' +
+      'to change. That usually points toward a revision conversation before a camouflage one. Revision ' +
+      'focuses on improving how texture and skin damage look. Camouflage is more about blending colour so ' +
+      'the area stands out less, and it can still come up later if the texture settles and colour is what remains.',
+    camouflage:
+      'You pointed to colour difference or visible contrast as the main thing you want to change. That ' +
+      'usually points toward a camouflage conversation before a revision one. Camouflage focuses on blending ' +
+      'colour so the area is less noticeable. Revision is more about improving texture, and it can come up if ' +
+      'there is raised, indented, or sensitive texture to settle first.',
+    smp:
+      'You described thinning or reduced density as your main concern. Scalp micropigmentation adds tiny ' +
+      'pigment impressions across the scalp to create the look of fuller density, a more defined hairline, or ' +
+      'an even shaved-scalp appearance. It changes how the scalp reads rather than growing hair.',
+    brow:
+      'Brow micropigmentation places soft pigment to shape and define the brow, so it holds without filling ' +
+      'it in every day. The right style and finish are what a consult would confirm for your face and your ' +
+      'existing brows.',
+    match:
+      'Your answers point in more than one direction, which is common and completely fine. A specialist can ' +
+      'look at the details and tell you whether revision, camouflage, or another step makes the most sense as ' +
+      'a first conversation.',
+  },
+
+  // "Realistic outcome guide" — honest expectations. helps + what NOT to expect
+  // (the "what may affect" list is reused from whatAffects). [NEEDS_VOICE_REVIEW]
+  outcomeGuide: {
+    revision: {
+      helps: 'improving how texture, raised areas, and skin damage look, so the area reads as more even.',
+      notExpect: 'a complete erase. The goal is visible improvement and a more blended look, not removal.',
+    },
+    camouflage: {
+      helps: 'softening colour difference so the area blends more naturally with the skin around it.',
+      notExpect: 'an erase effect. The goal is blending and less contrast, not making the area vanish.',
+    },
+    smp: {
+      helps: 'the look of fuller density, a more defined hairline, or a more even shaved-scalp appearance.',
+      notExpect: 'new hair growth. It changes how the scalp looks rather than regrowing hair.',
+    },
+    brow: {
+      helps: 'a shaped, defined brow that holds without daily filling in.',
+      notExpect: 'a result that never changes. Pigment softens over time and needs the occasional refresh.',
+    },
+    match: {
+      helps: 'a clearer sense of which direction fits before you spend anything.',
+      notExpect: 'a firm diagnosis from a tool. A specialist confirms the actual plan.',
+    },
+  },
+
+  // "Photo review shot list" — specific shots, keyed by checklistKey (branch).
+  shotList: {
+    scars: {
+      shots: ['A close-up of the area', 'A pulled-back photo showing where it sits on the body', 'A side angle, if the texture is visible', 'Skin relaxed, not stretched tight'],
+      light: 'Natural light, no flash.', avoid: 'No filters or editing.',
+    },
+    smp: {
+      shots: ['Front hairline', 'Left side', 'Right side', 'Crown and top of scalp', 'The back, if thinning reaches there'],
+      light: 'Natural window light.', avoid: 'No hats, filters, wet hair, or heavy product.',
+    },
+    brows: {
+      shots: ['Brows with no makeup, straight on', 'A slight side angle', 'A reference photo of the shape you like'],
+      light: 'Natural light, straight on.', avoid: 'No filters.',
+    },
+    unsure: {
+      shots: ['A clear photo of the area in natural light, if you are comfortable'],
+      light: 'Natural light.', avoid: 'No filters.',
+    },
+  },
+
+  // "Questions worth asking before booking" — personalized by path family.
+  consultQuestions: {
+    revision: ['Would revision or camouflage be the better first step for my area?', 'Is the area ready to treat, or should it settle more first?', 'What improvement is realistic for this kind of concern?', 'How many sessions are usually needed?', 'What should I avoid before treatment?'],
+    camouflage: ['Would camouflage or revision suit my area better?', 'How do you match pigment to my skin tone?', 'Could tanning or sun change the result?', 'How many sessions are typical?', 'What is realistic for reducing the contrast?'],
+    smp: ['Would density work or hairline work suit me best?', 'What hair length should I keep?', 'How soft or defined should the hairline be?', 'How many sessions are typical?', 'How will the result age over time?'],
+    brow: ['What shape would suit my face and current brows?', 'How natural or defined can the finish be?', 'How long before it needs a refresh?', 'How many sessions are typical?', 'What is the healing like?'],
+    match: ['Which treatment fits my concern best?', 'Am I ready, or should I wait?', 'What result is realistic?', 'How many sessions are typical?', 'What does a good first step look like?'],
+  },
+
   // Readiness stage — short explanation shown under the badge.
   readinessMeaning: {
     'Ready for consult':
