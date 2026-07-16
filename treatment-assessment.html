@@ -432,24 +432,24 @@ const $sticky = document.getElementById('sticky');
 
 // ---- Clinic config — swap these for the clinic's real details before launch.
 const CONFIG = {
-  clinicEmail: 'hello@wholesomeempire.ca',   // [TODO: confirm with clinic]
-  site: 'https://wholesomeempire.ca',        // [TODO: confirm] — fallback for "learn more"
-  bookingUrl: '',                            // [TODO: booking link (Calendly/Acuity/site). Empty = email fallback.]
-  prepGuideUrl: '',                          // [TODO: prep-guide page/PDF for wait-and-prepare leads]
-  treatmentUrls: {                           // [TODO: deep link to each treatment page on the clinic site]
-    revision: '', camouflage: '', smp: '', brow: '', match: '',
+  site: 'https://www.wholesomeempireyyc.com',
+  bookingUrl: 'https://www.wholesomeempireyyc.com/contact',   // their Inquire / Free Phone Consult funnel
+  prepGuideUrl: '',                                           // [TODO: prep-guide page/PDF, if they make one]
+  treatmentUrls: {
+    revision: 'https://www.wholesomeempireyyc.com/scars-stretch-marks-calgary',
+    camouflage: 'https://www.wholesomeempireyyc.com/scars-stretch-marks-calgary',
+    smp: 'https://www.wholesomeempireyyc.com/smp-micropigmentation-calgary',
+    brow: 'https://www.wholesomeempireyyc.com/powderbrows-calgary',
+    match: 'https://www.wholesomeempireyyc.com/services',
   },
 };
-const MAIL = CONFIG.clinicEmail;
 const treatmentUrl = (fam) => CONFIG.treatmentUrls[fam] || CONFIG.site;
 const extAttr = (h) => (/^https?:/.test(h) ? ' target="_blank" rel="noopener"' : '');
 // Point the primary CTA at the right destination for the recommended step.
-function ctaHref(nextStepId, fam, label, path) {
-  const mail = `mailto:${MAIL}?subject=${encodeURIComponent(label + ': ' + path)}`;
+function ctaHref(nextStepId, fam) {
   if (nextStepId === 'learn_more') return treatmentUrl(fam);
-  if (nextStepId === 'wait_prepare') return CONFIG.prepGuideUrl || mail;
-  if (nextStepId === 'consult_phone' || nextStepId === 'consult_brow') return CONFIG.bookingUrl || mail;
-  return mail; // photo_review — photos are sent by email
+  if (nextStepId === 'wait_prepare') return CONFIG.prepGuideUrl || treatmentUrl(fam);
+  return CONFIG.bookingUrl || treatmentUrl(fam); // consult + photo review -> inquiry funnel
 }
 function hideSticky() { $sticky.classList.remove('is-shown'); $sticky.setAttribute('aria-hidden', 'true'); }
 
@@ -681,7 +681,7 @@ function showResult(computed, firstName) {
   const told = personalSummary(answers); // the answer-referencing paragraph
   const days = computed.branch === 'scars' ? carriedDays() : null;
 
-  const primaryHref = ctaHref(computed.nextStepId, fam, step.primary, computed.bestFitPath);
+  const primaryHref = ctaHref(computed.nextStepId, fam);
 
   const cautions = (computed.cautionFlags || [])
     .filter(f => f !== 'wait_prepare')
