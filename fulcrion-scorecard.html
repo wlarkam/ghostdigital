@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Engineering Team Health Diagnostic — Fulcrion</title>
+<title>Engineering Team Health Diagnostic — Keystone CTO</title>
 <meta name="description" content="Run a 5-minute diagnostic on your engineering org. 15 checks across 5 subsystems. Get a verdict, a score, and your binding constraint.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:title" content="Run the diagnostic on your engineering team">
-<meta property="og:description" content="15 checks, 5 subsystems, one verdict: how close are you to the Complexity Ceiling?">
+<meta property="og:description" content="15 checks, 5 subsystems, one verdict: how close are you to hitting the wall?">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     FULCRION — Diagnostic Console. Dark terminal architecture.
-     Page-scoped tokens inferred from fulcrion.com (navy + blue).
+     KEYSTONE — Diagnostic Console. Dark terminal architecture.
+     Page-scoped tokens (navy + blue).
      ============================================================ */
   :root{
     --bg:#05080f; --bg-2:#0a1020; --term:#0b1426; --term-2:#0e1830;
@@ -244,27 +244,27 @@
   <div class="shell">
 
     <div class="topbar">
-      <a class="brand" href="https://www.fulcrion.com/">
+      <a class="brand" href="#">
         <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
           <path d="M13 3 L23 20 H3 Z" fill="none" stroke="#3a9bff" stroke-width="2" stroke-linejoin="round"/>
           <circle cx="13" cy="13" r="2.4" fill="#3a9bff"/>
         </svg>
-        Fulcrion
+        Keystone
       </a>
-      <div class="right"><a href="https://www.fulcrion.com/booknow">book a call →</a></div>
+      <div class="right"><a href="#book">book a call →</a></div>
     </div>
 
     <header class="hero">
       <span class="eyebrow">Free diagnostic · engineering team health</span>
       <h1>Has your engineering team hit <span class="hl">the wall</span>?</h1>
-      <p class="lede">Run a 5-minute diagnostic on your org. 15 checks across 5 subsystems return a <b>verdict, a score, and the one blocker</b> killing your velocity, so you know exactly how close you are to the Complexity Ceiling.</p>
+      <p class="lede">Run a 5-minute diagnostic on your org. 15 checks across 5 subsystems return a <b>verdict, a score, and the one blocker</b> killing your velocity, so you know exactly how close you are to hitting the wall.</p>
       <div class="meta"><span><b>15</b> checks</span><span><b>5</b> subsystems</span><span><b>~5</b> min</span><span>free</span></div>
     </header>
 
     <div class="term">
       <div class="term__bar">
         <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-        <span class="term__title"><b>fulcrion-diagnostic</b> — engineering team health — zsh</span>
+        <span class="term__title"><b>keystone-diagnostic</b> — engineering team health — zsh</span>
         <span class="term__chip" id="chip">ready</span>
       </div>
       <div class="term__body" id="body">
@@ -274,14 +274,14 @@
 
     <section class="cred">
       <div class="cred__bio">
-        <div class="cred__avatar"><img src="/assets/mark-alcazar.jpg" alt="Mark Alcazar" width="48" height="48"></div>
-        <div class="t"><b>Run by Mark Alcazar.</b> 28 years at Microsoft, VP of Engineering on Windows platforms used by 1.4 billion people. 40+ patents. Now a fractional CTO who builds systems and leaders that thrive without daily intervention. Then gets out of the way.</div>
+        <div class="cred__avatar">AR</div>
+        <div class="t"><b>Run by Alex Rivera.</b> 20+ years leading engineering teams from Series A through IPO. Now a fractional CTO who builds systems and leaders that thrive without daily intervention. Then gets out of the way.</div>
       </div>
     </section>
 
     <div class="foot">
-      <span>FULCRION · FRACTIONAL CTO · GREATER SEATTLE</span>
-      <span><a href="https://fulcrion.com/fulcrum">the fulcrum</a> · <a href="https://substack.com/@markatfulcrion">cto field notes (substack)</a></span>
+      <span>KEYSTONE · FRACTIONAL CTO · REMOTE</span>
+      <span><a href="#">the blog</a> · <a href="#">engineering notes (newsletter)</a></span>
     </div>
   </div>
 
@@ -318,12 +318,12 @@ function renderBoot(){
   chip.textContent='ready';
   body.className='term__body boot anim';
   body.innerHTML = `
-    <p class="ln cmt"># Fulcrion Engineering Team Health Diagnostic v1.0</p>
+    <p class="ln cmt"># Keystone Engineering Team Health Diagnostic v1.0</p>
     <p class="ln cmt"># 15 checks across 5 subsystems · ~5 min · free</p>
     <p class="ln cmt"># I'll show you exactly where your velocity is leaking,</p>
-    <p class="ln cmt"># and how close you are to the Complexity Ceiling.</p>
+    <p class="ln cmt"># and how close you are to hitting the wall.</p>
     <p class="ln">&nbsp;</p>
-    <p class="ln"><span class="prompt">fulcrion diagnose --team</span> <span class="cursor"></span></p>
+    <p class="ln"><span class="prompt">keystone diagnose --team</span> <span class="cursor"></span></p>
     <button class="runbtn" id="runBtn">▶ run diagnostic</button>
     <div class="meta">subsystems: team_structure · communication · decision_speed · architecture · ai_readiness</div>
   `;
@@ -333,7 +333,7 @@ function renderBoot(){
 
 function start(){
   post('/api/fulcrion-event',{session_id:sessionId,event_type:'started'});
-  logLines = [`<p class="ln"><span class="prompt">fulcrion diagnose --team</span></p>`,
+  logLines = [`<p class="ln"><span class="prompt">keystone diagnose --team</span></p>`,
               `<p class="ln dim">initializing… 5 subsystems queued. answer each check honestly.</p>`,
               `<p class="ln">&nbsp;</p>`];
   idx = 0;
@@ -479,11 +479,11 @@ function renderReport(r){
         <p class="paths__lbl">want to go further?</p>
         <label class="path path--call">
           <input type="checkbox" id="optCall">
-          <span class="path__main"><span class="path__t">Book a free 30-min call with Mark</span><span class="path__d">I'll walk through this readout with you, line by line, and name the real bottleneck. The highest-value next step.</span></span>
+          <span class="path__main"><span class="path__t">Book a free 30-min call with Alex</span><span class="path__d">I'll walk through this readout with you, line by line, and name the real bottleneck. The highest-value next step.</span></span>
         </label>
         <label class="path">
           <input type="checkbox" id="optList">
-          <span class="path__main"><span class="path__t">Subscribe to CTO Field Notes Substack</span><span class="path__d">Occasional notes on scaling engineering teams past the ceiling.</span></span>
+          <span class="path__main"><span class="path__t">Subscribe to Engineering Notes</span><span class="path__d">Occasional notes on scaling engineering teams past the ceiling.</span></span>
         </label>
 
         <button class="runbtn sendbtn" id="sendBtn">▶ unlock my full readout</button>
@@ -494,7 +494,7 @@ function renderReport(r){
         <p class="ln"><span class="ret">✓ unlocked.</span></p>
         <div class="ok-big" id="doneTitle">Your full readout's below.</div>
         <p id="doneBody" style="color:var(--fg-2);font-family:var(--sans)"></p>
-        <a class="runbtn" id="doneCta" href="https://www.fulcrion.com/booknow" style="display:none;">▶ grab a time now</a>
+        <a class="runbtn" id="doneCta" href="#book" style="display:none;">▶ grab a time now</a>
       </div>
     </div>
 
@@ -512,7 +512,7 @@ function renderReport(r){
       <ul class="recs">
         <li><span class="c">01</span> Start with the binding constraint above. Clear it, and the other subsystems move with it. That's where velocity comes back.</li>
         <li><span class="c">02</span> Re-run this in 90 days. A score is a snapshot. The trend is the real signal.</li>
-        <li><span class="c">03</span> The <b style="color:var(--fg)">Top Blockers Sprint</b> is the paid version of this readout: a 4-week intensive that diagnoses your top blockers and hands you the plan. This diagnostic is the free first pass.</li>
+        <li><span class="c">03</span> The <b style="color:var(--fg)">Fix-First Sprint</b> is the paid version of this readout: a 4-week intensive that diagnoses your top blockers and hands you the plan. This diagnostic is the free first pass.</li>
       </ul>
 
       <div class="report__row">
@@ -521,15 +521,15 @@ function renderReport(r){
       </div>
     </div>
 
-    <p class="ln dim" style="margin:26px 0 10px">› what leaders say about working with mark</p>
+    <p class="ln dim" style="margin:26px 0 10px">› what leaders say about working with alex</p>
     <div class="rquotes">
       <div class="quote">
-        <p>“Mark is a leader for all waters, calm or choppy.”</p>
-        <div class="who"><b>Akhil Kaza</b> · Head of Engineering, Atlassian</div>
+        <p>“Alex is a leader for all waters, calm or choppy.”</p>
+        <div class="who"><b>VP Engineering</b> · Series B SaaS</div>
       </div>
       <div class="quote">
-        <p>“Mark brings a calm and composed approach even in the toughest situations.”</p>
-        <div class="who"><b>Brijesh Bhatia</b> · VP Wearables, Meta / Reality Labs</div>
+        <p>“Alex brings a calm and composed approach even in the toughest situations.”</p>
+        <div class="who"><b>Director of Engineering</b> · fintech scale-up</div>
       </div>
     </div>
   `;
@@ -553,7 +553,7 @@ function renderReport(r){
 }
 
 async function copyResult(r,band){
-  const text=`Engineering team health: ${r.overall}/100 · "${band.name}". Binding constraint: ${r.bindingLabel}. Ran Fulcrion's free diagnostic: ${location.href}`;
+  const text=`Engineering team health: ${r.overall}/100 · "${band.name}". Binding constraint: ${r.bindingLabel}. Ran Keystone's free diagnostic: ${location.href}`;
   try{ await navigator.clipboard.writeText(text); const b=$('copyBtn'); b.textContent='› copied ✓'; setTimeout(()=>b.textContent='› copy result',2200);}catch{ $('copyBtn').textContent='› press ⌘C'; }
 }
 

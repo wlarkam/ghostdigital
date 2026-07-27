@@ -1,4 +1,4 @@
-// Engineering Team Health Scorecard — pure scoring core for Fulcrion.
+// Engineering Team Health Scorecard — pure scoring core (Keystone demo).
 // No DOM, no fetch, no globals. Unit-tested by scoring.test.js.
 // The UI imports scoreScorecard(), DIMENSIONS, QUESTIONS, BANDS, RECS.
 //
@@ -9,9 +9,8 @@
 // Higher option score = healthier state. The grade emerges from the pattern
 // across 15 items / 5 dimensions, not from any single answer.
 //
-// Copy below is in Mark Alcazar / Fulcrion's voice (velocity, the complexity
-// ceiling, "you're the bottleneck", "give it to you straight") and is a stub
-// pending final brand-voice review. [NEEDS_VOICE_REVIEW]
+// Copy below is in a direct, no-fluff fractional-CTO voice (velocity, the wall
+// a scaling team hits, "you're the bottleneck", "give it to you straight").
 
 export const DIMENSIONS = [
   {
@@ -201,8 +200,8 @@ export const QUESTIONS = [
   },
 ];
 
-// Overall bands, keyed on the 0–100 composite health score. These map directly
-// to Mark's anchor concept, the Complexity Ceiling. [NEEDS_VOICE_REVIEW]
+// Overall bands, keyed on the 0–100 composite health score. These map to the
+// tool's core idea: the wall a team hits as it scales.
 export const BANDS = [
   {
     id: 'in_it',
@@ -211,7 +210,7 @@ export const BANDS = [
     name: 'In the Ceiling',
     tagline: 'You’re not approaching the wall. You’re against it.',
     narrative:
-      'This is the Complexity Ceiling, the point where everything that worked at half this size suddenly doesn’t. ' +
+      'This is the wall every scaling team hits, the point where everything that worked at half this size suddenly doesn’t. ' +
       'Velocity is dropping, you’re the bottleneck on too many calls, and the team is overworked, underwater, and fighting fires. ' +
       'None of this means the team is bad. It means the systems haven’t caught up to the size you’ve grown to.',
   },
@@ -223,7 +222,7 @@ export const BANDS = [
     tagline: 'It still mostly works, but you can feel the drag.',
     narrative:
       'You’re growing, and the cracks are starting to show. A few dimensions are still holding, but momentum is getting harder to sustain ' +
-      'and the early signs of the Complexity Ceiling are here. This is the cheapest moment to fix it, while the wall is still ahead of you. ' +
+      'and the early signs of the wall are here. This is the cheapest moment to fix it, while the wall is still ahead of you. ' +
       'The pattern below shows exactly where velocity is leaking first.',
   },
   {
@@ -239,9 +238,8 @@ export const BANDS = [
   },
 ];
 
-// Per-dimension recommendations, keyed by status. Each is a concrete next move,
-// in Fulcrion's voice. The 'blocked' rec for the binding constraint is the
-// bridge to the Top Blockers Sprint. [NEEDS_VOICE_REVIEW]
+// Per-dimension recommendations, keyed by status. Each is a concrete next move.
+// The 'blocked' rec for the binding constraint is the bridge to the paid sprint.
 export const RECS = {
   team_structure: {
     blocked: 'Ownership runs through you. Map every critical system to a named owner and a backup this week. Single points of failure are the first thing the ceiling exploits.',
