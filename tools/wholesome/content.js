@@ -510,6 +510,29 @@ const PHRASE = {
   },
 };
 
+// Plain durations for when more than one area is selected (avoids the
+// singular "has been ..." verb in the multi-area sentence).
+const SCAR_DUR = {
+  lt6: 'less than six months', '6to12': 'six to twelve months',
+  over1: 'more than a year', several: 'several years', unsure: 'a while',
+};
+
+// scar_area may be a single id OR an array (multi-select). Returns a natural
+// subject like "your stomach", "your stomach and arms", or "the area you
+// mentioned". Returns { text, multi } or null.
+function areaSubject(scarArea) {
+  const ids = Array.isArray(scarArea) ? scarArea : (scarArea ? [scarArea] : []);
+  if (!ids.length) return null;
+  if (ids.length === 1 && ids[0] === 'other') return { text: 'the area you mentioned', multi: false };
+  const words = ids.map((id) => (id === 'other' ? 'another area' : PHRASE.scar_area[id])).filter(Boolean);
+  if (!words.length) return null;
+  let list;
+  if (words.length === 1) list = words[0];
+  else if (words.length === 2) list = `${words[0]} and ${words[1]}`;
+  else list = `${words.slice(0, -1).join(', ')}, and ${words[words.length - 1]}`;
+  return { text: `your ${list}`, multi: ids.length > 1 };
+}
+
 // Returns a 1–2 sentence reflection of the visitor's own answers, or '' if
 // there is not enough to personalize. The UI shows it as "What you told us".
 export function personalSummary(answers = {}) {
@@ -517,16 +540,20 @@ export function personalSummary(answers = {}) {
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
   if (a.concern === 'scars') {
-    const areaWord = p.scar_area[a.scar_area];
+    const area = areaSubject(a.scar_area);
     const heal = p.scar_heal[a.scar_heal];
+    const dur = SCAR_DUR[a.scar_heal];
     const state = p.scar_state[a.scar_state];
     const goal = p.goal_scars[a.goal_scars];
     let s;
-    if (areaWord && heal) {
-      const subject = a.scar_area === 'other' ? 'the area you mentioned' : `your ${areaWord}`;
-      s = `${cap(subject)} ${heal}`;
+    if (area && area.multi) {
+      s = `${cap(area.text)}${dur ? `, which have been there for ${dur}` : ''}.`;
+    } else if (area && heal) {
+      s = `${cap(area.text)} ${heal}`;
       if (state) s += `, and it ${state}`;
       s += '.';
+    } else if (area) {
+      s = `${cap(area.text)}.`;
     } else {
       s = 'You shared a bit about the area you want to treat.';
     }

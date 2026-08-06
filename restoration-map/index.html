@@ -112,6 +112,13 @@ button{font-family:inherit}
 .rm-pathcard.is-selected .rm-pathcard__lines{ opacity:.18; }
 .rm-stamp{ position:absolute; top:14px; right:14px; font-family:var(--rm-fmono); font-weight:700; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--rm-olive); border:1.5px solid var(--rm-olive); border-radius:3px; padding:4px 8px; transform:rotate(-4deg) scale(.6); opacity:0; transition:all 260ms var(--rm-ease); }
 .rm-pathcard.is-selected .rm-stamp{ opacity:1; transform:rotate(-4deg) scale(1); }
+/* multi-select cards (area picker) */
+.rm-pathcard--multi{ padding-right:54px; }
+.rm-multibox{ position:absolute; top:20px; right:20px; width:22px; height:22px; border-radius:6px; border:1.5px solid var(--rm-line-2); background:var(--rm-surface); transition:all 160ms var(--rm-ease); }
+.rm-pathcard--multi.is-selected .rm-multibox{ background:var(--rm-olive); border-color:var(--rm-olive); }
+.rm-pathcard--multi.is-selected .rm-multibox::after{ content:""; position:absolute; left:7px; top:3px; width:6px; height:11px; border:solid var(--rm-white); border-width:0 2px 2px 0; transform:rotate(45deg); }
+.rm-areanext{ margin-top:20px; }
+.rm-btn:disabled{ opacity:.45; cursor:not-allowed; }
 
 /* --- timeline (for the timeline screen) --------------------------------- */
 .rm-vtimeline{ position:relative; display:flex; flex-direction:column; max-width:520px; margin:8px 0 0; }
@@ -429,6 +436,7 @@ function showQuestion(screenId) {
   showMap(true); renderStrip(stageIndex(screenId)); updateMap();
   if (screenId === 'timeline') return showTimeline();
   if (screenId === 'scar_heal') return showWhenPicker();
+  if (screenId === 'scar_area') return showAreaPicker();
   const sel = answers[screenId];
   const cards = s.options.map((o, i) => `
     <button class="rm-pathcard ${sel === o.id ? 'is-selected' : ''}" data-id="${o.id}">
@@ -442,6 +450,38 @@ function showQuestion(screenId) {
     ${s.help ? `<p class="rm-help">${esc(s.help)}</p>` : ''}
     <div class="rm-cards rm-cards--grid">${cards}</div>`);
   wireCards(el, screenId);
+}
+
+// ---- multi-select area picker (scars can span more than one area) ----
+function showAreaPicker() {
+  const s = SCREENS.scar_area;
+  const chosen = new Set(Array.isArray(answers.scar_area) ? answers.scar_area : (answers.scar_area ? [answers.scar_area] : []));
+  const cards = s.options.map((o, i) => `
+    <button class="rm-pathcard rm-pathcard--multi ${chosen.has(o.id) ? 'is-selected' : ''}" data-id="${o.id}" aria-pressed="${chosen.has(o.id)}">
+      <span class="rm-multibox"></span>
+      <span class="rm-pathcard__n">${String(i + 1).padStart(2, '0')} /</span>
+      <div class="rm-pathcard__t">${esc(o.label)}</div>
+    </button>`).join('');
+  const el = paint(`
+    <p class="rm-eyebrow">Layer 04 · Details</p>
+    <h2 class="rm-h2">${esc(s.question)}</h2>
+    <p class="rm-help">Select all that apply</p>
+    <div class="rm-cards rm-cards--grid">${cards}</div>
+    <button class="rm-btn rm-btn--olive rm-areanext" id="areaNext" ${chosen.size ? '' : 'disabled'}>Continue</button>`);
+  const next = el.querySelector('#areaNext');
+  el.querySelectorAll('.rm-pathcard').forEach((card) => card.addEventListener('click', () => {
+    const id = card.dataset.id;
+    if (chosen.has(id)) chosen.delete(id); else chosen.add(id);
+    card.classList.toggle('is-selected', chosen.has(id));
+    card.setAttribute('aria-pressed', chosen.has(id));
+    next.disabled = chosen.size === 0;
+  }));
+  next.addEventListener('click', () => {
+    if (!chosen.size) return;
+    answers.scar_area = [...chosen];
+    updateMap();
+    advance();
+  });
 }
 
 function showTimeline() {

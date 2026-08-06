@@ -239,3 +239,16 @@ test('personalSummary personalizes each branch and never throws', () => {
   assert.match(personalSummary(brow({ brow_fill: 'daily', goal_brows: 'natural' })), /every day/);
   assert.match(personalSummary(unsure({ goal_unsure: 'which_fits' })), /which treatment/);
 });
+
+test('personalSummary handles multiple scar areas, plural-safe', () => {
+  const s = personalSummary(scar({ scar_area: ['stomach', 'arms'], scar_heal: 'over1', goal_scars: 'texture' }));
+  assert.match(s, /your stomach and arms/i);
+  assert.match(s, /have been there for more than a year/i);
+  assert.doesNotMatch(s, /\bit has been\b/i);
+  assert.match(s, /texture/);
+});
+
+test('internal summary lists multiple scar areas', () => {
+  const r = assess(scar({ scar_area: ['stomach', 'arms'], goal_scars: 'texture' }), { name: 'Mia' });
+  assert.match(r.internalSummary, /the stomach, the arms/);
+});

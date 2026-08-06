@@ -201,7 +201,11 @@ function internalSummary(name, branch, a, route, stage, nextStepId, flags) {
   const goalKey = branch === 'scars' ? 'goal_scars' : branch === 'smp' ? 'goal_smp' : branch === 'brows' ? 'goal_brows' : 'goal_unsure';
   const goal = label(LABELS[goalKey], goalFor(branch, a));
   const timeline = label(LABELS.timeline, a.timeline);
-  const area = branch === 'scars' ? label(LABELS.scar_area, a.scar_area) : null;
+  // scar_area may be a single id or an array (multi-select).
+  const areaIds = Array.isArray(a.scar_area) ? a.scar_area : (a.scar_area ? [a.scar_area] : []);
+  const area = branch === 'scars'
+    ? (areaIds.map((id) => label(LABELS.scar_area, id)).filter(Boolean).join(', ') || null)
+    : null;
 
   const parts = [];
   parts.push(`${who} is interested in ${interest}.`);
