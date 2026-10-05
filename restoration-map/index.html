@@ -208,6 +208,10 @@ button{font-family:inherit}
 .rm-qs{ list-style:none; margin:6px 0 0; padding:0; display:grid; gap:11px; }
 .rm-qs li{ display:flex; align-items:flex-start; gap:11px; font-size:15px; line-height:1.5; color:var(--rm-charcoal); }
 .rm-qs li::before{ content:"?"; font-family:var(--rm-fmono); font-weight:700; color:var(--rm-clay); flex:none; }
+.rm-ba{ margin:2px 0 0; }
+.rm-ba img{ display:block; width:100%; max-width:430px; height:auto; aspect-ratio:1/1; object-fit:cover; border-radius:10px; border:1px solid var(--rm-line); background:var(--rm-paper); }
+.rm-ba__cap{ font-family:var(--rm-fmono); font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--rm-olive); margin:12px 0 0; }
+.rm-ba__note{ font-size:13px; line-height:1.5; color:rgba(27,27,24,.6); margin:7px 0 0; max-width:48ch; }
 .rm-next{ background:var(--rm-olive); color:var(--rm-white); border-radius:10px; padding:26px 26px; }
 .rm-next .rm-mono{ color:rgba(246,243,238,.6); }
 .rm-next .rm-mono b{ color:var(--rm-white); }
@@ -281,6 +285,15 @@ const CONFIG = {
     match: 'https://www.wholesomeempireyyc.com/services',
   },
 };
+// ---- real before/after results, matched to the path family (actual Wholesome Empire clients) ----
+const BA = {
+  revision:   { src: '/restoration-map/assets/ba/scars-1.webp', alt: 'Scar before and after at a Calgary clinic: prior, then six weeks after the first session, with softer texture and more even skin.', cap: 'Scar revision · prior vs. 6 weeks post first session' },
+  camouflage: { src: '/restoration-map/assets/ba/scars-1.webp', alt: 'Scar and stretch mark before and after: prior, then six weeks after the first session, with more even tone and texture.', cap: 'Scar & stretch mark work · prior vs. 6 weeks post first session' },
+  smp:        { src: '/restoration-map/assets/ba/smp-2.webp',   alt: 'Scalp micropigmentation before and after: visible thinning along the part (inset) restored to the look of fuller density.', cap: 'Scalp micropigmentation · before (inset) vs. after' },
+  brow:       { src: '/restoration-map/assets/ba/brows-2.webp', alt: 'Brow before and after: sparse, light brows (top) restored to a defined, natural shape (bottom).', cap: 'Brow restoration · before (top) vs. after (bottom)' },
+  match:      { src: '/restoration-map/assets/ba/scars-1.webp', alt: 'A recent paramedical result at a Calgary clinic: prior, then six weeks after the first session.', cap: 'A recent clinic result · prior vs. 6 weeks post first session' },
+};
+const BA_NOTE = 'A recent result from Wholesome Empire. Individual results vary with skin type, the age of the mark, and the number of sessions.';
 const treatmentUrl = (fam) => CONFIG.treatmentUrls[fam] || CONFIG.site;
 function ctaHref(nextStepId, fam) {
   if (nextStepId === 'learn_more') return treatmentUrl(fam);
@@ -619,6 +632,7 @@ function showReport(computed, name) {
   const affects = REPORT.whatAffects[fam] || REPORT.whatAffects.match;
   const shot = REPORT.shotList[computed.checklistKey] || REPORT.shotList.unsure;
   const questions = REPORT.consultQuestions[fam] || REPORT.consultQuestions.match;
+  const ba = BA[fam] || BA.match;
   const stageMeaning = REPORT.readinessMeaning[computed.readinessStage] || '';
   const step = REPORT.nextStep[computed.nextStepId] || REPORT.nextStep.photo_review;
   const told = personalSummary(answers);
@@ -664,6 +678,14 @@ function showReport(computed, name) {
           <ul class="rm-checkgrid">${affects.map(a => `<li>${esc(a)}</li>`).join('')}</ul>
           <p class="rm-body" style="margin-top:16px"><b>What not to expect:</b> ${esc(outcome.notExpect)}</p>
         </div>
+        ${ba ? `<div class="rm-block">
+          <p class="rm-sectitle">What this can look like</p>
+          <figure class="rm-ba">
+            <img src="${ba.src}" alt="${esc(ba.alt)}" loading="lazy" decoding="async" width="430" height="430">
+            <figcaption class="rm-ba__cap">${esc(ba.cap)}</figcaption>
+          </figure>
+          <p class="rm-ba__note">${esc(BA_NOTE)}</p>
+        </div>` : ''}
         ${days ? `<div class="rm-block rm-days">
           <p class="rm-sectitle">${esc(DAYS_COPY.label)}</p>
           <p class="rm-days__num" data-count="${days}">${days.toLocaleString('en-US')}</p>
