@@ -8,7 +8,7 @@
 <meta name="robots" content="index,follow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Epilogue:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
 /* ==========================================================================
    THE RESTORATION MAP — Wholesome Empire YYC (design concept B)
@@ -16,13 +16,13 @@
    Reuses the tested engine in /tools/wholesome/*. Tokens namespaced --rm-*.
    ========================================================================== */
 :root{
-  --rm-ink:#0B0B0A; --rm-white:#F6F3EE; --rm-paper:#ECE7DE; --rm-grey:#D8D6D0;
+  --rm-ink:#0B0B0A; --rm-white:#F7F8F4; --rm-paper:#E9EDE3; --rm-grey:#D8D6D0;
   --rm-charcoal:#1B1B18; --rm-olive:#3E4938; --rm-sage:#DDE4D8; --rm-clay:#A46F55;
   --rm-blush:#D7B7A9;
-  --rm-bg:#F4F1EA; --rm-surface:#FFFFFF;
+  --rm-bg:#FFFFFF; --rm-surface:#FFFFFF;
   --rm-line:rgba(27,27,24,.13); --rm-line-2:rgba(27,27,24,.26);
   --rm-line-dark:rgba(27,27,24,.12);
-  --rm-fdisplay:"Fraunces",Georgia,"Times New Roman",serif;
+  --rm-fdisplay:"Anton",Impact,"Haettenschweiler","Arial Narrow",sans-serif;
   --rm-fbody:"Epilogue",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --rm-flabel:"Epilogue",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --rm-fmono:var(--rm-flabel);
@@ -50,8 +50,9 @@ button{font-family:inherit}
 /* --- map strip (progress) ----------------------------------------------- */
 .rm-strip{ position:relative; z-index:3; border-bottom:1px solid var(--rm-line-dark); background:rgba(27,27,24,.02); }
 .rm-strip__in{ max-width:var(--rm-maxw); margin:0 auto; padding:14px 28px; display:flex; align-items:center; gap:8px; overflow-x:auto; }
-.rm-step{ display:flex; align-items:center; gap:9px; font-family:var(--rm-fmono); font-weight:700; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; color:rgba(27,27,24,.5); white-space:nowrap; }
-.rm-step__n{ font-weight:700; }
+.rm-step{ display:flex; align-items:center; gap:9px; font-family:var(--rm-flabel); font-weight:600; font-size:12.5px; letter-spacing:.02em; color:rgba(27,27,24,.5); white-space:nowrap; }
+.rm-step__dot{ width:6px; height:6px; border-radius:50%; background:currentColor; opacity:.4; flex:none; }
+.rm-step.is-active .rm-step__dot{ opacity:1; background:var(--rm-clay); }
 .rm-step.is-active{ color:var(--rm-charcoal); }
 .rm-step.is-done{ color:var(--rm-olive); }
 .rm-step .tick{ color:var(--rm-olive); }
@@ -70,12 +71,12 @@ button{font-family:inherit}
 @media(prefers-reduced-motion:reduce){ .rm-stage,.rm-card,.rm-stagger>*{animation:none!important} }
 
 /* --- eyebrow / headings -------------------------------------------------- */
-.rm-eyebrow{ font-family:var(--rm-fmono); font-weight:700; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--rm-clay); margin:0 0 16px; }
-.rm-kicker{ font-family:var(--rm-fdisplay); font-style:italic; font-weight:600; font-size:clamp(27px,4.4vw,46px); letter-spacing:.005em; color:var(--rm-clay); margin:0 0 8px; }
-.rm-h1{ font-family:var(--rm-fdisplay); font-weight:500; font-size:clamp(48px,9vw,94px); line-height:1.0; letter-spacing:-.015em; color:var(--rm-olive); margin:0 0 22px; }
-.rm-h2{ font-family:var(--rm-fdisplay); font-weight:500; font-size:clamp(30px,4.7vw,46px); line-height:1.08; letter-spacing:-.01em; color:var(--rm-olive); margin:0 0 12px; }
+.rm-eyebrow{ font-family:var(--rm-flabel); font-weight:700; font-size:13px; letter-spacing:.02em; color:var(--rm-clay); margin:0 0 16px; }
+.rm-kicker{ font-family:var(--rm-fdisplay); font-weight:400; font-size:clamp(20px,3vw,30px); letter-spacing:.02em; text-transform:uppercase; color:var(--rm-clay); margin:0 0 10px; }
+.rm-h1{ font-family:var(--rm-fdisplay); font-weight:400; font-size:clamp(46px,8.6vw,88px); line-height:.92; letter-spacing:.004em; text-transform:uppercase; color:var(--rm-olive); margin:0 0 22px; }
+.rm-h2{ font-family:var(--rm-fdisplay); font-weight:400; font-size:clamp(28px,4.5vw,44px); line-height:1.0; letter-spacing:.006em; text-transform:uppercase; color:var(--rm-olive); margin:0 0 12px; }
 .rm-sub{ color:rgba(27,27,24,.66); font-size:17px; line-height:1.6; max-width:40ch; margin:0 0 30px; }
-.rm-help{ font-family:var(--rm-fmono); font-weight:700; font-size:12.5px; letter-spacing:.05em; text-transform:uppercase; color:rgba(27,27,24,.6); margin:0 0 26px; }
+.rm-help{ font-family:var(--rm-flabel); font-weight:600; font-size:14px; letter-spacing:.01em; color:rgba(27,27,24,.6); margin:0 0 26px; }
 
 /* --- welcome ------------------------------------------------------------- */
 .rm-welcome{ display:grid; grid-template-columns:1.3fr .9fr; gap:40px; align-items:center; }
@@ -89,7 +90,7 @@ button{font-family:inherit}
 .rm-filerow>span:first-child{ color:rgba(27,27,24,.42); }
 .rm-filerow>span:last-child{ color:var(--rm-olive); }
 .rm-filestamp{ align-self:flex-start; font-family:var(--rm-fmono); font-weight:700; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--rm-clay); border:1.5px solid var(--rm-clay); border-radius:3px; padding:7px 12px; transform:rotate(-3deg); }
-.rm-btn{ font-family:var(--rm-flabel); font-weight:600; letter-spacing:.01em; font-size:15px; cursor:pointer; border:none; border-radius:4px; padding:16px 32px; background:var(--rm-white); color:var(--rm-ink); transition:background 180ms var(--rm-ease), transform 120ms var(--rm-ease); display:inline-flex; align-items:center; gap:12px; text-decoration:none; }
+.rm-btn{ font-family:var(--rm-flabel); font-weight:600; letter-spacing:.01em; font-size:15px; cursor:pointer; border:1px solid var(--rm-line-2); border-radius:4px; padding:16px 32px; background:var(--rm-surface); color:var(--rm-ink); transition:background 180ms var(--rm-ease), transform 120ms var(--rm-ease); display:inline-flex; align-items:center; gap:12px; text-decoration:none; }
 .rm-btn:hover{ background:var(--rm-sage); }
 .rm-btn:active{ transform:translateY(1px); }
 .rm-btn--olive{ background:var(--rm-olive); color:var(--rm-white); }
@@ -105,7 +106,7 @@ button{font-family:inherit}
 .rm-pathcard:hover{ transform:translateY(-2px); border-color:var(--rm-olive); box-shadow:0 16px 34px -24px rgba(27,27,24,.35); }
 .rm-pathcard:focus-visible{ outline:2px solid var(--rm-olive); outline-offset:2px; }
 .rm-pathcard.is-selected{ border-color:var(--rm-olive); box-shadow:inset 0 0 0 1px var(--rm-olive); background:#f0ede5; }
-.rm-pathcard__n{ font-family:var(--rm-fmono); font-size:12.5px; font-weight:700; letter-spacing:.12em; color:var(--rm-clay); }
+.rm-pathcard__n{ display:none; }
 .rm-pathcard__t{ font-family:var(--rm-fdisplay); font-weight:600; font-size:24px; line-height:1.12; letter-spacing:0; margin:3px 0 0; color:var(--rm-charcoal); }
 .rm-pathcard__d{ font-size:13.5px; line-height:1.5; color:rgba(27,27,24,.62); margin:7px 0 0; }
 .rm-pathcard__lines{ position:absolute; right:-30px; top:-20px; width:170px; height:170px; opacity:0; transition:opacity 320ms var(--rm-ease); pointer-events:none; }
@@ -184,13 +185,13 @@ button{font-family:inherit}
 
 .rm-block{ padding:24px 0; border-top:1px solid var(--rm-line); }
 .rm-block:first-child{ border-top:none; padding-top:8px; }
-.rm-mono{ font-family:var(--rm-fmono); font-weight:700; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:rgba(27,27,24,.62); margin:0 0 12px; }
-.rm-sectitle{ font-family:var(--rm-fdisplay); font-weight:500; font-size:clamp(28px,4vw,40px); line-height:1.08; letter-spacing:-.01em; color:var(--rm-olive); margin:0 0 14px; }
+.rm-mono{ font-family:var(--rm-flabel); font-weight:700; font-size:13px; letter-spacing:.01em; color:var(--rm-olive); margin:0 0 10px; }
+.rm-sectitle{ font-family:var(--rm-fdisplay); font-weight:400; font-size:clamp(24px,3.4vw,34px); line-height:1.02; letter-spacing:.006em; text-transform:uppercase; color:var(--rm-olive); margin:0 0 14px; }
 .rm-fear .rm-sectitle{ color:var(--rm-olive); font-size:clamp(24px,3.4vw,32px); line-height:1.1; }
 .rm-mono b{ color:var(--rm-charcoal); font-weight:700; }
-.rm-path{ font-family:var(--rm-fdisplay); font-weight:500; font-size:clamp(30px,4.9vw,44px); line-height:1.08; letter-spacing:-.012em; color:var(--rm-olive); margin:0; }
+.rm-path{ font-family:var(--rm-fdisplay); font-weight:400; font-size:clamp(26px,4.4vw,40px); line-height:1.0; letter-spacing:.006em; text-transform:uppercase; color:var(--rm-olive); margin:0; }
 .rm-body{ font-size:15.5px; line-height:1.66; color:rgba(27,27,24,.82); margin:0; }
-.rm-badge{ display:inline-flex; align-items:center; gap:9px; font-family:var(--rm-flabel); font-weight:600; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; padding:9px 18px; border-radius:999px; border:1.5px solid; }
+.rm-badge{ display:inline-flex; align-items:center; gap:9px; font-family:var(--rm-flabel); font-weight:600; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; padding:9px 16px; border-radius:4px; border:1.5px solid; }
 .rm-badge[data-b="Ready for consult"]{ color:var(--rm-olive); border-color:var(--rm-olive); background:var(--rm-sage); }
 .rm-badge[data-b="Photo review recommended"]{ color:var(--rm-white); border-color:var(--rm-charcoal); background:var(--rm-charcoal); }
 .rm-badge[data-b="Wait and prepare"]{ color:#5a3a29; border-color:var(--rm-clay); background:#eaddd4; }
@@ -368,7 +369,7 @@ function stageIndex(screenId) {
 function renderStrip(activeIdx) {
   $strip.innerHTML = STAGES.map((s, i) => {
     const cls = i < activeIdx ? 'is-done' : i === activeIdx ? 'is-active' : '';
-    const mark = i < activeIdx ? '<span class="tick">✓</span>' : `<span class="rm-step__n">${s[0]}</span>`;
+    const mark = i < activeIdx ? '<span class="tick">✓</span>' : '<span class="rm-step__dot"></span>';
     return `<span class="rm-step ${cls}">${mark}${esc(s[1])}</span>` + (i < STAGES.length - 1 ? '<span class="rm-step__sep"></span>' : '');
   }).join('');
 }
@@ -436,7 +437,7 @@ function showConcern() {
       <div class="rm-pathcard__d">${esc(c.d)}</div>
     </button>`).join('');
   const el = paint(`
-    <p class="rm-eyebrow">Layer 01 · Concern</p>
+    <p class="rm-eyebrow">Your concern</p>
     <h2 class="rm-h2">What would you like to map first?</h2>
     <p class="rm-help">Pick the one that feels closest</p>
     <div class="rm-cards rm-cards--grid">${cards}</div>`);
@@ -476,7 +477,7 @@ function showAreaPicker() {
       <div class="rm-pathcard__t">${esc(o.label)}</div>
     </button>`).join('');
   const el = paint(`
-    <p class="rm-eyebrow">Layer 04 · Details</p>
+    <p class="rm-eyebrow">A few details</p>
     <h2 class="rm-h2">${esc(s.question)}</h2>
     <p class="rm-help">Select all that apply</p>
     <div class="rm-cards rm-cards--grid">${cards}</div>
@@ -506,7 +507,7 @@ function showTimeline() {
     return `<button class="rm-vt-node ${sel === id ? 'is-selected' : ''}" data-id="${id}"><span class="rm-vt-dot"></span><span class="rm-vt-lab">${esc(lab)}</span></button>`;
   }).join('');
   const el = paint(`
-    <p class="rm-eyebrow">Layer 03 · Timeline</p>
+    <p class="rm-eyebrow">Your timeline</p>
     <h2 class="rm-h2">${esc(s.question)}</h2>
     <p class="rm-help">Place yourself on the path</p>
     <div class="rm-vtimeline">${nodes}</div>`);
@@ -525,7 +526,7 @@ function showWhenPicker() {
   for (let y = NOW_YEAR; y >= NOW_YEAR - 45; y--) years += `<option value="${y}">${y}</option>`;
   years += `<option value="older">Before ${NOW_YEAR - 45}</option>`;
   const el = paint(`
-    <p class="rm-eyebrow">Layer 04 · Details</p>
+    <p class="rm-eyebrow">A few details</p>
     <h2 class="rm-h2">${esc(SCREENS.scar_heal.question)}</h2>
     <p class="rm-help">${esc(SCREENS.scar_heal.help || '')}</p>
     <div class="rm-when">
@@ -561,9 +562,9 @@ function animateCount(el, target) {
 }
 
 function stageEyebrow(id) {
-  if (/^goal_/.test(id)) return 'Layer 02 · Goal';
-  if (id === 'barrier') return 'Layer 04 · One honest question';
-  return 'Layer 04 · Details';
+  if (/^goal_/.test(id)) return 'Your goal';
+  if (id === 'barrier') return 'One honest question';
+  return 'A few details';
 }
 
 function wireCards(el, screenId) {
@@ -580,7 +581,7 @@ function wireCards(el, screenId) {
 function showContact() {
   showMap(true); renderStrip(4); updateMap();
   const el = paint(`
-    <p class="rm-eyebrow">Layer 05 · Report</p>
+    <p class="rm-eyebrow">Your path map</p>
     <h2 class="rm-h2">Your file is ready</h2>
     <p class="rm-sub">Add your details to open your private treatment readiness report and receive a copy by email.</p>
     <div class="rm-field"><label class="rm-label" for="fn">First name</label><input class="rm-input" id="fn" type="text" autocomplete="given-name"></div>
