@@ -448,7 +448,7 @@ const extAttr = (h) => (/^https?:/.test(h) ? ' target="_blank" rel="noopener"' :
 // Point the primary CTA at the right destination for the recommended step.
 function ctaHref(nextStepId, fam) {
   if (nextStepId === 'learn_more') return treatmentUrl(fam);
-  if (nextStepId === 'wait_prepare') return CONFIG.prepGuideUrl || treatmentUrl(fam);
+  if (nextStepId === 'wait_prepare') return CONFIG.bookingUrl || treatmentUrl(fam); // plan-ahead consult; no prep guide exists yet
   return CONFIG.bookingUrl || treatmentUrl(fam); // consult + photo review -> inquiry funnel
 }
 function hideSticky() { $sticky.classList.remove('is-shown'); $sticky.setAttribute('aria-hidden', 'true'); }

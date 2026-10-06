@@ -405,7 +405,7 @@ export const REPORT = {
     consult_phone: { primary: 'Book a Free Phone Consult', note: 'A short, no-pressure call to talk through your options.' },
     photo_review: { primary: 'Start With a Photo Review', note: 'Send a few clear photos so the clinic can guide your next step.' },
     consult_brow: { primary: 'Book a Brow Consultation', note: 'A quick sit-down to plan shape, style, and finish.' },
-    wait_prepare: { primary: 'Get Your Prep Guide', note: "We'll help you prepare now and revisit when the timing is right." },
+    wait_prepare: { primary: 'Book a Free Phone Consult', note: 'Plan ahead now, and start treatment once the area has settled.' },
     learn_more: { primary: 'Learn More First', note: 'A little context before you decide anything.' },
   },
 };
