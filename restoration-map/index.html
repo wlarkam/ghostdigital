@@ -44,6 +44,8 @@ button{font-family:inherit}
 .rm-head__in{ max-width:var(--rm-maxw); margin:0 auto; padding:20px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
 .rm-brand{ display:flex; align-items:center; gap:11px; font-family:var(--rm-flabel); font-weight:650; letter-spacing:.16em; text-transform:uppercase; font-size:16px; color:var(--rm-charcoal); text-decoration:none; }
 .rm-brand .dot{ width:8px;height:8px;border-radius:50%;background:var(--rm-olive); }
+.rm-brand__tag{ font-family:var(--rm-fdisplay); font-weight:400; font-size:16px; letter-spacing:.02em; color:var(--rm-clay); padding-left:12px; margin-left:1px; border-left:1px solid var(--rm-line-2); line-height:1.1; }
+@media(max-width:400px){ .rm-brand{ font-size:13px; gap:9px } .rm-brand__tag{ font-size:13px; padding-left:9px } }
 .rm-head__meta{ font-family:var(--rm-fmono); font-weight:700; font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:rgba(27,27,24,.6); }
 @media(max-width:640px){ .rm-head__meta{ display:none } }
 
@@ -277,7 +279,7 @@ button{font-family:inherit}
 
 <header class="rm-head">
   <div class="rm-head__in">
-    <a class="rm-brand" href="/"><span class="dot"></span>Wholesome Empire</a>
+    <a class="rm-brand" href="/"><span class="dot"></span>Wholesome Empire<span class="rm-brand__tag">The Art of Healing</span></a>
     <span class="rm-head__meta">Private Treatment Path Assessment</span>
   </div>
 </header>
