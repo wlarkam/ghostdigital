@@ -209,6 +209,30 @@ button{font-family:inherit}
 .rm-qs{ list-style:none; margin:6px 0 0; padding:0; display:grid; gap:11px; }
 .rm-qs li{ display:flex; align-items:flex-start; gap:11px; font-size:15px; line-height:1.5; color:var(--rm-charcoal); }
 .rm-qs li::before{ content:"?"; font-family:var(--rm-fmono); font-weight:700; color:var(--rm-clay); flex:none; }
+.rm-track{ list-style:none; margin:6px 0 24px; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+.rm-track__s{ display:flex; flex-direction:column; gap:9px; }
+.rm-track__bar{ height:6px; background:rgba(27,27,24,.1); }
+.rm-track__s.is-done .rm-track__bar{ background:var(--rm-olive); opacity:.55; }
+.rm-track__s.is-now .rm-track__bar{ background:var(--rm-olive); }
+.rm-track__lab{ font-size:13.5px; font-weight:500; line-height:1.3; color:rgba(27,27,24,.45); }
+.rm-track__s.is-done .rm-track__lab{ color:rgba(64,74,61,.7); }
+.rm-track__s.is-now .rm-track__lab{ color:var(--rm-olive); font-weight:700; }
+.rm-track__here{ font-size:12.5px; font-weight:600; color:var(--rm-clay); margin-top:-5px; }
+.rm-ready__stage{ font-weight:600; font-size:clamp(22px,3vw,28px); line-height:1.2; letter-spacing:-.015em; color:var(--rm-charcoal); margin:0 0 8px; }
+.rm-forward{ margin:18px 0 0; padding:16px 18px; border-left:3px solid var(--rm-clay); background:rgba(164,111,85,.07); }
+.rm-forward__k{ font-size:13.5px; font-weight:700; color:var(--rm-clay); margin:0 0 4px; }
+.rm-forward__v{ font-size:15.5px; line-height:1.55; color:var(--rm-charcoal); margin:0; }
+.rm-plan{ list-style:none; margin:8px 0 0; padding:0; position:relative; }
+.rm-plan::before{ content:""; position:absolute; left:6px; top:12px; bottom:12px; width:2px; background:rgba(27,27,24,.1); }
+.rm-plan__s{ position:relative; display:flex; gap:18px; padding:0 0 22px; }
+.rm-plan__s:last-child{ padding-bottom:0; }
+.rm-plan__s > div{ flex:1; min-width:0; }
+.rm-plan__dot{ flex:none; position:relative; z-index:1; width:14px; height:14px; margin-top:5px; border-radius:50%; background:var(--rm-surface); border:2px solid rgba(64,74,61,.45); }
+.rm-plan__s.is-next .rm-plan__dot{ background:var(--rm-clay); border-color:var(--rm-clay); box-shadow:0 0 0 4px rgba(164,111,85,.16); }
+.rm-plan__t{ font-weight:600; font-size:17px; line-height:1.35; color:var(--rm-olive); margin:0 0 3px; }
+.rm-plan__tag{ margin-left:10px; font-size:13px; font-weight:600; color:var(--rm-clay); }
+.rm-plan__d{ font-size:15px; line-height:1.55; color:rgba(27,27,24,.72); margin:0; max-width:70ch; }
+@media(max-width:520px){ .rm-track__lab{ font-size:12px } .rm-track__here{ font-size:11px; white-space:nowrap } .rm-plan__tag{ display:block; margin:2px 0 0 } }
 .rm-ba{ margin:2px 0 0; }
 .rm-ba img{ display:block; width:100%; max-width:440px; height:auto; border-radius:10px; border:1px solid var(--rm-line); background:var(--rm-paper); }
 .rm-ba__cap{ font-family:var(--rm-fmono); font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--rm-olive); margin:12px 0 0; }
@@ -295,6 +319,50 @@ const BA = {
   match:      { src: '/restoration-map/assets/ba/scars-arm.jpg',     w: 1000, h: 786,  alt: 'A recent stretch mark result at a Calgary clinic: softened and more even after treatment.', cap: 'A recent clinic result · before vs. after' },
 };
 const BA_NOTE = 'A recent result from Wholesome Empire. Individual results vary with skin type, the age of the mark, and the number of sessions.';
+// ---- readiness track + step-by-step plan ----
+const TRACK = ['Learning', 'Preparing', 'Reviewing', 'Ready to book'];
+const TRACK_IDX = { 'Education first': 0, 'Wait and prepare': 1, 'Photo review recommended': 2, 'Specialist review recommended': 2, 'Ready for consult': 3 };
+const FORWARD = {
+  'Education first': 'Knowing which treatment fits you. A read of the treatment page, or a free phone consult, moves you to the next stage.',
+  'Wait and prepare': 'Time. Once the area has stopped changing, healing or feeling sensitive, a photo review is your next step.',
+  'Photo review recommended': "A few clear photos. Once the clinic has seen the area, you'll know what's possible and can book with confidence.",
+  'Specialist review recommended': 'One conversation. Your answers have a few moving parts, and a short call with a specialist is the quickest way to a clear plan.',
+  'Ready for consult': 'Booking your consult. Your answers say the area is ready and you know what you want.',
+};
+const PLAN = {
+  scars: [
+    ['Free phone consult', 'A short, private call about your area and what you want to change.'],
+    ['Photo review', 'Send a few photos using the shot list below so the clinic can see the area properly.'],
+    ['Your treatment plan', 'The clinic recommends an approach for your skin and tells you how many sessions to expect.'],
+    ['First session', 'Treatment happens in a private room at the Calgary clinic.'],
+    ['Settle and review', "Your skin is given time to settle between sessions. The clinic's own results are photographed around six weeks after a session."],
+  ],
+  smp: [
+    ['Free phone consult', 'Talk through your hair loss, the look you want, and any previous treatments.'],
+    ['Photo review', 'Photos of your hairline, crown and sides help the clinic plan shape and density.'],
+    ['Your treatment plan', 'Hairline shape, density and shade are agreed before anything starts.'],
+    ['First session', 'The first layer of pigment goes in at the Calgary clinic.'],
+    ['Build the density', 'SMP is built up in layers, so plans often include more than one session. The clinic confirms yours on the call.'],
+  ],
+  brows: [
+    ['Free phone consult', 'Talk through your brows today and the look you want.'],
+    ['Shape and shade', 'Your shape and shade are mapped to your face before any pigment goes in.'],
+    ['Your brow session', 'Your brows are done in a private room at the Calgary clinic.'],
+    ['Heal and touch up', 'Brows soften as they heal, and a touch-up is a normal part of the process. The clinic confirms the timing.'],
+  ],
+  unsure: [
+    ['Free phone consult', 'A short, private call to work out which treatment suits you.'],
+    ['Your treatment match', 'The clinic points you to the option that fits your goals, and tells you honestly if one does not.'],
+    ['Photo review', 'If it helps, send a few photos so the clinic can see what you are working with.'],
+    ['Your plan', 'You leave with a clear plan, and book only when it feels right.'],
+  ],
+};
+function planFor(branch, stage) {
+  const steps = [...(PLAN[branch] || PLAN[branch + 's'] || PLAN.unsure)];
+  if (stage === 'Wait and prepare') steps.unshift(['Let the area settle', 'Give it time until it has stopped changing, healing or feeling sensitive. That is when the clinic can properly see what is possible.']);
+  if (stage === 'Education first') steps.unshift(['Learn your options', 'Read about the treatment that matches your answers, then book the free phone consult when you feel ready.']);
+  return steps;
+}
 const treatmentUrl = (fam) => CONFIG.treatmentUrls[fam] || CONFIG.site;
 function ctaHref(nextStepId, fam) {
   if (nextStepId === 'learn_more') return treatmentUrl(fam);
@@ -634,6 +702,9 @@ function showReport(computed, name) {
   const shot = REPORT.shotList[computed.checklistKey] || REPORT.shotList.unsure;
   const questions = REPORT.consultQuestions[fam] || REPORT.consultQuestions.match;
   const ba = BA[fam] || BA.match;
+  const stage = computed.readinessStage;
+  const trackIdx = TRACK_IDX[stage] ?? 2;
+  const plan = planFor(computed.branch, stage);
   const stageMeaning = REPORT.readinessMeaning[computed.readinessStage] || '';
   const step = REPORT.nextStep[computed.nextStepId] || REPORT.nextStep.photo_review;
   const told = personalSummary(answers);
@@ -662,14 +733,24 @@ function showReport(computed, name) {
           <p class="rm-path">${esc(computed.bestFitPath)}</p>
         </div>
         <div class="rm-block">
+          <p class="rm-sectitle">Where you are right now</p>
+          <ol class="rm-track" aria-label="Readiness stages">
+            ${TRACK.map((t, i) => `<li class="rm-track__s${i < trackIdx ? ' is-done' : i === trackIdx ? ' is-now' : ''}"${i === trackIdx ? ' aria-current="step"' : ''}><span class="rm-track__bar"></span><span class="rm-track__lab">${esc(t)}</span>${i === trackIdx ? '<span class="rm-track__here">You are here</span>' : ''}</li>`).join('')}
+          </ol>
+          <p class="rm-ready__stage">${esc(stage)}</p>
+          ${stageMeaning ? `<p class="rm-body">${esc(stageMeaning)}</p>` : ''}
+          ${FORWARD[stage] ? `<div class="rm-forward"><p class="rm-forward__k">What moves you forward</p><p class="rm-forward__v">${esc(FORWARD[stage])}</p></div>` : ''}
+        </div>
+        <div class="rm-block">
+          <p class="rm-sectitle">Your path, step by step</p>
+          <ol class="rm-plan">
+            ${plan.map(([t, d], i) => `<li class="rm-plan__s${i === 0 ? ' is-next' : ''}"><span class="rm-plan__dot"></span><div><p class="rm-plan__t">${esc(t)}${i === 0 ? '<span class="rm-plan__tag">Your next step</span>' : ''}</p><p class="rm-plan__d">${esc(d)}</p></div></li>`).join('')}
+          </ol>
+        </div>
+        <div class="rm-block">
           <p class="rm-sectitle">Why this path fits</p>
           ${told ? `<p class="rm-body">${esc(told)}</p>` : ''}
           <p class="rm-body" style="margin-top:${told ? '12px' : '0'}">${esc(logic)}</p>
-        </div>
-        <div class="rm-block">
-          <p class="rm-sectitle">Your readiness stage</p>
-          <span class="rm-badge" data-b="${esc(computed.readinessStage)}">${esc(computed.readinessStage)}</span>
-          ${stageMeaning ? `<p class="rm-body" style="margin-top:14px">${esc(stageMeaning)}</p>` : ''}
         </div>
         ${fear ? `<div class="rm-block"><div class="rm-fear"><p class="rm-sectitle">About what's holding you back</p><p>${esc(fear)}</p></div></div>` : ''}
         <div class="rm-block">
