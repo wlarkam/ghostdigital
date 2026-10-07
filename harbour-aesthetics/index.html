@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Treatment Chart · Harbour Aesthetics</title>
+<meta name="description" content="Find your starting point for anti-wrinkle injections, dermal fillers or laser. A private treatment-path assessment. Demo build for a fictional clinic." />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Figtree:wght@300..800&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   THE TREATMENT CHART — Harbour Aesthetics (FICTIONAL demo clinic)
+   Clinical white shell, harbour-navy type, sea-mist panels, tide-line motif.
+   Cloned from /restoration-map; engine in /tools/harbour/*. Tokens --ha-*.
+   ========================================================================== */
+:root{
+  --ha-ink:#0E1E28; --ha-navy:#173B50; --ha-navy-2:#20506A; --ha-teal:#2A7479;
+  --ha-mist:#E6F0F1; --ha-foam:#F1F7F8; --ha-coral:#C9573A; --ha-white:#FFFFFF;
+  --ha-bg:#FFFFFF; --ha-surface:#FFFFFF;
+  --ha-line:rgba(14,30,40,.12); --ha-line-2:rgba(14,30,40,.26);
+  --ha-fdisplay:"Bricolage Grotesque",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --ha-fbody:"Figtree",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --ha-ease:cubic-bezier(.2,.7,.2,1);
+  --ha-maxw:1120px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{ background:var(--ha-bg); color:var(--ha-ink); font-family:var(--ha-fbody); font-weight:450; font-size:18.5px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+button{font-family:inherit}
+
+/* tide-line watermark */
+#ha-tides{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+
+/* --- header -------------------------------------------------------------- */
+.ha-head{ position:relative; z-index:3; border-bottom:1px solid var(--ha-line); background:var(--ha-white); }
+.ha-head__in{ max-width:var(--ha-maxw); margin:0 auto; padding:18px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.ha-brand{ display:flex; align-items:center; gap:10px; font-weight:650; font-size:18px; letter-spacing:-.005em; color:var(--ha-navy); text-decoration:none; }
+.ha-brand svg{ flex:none; }
+.ha-head__meta{ font-size:15px; font-weight:500; color:rgba(14,30,40,.58); }
+@media(max-width:640px){ .ha-head__meta{ display:none } .ha-head__in{ padding:16px 20px } }
+
+/* --- progress strip ------------------------------------------------------ */
+.ha-strip{ position:relative; z-index:3; border-bottom:1px solid var(--ha-line); background:var(--ha-foam); }
+.ha-strip__in{ max-width:var(--ha-maxw); margin:0 auto; padding:13px 28px; display:flex; align-items:center; gap:8px; }
+.ha-step{ display:flex; align-items:center; gap:8px; font-weight:550; font-size:15px; color:rgba(14,30,40,.48); white-space:nowrap; }
+.ha-step__dot{ width:7px; height:7px; border-radius:50%; background:currentColor; opacity:.45; flex:none; }
+.ha-step.is-active{ color:var(--ha-navy); }
+.ha-step.is-active .ha-step__dot{ opacity:1; background:var(--ha-coral); }
+.ha-step.is-done{ color:var(--ha-teal); }
+.ha-step__sep{ flex:1 1 0; max-width:28px; min-width:6px; height:1px; background:var(--ha-line-2); }
+@media(max-width:640px){ .ha-strip__in{ padding:11px 16px; gap:5px } .ha-step{ font-size:12.5px; gap:5px } .ha-step__dot{ width:6px; height:6px } }
+
+/* --- layout -------------------------------------------------------------- */
+.ha-main{ position:relative; z-index:2; max-width:var(--ha-maxw); margin:0 auto; padding:0 28px; }
+.ha-grid{ display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:34px; align-items:start; padding:44px 0 64px; }
+.ha-grid.is-full{ grid-template-columns:minmax(0,1fr); }
+@media(max-width:860px){ .ha-grid{ grid-template-columns:minmax(0,1fr); gap:20px; padding:26px 0 48px } }
+@media(max-width:640px){ .ha-main{ padding:0 16px } }
+
+.ha-stage{ min-height:52vh; min-width:0; animation:ha-in 460ms var(--ha-ease) both; scroll-margin-top:12px; }
+@keyframes ha-in{ from{opacity:0; transform:translateY(16px)} to{opacity:1;transform:none} }
+@keyframes ha-rise{ from{opacity:0; transform:translateY(14px)} to{opacity:1;transform:none} }
+@media(prefers-reduced-motion:reduce){ .ha-stage,.ha-stagger>*,.ha-maprow{animation:none!important} }
+
+/* --- headings ------------------------------------------------------------ */
+.ha-eyebrow{ font-weight:600; font-size:16px; color:var(--ha-teal); margin:0 0 14px; }
+.ha-kicker{ font-weight:600; font-size:clamp(17px,2.2vw,20px); color:var(--ha-teal); margin:0 0 12px; }
+.ha-h1{ font-family:var(--ha-fdisplay); font-weight:600; font-size:clamp(42px,6.6vw,76px); line-height:1.02; letter-spacing:-.03em; color:var(--ha-navy); margin:0 0 22px; }
+.ha-h2{ font-weight:500; font-size:clamp(25px,3.4vw,34px); line-height:1.22; letter-spacing:-.015em; color:var(--ha-navy); margin:0 0 10px; }
+.ha-sub{ color:rgba(14,30,40,.7); font-size:20px; line-height:1.58; max-width:40ch; margin:0 0 30px; }
+.ha-help{ font-weight:500; font-size:16.5px; color:rgba(14,30,40,.6); margin:0 0 24px; }
+
+/* --- buttons ------------------------------------------------------------- */
+.ha-btn{ font-family:var(--ha-fbody); font-weight:650; letter-spacing:.07em; text-transform:uppercase; font-size:14.5px; line-height:1.2; cursor:pointer; border:1px solid var(--ha-line-2); border-radius:0; padding:17px 28px; background:var(--ha-surface); color:var(--ha-navy); transition:background 180ms var(--ha-ease), transform 120ms var(--ha-ease); display:inline-flex; align-items:center; justify-content:center; gap:12px; text-decoration:none; text-align:center; }
+.ha-btn:hover{ background:var(--ha-mist); }
+.ha-btn:active{ transform:translateY(1px); }
+.ha-btn--solid{ background:var(--ha-navy); color:var(--ha-white); border-color:var(--ha-navy); }
+.ha-btn--solid:hover{ background:var(--ha-navy-2); }
+.ha-btn--full{ width:100%; }
+.ha-btn:disabled{ opacity:.4; cursor:not-allowed; }
+.ha-btn:focus-visible{ outline:2px solid var(--ha-coral); outline-offset:2px; }
+@media(max-width:640px){ .ha-btn{ font-size:13.5px; letter-spacing:.04em; padding:17px 14px; } }
+.ha-privacy{ display:flex; align-items:flex-start; gap:9px; font-size:15.5px; font-weight:500; color:rgba(14,30,40,.6); margin:18px 0 0; }
+.ha-privacy i{ width:7px; height:7px; border-radius:50%; background:var(--ha-teal); flex:none; margin-top:.62em; }
+
+/* --- welcome ------------------------------------------------------------- */
+.ha-welcome{ display:grid; grid-template-columns:1.3fr .9fr; gap:44px; align-items:center; }
+@media(max-width:860px){ .ha-welcome{ grid-template-columns:minmax(0,1fr); gap:28px } }
+.ha-chartcard{ position:relative; border:1px solid var(--ha-line); border-radius:2px; background:var(--ha-mist); padding:26px; overflow:hidden; aspect-ratio:1/1.1; display:flex; flex-direction:column; justify-content:space-between; }
+@media(max-width:860px){ .ha-chartcard{ aspect-ratio:auto; min-height:300px } }
+.ha-chartcard__tides{ position:absolute; inset:auto 0 0 0; height:26%; opacity:.5; pointer-events:none; }
+.ha-chartcard__top{ position:relative; display:flex; justify-content:space-between; gap:12px; font-size:15px; font-weight:600; color:var(--ha-navy); }
+.ha-chartcard__top span:last-child{ color:rgba(14,30,40,.5); font-weight:500; }
+.ha-chartrows{ position:relative; display:flex; flex-direction:column; margin:18px 0; }
+.ha-chartrow{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; padding:12px 0; border-bottom:1px solid var(--ha-line); font-size:16px; }
+.ha-chartrow>span:first-child{ color:rgba(14,30,40,.55); }
+.ha-chartrow>span:last-child{ color:var(--ha-navy); font-weight:550; }
+.ha-chartstamp{ position:relative; align-self:flex-start; font-size:14.5px; font-weight:600; color:var(--ha-coral); border:1px solid rgba(201,87,58,.55); padding:6px 11px; background:var(--ha-white); }
+
+/* --- option cards -------------------------------------------------------- */
+.ha-cards{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:560px){ .ha-cards{ grid-template-columns:minmax(0,1fr) } }
+.ha-card{ position:relative; text-align:left; cursor:pointer; background:var(--ha-surface); color:var(--ha-ink); border:1px solid var(--ha-line-2); border-radius:2px; padding:19px 22px; overflow:hidden; transition:transform 160ms var(--ha-ease), border-color 160ms var(--ha-ease), box-shadow 200ms var(--ha-ease), background 160ms var(--ha-ease); }
+.ha-card:hover{ transform:translateY(-2px); border-color:var(--ha-navy); box-shadow:0 16px 34px -26px rgba(14,30,40,.4); }
+.ha-card:focus-visible{ outline:2px solid var(--ha-coral); outline-offset:2px; }
+.ha-card.is-selected{ border-color:var(--ha-navy); box-shadow:inset 0 0 0 1px var(--ha-navy); background:var(--ha-foam); }
+.ha-card__t{ font-weight:550; font-size:19px; line-height:1.38; color:var(--ha-ink); padding-right:8px; }
+.ha-card__d{ font-size:15.5px; line-height:1.5; color:rgba(14,30,40,.62); margin:6px 0 0; }
+.ha-card__tides{ position:absolute; right:0; bottom:0; width:100%; height:60%; opacity:0; transition:opacity 320ms var(--ha-ease); pointer-events:none; }
+.ha-card.is-selected .ha-card__tides{ opacity:.35; }
+.ha-card__ok{ position:absolute; top:12px; right:12px; font-size:13px; font-weight:650; color:var(--ha-teal); opacity:0; transform:translateY(-4px); transition:all 240ms var(--ha-ease); }
+.ha-card.is-selected .ha-card__ok{ opacity:1; transform:none; }
+.ha-card--single.is-selected{ padding-top:30px; }
+/* multi-select */
+.ha-card--multi{ padding-right:56px; }
+.ha-box{ position:absolute; top:20px; right:20px; width:22px; height:22px; border-radius:2px; border:1.5px solid var(--ha-line-2); background:var(--ha-surface); transition:all 160ms var(--ha-ease); }
+.ha-card--multi.is-selected .ha-box{ background:var(--ha-navy); border-color:var(--ha-navy); }
+.ha-card--multi.is-selected .ha-box::after{ content:""; position:absolute; left:6.5px; top:2.5px; width:6px; height:11px; border:solid var(--ha-white); border-width:0 2px 2px 0; transform:rotate(45deg); }
+.ha-next{ margin-top:22px; }
+
+/* --- timeline ------------------------------------------------------------ */
+.ha-vtimeline{ position:relative; display:flex; flex-direction:column; max-width:520px; margin:6px 0 0; }
+.ha-vtimeline::before{ content:""; position:absolute; left:10px; top:24px; bottom:24px; width:2px; background:var(--ha-line); }
+.ha-vt-node{ position:relative; z-index:1; display:flex; align-items:center; gap:18px; padding:14px 4px; background:none; border:none; cursor:pointer; text-align:left; transition:transform 140ms var(--ha-ease); }
+.ha-vt-node:hover{ transform:translateX(3px); }
+.ha-vt-node:focus-visible{ outline:2px solid var(--ha-coral); outline-offset:3px; }
+.ha-vt-dot{ flex:none; width:22px; height:22px; border-radius:50%; background:var(--ha-surface); border:2px solid rgba(14,30,40,.3); transition:all 200ms var(--ha-ease); }
+.ha-vt-node:hover .ha-vt-dot{ border-color:var(--ha-navy); }
+.ha-vt-node.is-selected .ha-vt-dot{ background:var(--ha-navy); border-color:var(--ha-navy); }
+.ha-vt-lab{ font-weight:550; font-size:19px; color:rgba(14,30,40,.8); line-height:1.3; }
+.ha-vt-node:hover .ha-vt-lab, .ha-vt-node.is-selected .ha-vt-lab{ color:var(--ha-navy); }
+@media(max-width:640px){ .ha-vt-lab{ font-size:17px } }
+
+/* --- chart so far (sidebar / drawer) ------------------------------------- */
+.ha-map{ position:sticky; top:20px; border:1px solid var(--ha-line); border-radius:2px; background:var(--ha-surface); overflow:hidden; }
+.ha-map>summary{ list-style:none; cursor:default; padding:15px 20px; font-weight:600; font-size:16px; color:var(--ha-navy); background:var(--ha-foam); border-bottom:1px solid var(--ha-line); display:flex; align-items:center; justify-content:space-between; }
+.ha-map>summary::-webkit-details-marker{ display:none; }
+.ha-map__caret{ display:none; }
+.ha-map__body{ padding:4px 20px 16px; }
+.ha-maprow{ padding:12px 0; border-bottom:1px solid var(--ha-line); animation:ha-rise 400ms var(--ha-ease) both; }
+.ha-maprow:last-child{ border-bottom:none; }
+.ha-maprow__k{ font-size:14px; font-weight:500; color:rgba(14,30,40,.55); }
+.ha-maprow__v{ font-size:16.5px; color:var(--ha-ink); margin-top:2px; line-height:1.35; }
+.ha-maprow__v.is-path{ color:var(--ha-navy); font-weight:600; font-size:17.5px; }
+.ha-map__empty{ font-size:15px; color:rgba(14,30,40,.45); padding:10px 0; margin:0; }
+@media(max-width:860px){
+  .ha-map{ position:static; margin-top:6px; }
+  .ha-map>summary{ cursor:pointer; }
+  .ha-map__caret{ display:inline; transition:transform 200ms var(--ha-ease); }
+  .ha-map:not([open]) .ha-map__caret{ transform:rotate(-90deg); }
+}
+
+/* --- contact ------------------------------------------------------------- */
+.ha-field{ margin:0 0 16px; }
+.ha-label{ display:block; font-size:16px; font-weight:550; color:rgba(14,30,40,.78); margin:0 0 7px; }
+.ha-input{ width:100%; padding:14px 16px; font-size:18.5px; font-family:inherit; color:var(--ha-ink); background:var(--ha-surface); border:1px solid var(--ha-line-2); border-radius:2px; }
+.ha-input:focus{ outline:none; border-color:var(--ha-navy); box-shadow:0 0 0 3px rgba(23,59,80,.12); }
+.ha-check{ display:flex; align-items:flex-start; gap:11px; margin:8px 0; cursor:pointer; }
+.ha-check input{ margin-top:4px; width:17px;height:17px; accent-color:var(--ha-navy); flex:none; }
+.ha-check span{ font-size:15.5px; color:rgba(14,30,40,.72); line-height:1.5; }
+.ha-err{ color:var(--ha-coral); font-size:15px; font-weight:550; min-height:1px; margin:6px 0 10px; }
+.ha-demo-note{ font-size:14.5px; line-height:1.5; color:rgba(14,30,40,.55); margin:16px 0 0; padding:10px 14px; background:var(--ha-foam); border-left:2px solid var(--ha-teal); }
+
+/* --- building ------------------------------------------------------------ */
+.ha-building{ min-height:56vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; }
+.ha-building__t{ font-weight:600; font-size:17px; color:var(--ha-teal); margin:0 0 22px; }
+.ha-building__step{ font-weight:550; font-size:clamp(18px,2.6vw,22px); color:rgba(14,30,40,.28); margin:0 0 12px; transition:color 400ms var(--ha-ease); display:flex; align-items:center; gap:14px; }
+.ha-building__step.is-on{ color:var(--ha-navy); }
+.ha-building__step .tick{ color:var(--ha-teal); opacity:0; transition:opacity 300ms var(--ha-ease); }
+.ha-building__step.is-on .tick{ opacity:1; }
+
+/* --- report -------------------------------------------------------------- */
+.ha-report{ background:var(--ha-surface); border:1px solid var(--ha-line); border-radius:2px; overflow:hidden; box-shadow:0 30px 70px -50px rgba(14,30,40,.45); }
+.ha-report__head{ position:relative; background:var(--ha-mist); border-bottom:1px solid var(--ha-line); padding:32px 34px; overflow:hidden; }
+.ha-report__tides{ position:absolute; inset:0; opacity:.55; pointer-events:none; }
+.ha-report__ey{ position:relative; font-weight:600; font-size:16px; color:var(--ha-teal); margin:0; }
+.ha-report__ttl{ position:relative; font-weight:500; font-size:clamp(30px,4.6vw,44px); line-height:1.12; letter-spacing:-.02em; color:var(--ha-navy); margin:6px 0 12px; }
+.ha-report__sub{ position:relative; font-size:17.5px; color:rgba(14,30,40,.72); margin:0 0 18px; max-width:46ch; }
+.ha-report__ids{ position:relative; display:flex; gap:8px 26px; flex-wrap:wrap; font-size:15px; color:rgba(14,30,40,.6); }
+.ha-report__ids b{ color:var(--ha-ink); font-weight:600; }
+.ha-report__body{ padding:30px 34px 36px; }
+@media(max-width:560px){ .ha-report__head,.ha-report__body{ padding-left:20px; padding-right:20px } }
+
+.ha-block{ padding:26px 0; border-top:1px solid var(--ha-line); }
+.ha-block:first-child{ border-top:none; padding-top:6px; }
+.ha-label-sm{ font-weight:600; font-size:16px; color:var(--ha-teal); margin:0 0 8px; }
+.ha-sectitle{ font-weight:600; font-size:clamp(21px,2.6vw,25px); line-height:1.28; letter-spacing:-.01em; color:var(--ha-navy); margin:0 0 14px; }
+.ha-path{ font-weight:600; font-size:clamp(25px,3.2vw,32px); line-height:1.2; letter-spacing:-.018em; color:var(--ha-navy); margin:0; }
+.ha-body{ font-size:18px; line-height:1.66; color:rgba(14,30,40,.84); margin:0; }
+.ha-body b{ color:var(--ha-ink); font-weight:650; }
+
+.ha-track{ list-style:none; margin:6px 0 24px; padding:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; }
+.ha-track__s{ display:flex; flex-direction:column; gap:9px; min-width:0; }
+.ha-track__bar{ height:6px; background:rgba(14,30,40,.09); }
+.ha-track__s.is-done .ha-track__bar{ background:var(--ha-teal); opacity:.55; }
+.ha-track__s.is-now .ha-track__bar{ background:var(--ha-navy); }
+.ha-track__lab{ font-size:15.5px; font-weight:550; line-height:1.3; color:rgba(14,30,40,.45); }
+.ha-track__s.is-done .ha-track__lab{ color:var(--ha-teal); }
+.ha-track__s.is-now .ha-track__lab{ color:var(--ha-navy); font-weight:700; }
+.ha-track__here{ font-size:14.5px; font-weight:650; color:var(--ha-coral); margin-top:-5px; }
+.ha-ready__stage{ font-weight:600; font-size:clamp(22px,3vw,28px); line-height:1.2; letter-spacing:-.015em; color:var(--ha-ink); margin:0 0 8px; }
+.ha-forward{ margin:18px 0 0; padding:16px 18px; border-left:3px solid var(--ha-coral); background:rgba(201,87,58,.06); }
+.ha-forward__k{ font-size:16px; font-weight:700; color:var(--ha-coral); margin:0 0 4px; }
+.ha-forward__v{ font-size:18px; line-height:1.55; color:var(--ha-ink); margin:0; }
+.ha-forward__v + .ha-forward__v{ margin-top:8px; }
+
+.ha-plan{ list-style:none; margin:8px 0 0; padding:0; position:relative; }
+.ha-plan::before{ content:""; position:absolute; left:6px; top:12px; bottom:12px; width:2px; background:rgba(14,30,40,.1); }
+.ha-plan__s{ position:relative; display:flex; gap:18px; padding:0 0 22px; }
+.ha-plan__s:last-child{ padding-bottom:0; }
+.ha-plan__s > div{ flex:1; min-width:0; }
+.ha-plan__dot{ flex:none; position:relative; z-index:1; width:14px; height:14px; margin-top:6px; border-radius:50%; background:var(--ha-surface); border:2px solid rgba(23,59,80,.45); }
+.ha-plan__s.is-next .ha-plan__dot{ background:var(--ha-coral); border-color:var(--ha-coral); box-shadow:0 0 0 4px rgba(201,87,58,.16); }
+.ha-plan__t{ font-weight:650; font-size:19.5px; line-height:1.35; color:var(--ha-navy); margin:0 0 3px; }
+.ha-plan__tag{ margin-left:10px; font-size:15px; font-weight:650; color:var(--ha-coral); }
+.ha-plan__d{ font-size:17.5px; line-height:1.55; color:rgba(14,30,40,.72); margin:0; max-width:70ch; }
+@media(max-width:520px){ .ha-track__lab{ font-size:13.5px } .ha-track__here{ font-size:12.5px; white-space:nowrap } .ha-plan__tag{ display:block; margin:2px 0 0 } }
+
+.ha-fear{ background:var(--ha-mist); padding:22px 24px; }
+.ha-fear p{ margin:8px 0 0; font-size:18px; line-height:1.62; color:rgba(14,30,40,.88); }
+.ha-fear .ha-sectitle{ font-size:clamp(19px,2.4vw,23px); margin:0; }
+
+.ha-checkgrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; margin:4px 0 0; padding:0; }
+@media(max-width:520px){ .ha-checkgrid{ grid-template-columns:minmax(0,1fr) } }
+.ha-checkgrid li{ list-style:none; display:flex; align-items:flex-start; gap:10px; font-size:16.5px; color:var(--ha-ink); }
+.ha-checkgrid li::before{ content:"✓"; color:var(--ha-teal); font-weight:700; }
+
+/* before/after placeholders: never real photos in a demo */
+.ha-ba{ display:grid; grid-template-columns:1fr 1fr; gap:10px; max-width:520px; margin:4px 0 0; }
+.ha-ba__frame{ position:relative; aspect-ratio:4/5; border:1.5px dashed rgba(23,59,80,.35); background:repeating-linear-gradient(135deg, var(--ha-foam) 0 12px, var(--ha-white) 12px 24px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:14px; gap:6px; }
+.ha-ba__tag{ position:absolute; top:10px; left:10px; font-size:13.5px; font-weight:650; color:var(--ha-white); background:var(--ha-navy); padding:3px 9px; }
+.ha-ba__msg{ font-size:15px; font-weight:550; line-height:1.4; color:var(--ha-navy); max-width:16ch; }
+.ha-ba__note{ font-size:15px; line-height:1.5; color:rgba(14,30,40,.6); margin:12px 0 0; max-width:52ch; }
+
+.ha-nextcard{ background:var(--ha-navy); color:var(--ha-white); padding:26px; position:relative; overflow:hidden; }
+.ha-nextcard .ha-label-sm{ color:rgba(255,255,255,.7); }
+.ha-nextcard__h{ font-weight:600; font-size:24px; line-height:1.25; letter-spacing:-.01em; color:var(--ha-white); margin:0 0 7px; }
+.ha-nextcard__d{ font-size:17px; color:rgba(255,255,255,.8); margin:0 0 18px; }
+.ha-cta-row{ display:flex; flex-direction:column; gap:10px; }
+.ha-btn--ghostlight{ background:transparent; color:var(--ha-white); border:1px solid rgba(255,255,255,.4); }
+.ha-btn--ghostlight:hover{ background:rgba(255,255,255,.1); border-color:var(--ha-white); }
+@media(max-width:640px){ .ha-nextcard{ padding:22px 16px } }
+
+.ha-prep{ list-style:none; margin:4px 0 0; padding:0; display:grid; gap:11px; }
+.ha-prep li{ display:flex; align-items:flex-start; gap:12px; font-size:17.5px; color:var(--ha-ink); }
+.ha-prep li::before{ content:""; flex:none; width:15px; height:15px; margin-top:5px; border:1.5px solid var(--ha-navy); border-radius:2px; }
+.ha-qs{ list-style:none; margin:6px 0 0; padding:0; display:grid; gap:11px; }
+.ha-qs li{ display:flex; align-items:flex-start; gap:11px; font-size:17.5px; line-height:1.5; color:var(--ha-ink); }
+.ha-qs li::before{ content:"?"; font-weight:700; color:var(--ha-coral); flex:none; }
+.ha-endcta .ha-body{ margin:0 0 20px; }
+@media(max-width:640px){ .ha-endcta .ha-btn{ width:100% } }
+.ha-disc{ font-size:14.5px; line-height:1.55; color:rgba(14,30,40,.55); border-left:2px solid var(--ha-line-2); padding:2px 0 2px 14px; margin:22px 0 0; }
+.ha-stagger>*{ animation:ha-rise 560ms var(--ha-ease) both; }
+
+/* --- footer -------------------------------------------------------------- */
+.ha-foot{ position:relative; z-index:2; border-top:1px solid var(--ha-line); padding:26px 20px; text-align:center; font-size:14.5px; color:rgba(14,30,40,.5); }
+.ha-hidden{ display:none!important; }
+.ha-spin{ display:inline-block; width:14px;height:14px; border:2px solid rgba(255,255,255,.35); border-top-color:var(--ha-white); border-radius:50%; animation:ha-spin .7s linear infinite; }
+@keyframes ha-spin{ to{ transform:rotate(360deg) } }
+</style>
+</head>
+<body>
+<div id="ha-tides"></div>
+
+<header class="ha-head">
+  <div class="ha-head__in">
+    <a class="ha-brand" href="#" aria-label="Harbour Aesthetics">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 15c2.5-2.4 5.5-2.4 8 0s5.5 2.4 8 0M5 19.5c2.5-2.4 5.5-2.4 8 0s5.5 2.4 8 0" fill="none" stroke="#C9573A" stroke-width="1.6"/></svg>
+      Harbour Aesthetics
+    </a>
+    <span class="ha-head__meta">Private treatment chart</span>
+  </div>
+</header>
+
+<div class="ha-strip"><div class="ha-strip__in" id="strip"></div></div>
+
+<main class="ha-main">
+  <div class="ha-grid is-full" id="grid">
+    <section class="ha-stage" id="stage"></section>
+    <details class="ha-map ha-hidden" id="map" open>
+      <summary>Your chart so far <span class="ha-map__caret">▾</span></summary>
+      <div class="ha-map__body" id="mapBody"></div>
+    </details>
+  </div>
+</main>
+
+<footer class="ha-foot">Harbour Aesthetics is a fictional clinic: this is a demo build. General guidance only. A qualified clinician confirms whether treatment is right for you.</footer>
+
+<script type="module">
+import { assess } from '/tools/harbour/assessment.js';
+import { SCREENS, flowFor, REPORT, WAIT_REASONS, WAIT_CONFIRM, DISCLAIMER, personalSummary } from '/tools/harbour/content.js';
+
+// ---- config: placeholders. Harbour Aesthetics is fictional, so every link is "#". ----
+// Swap these for a real clinic's booking and treatment pages before reuse.
+const CONFIG = {
+  clinicName: 'Harbour Aesthetics',
+  bookingUrl: '#',          // [placeholder] booking / free consultation page
+  photoReviewUrl: '#',      // [placeholder] photo review upload form
+  treatmentUrls: {          // [placeholder] treatment pages
+    botox: '#',
+    fillers: '#',
+    laser: '#',
+    match: '#',
+  },
+};
+
+// ---- backend: none. No-op stubs stand in for the event / submit / contact ----
+// endpoints a live clinic build would call. Nothing leaves the browser.
+function track(_eventType, _metadata) {}
+async function submitAssessment(_payload) { return { ok: true }; }
+async function saveContact(_payload) { return { ok: true }; }
+
+// ---- readiness track + step-by-step plan ----
+const TRACK = ['Learning', 'Preparing', 'Reviewing', 'Ready to book'];
+const TRACK_IDX = { 'Education first': 0, 'Wait and prepare': 1, 'Photo review recommended': 2, 'Specialist review recommended': 2, 'Ready for consult': 3 };
+const FORWARD = {
+  'Education first': 'Knowing which treatment fits you. A read of the treatment page, or a free consultation, moves you to the next stage.',
+  'Photo review recommended': "A few clear photos. Once the clinic has seen them, you'll know what's possible and can book with confidence.",
+  'Specialist review recommended': 'One conversation. A short call with a clinician is the quickest way to a clear, safe plan.',
+  'Ready for consult': "Booking your consultation. Your answers say you're ready and you know what you want.",
+};
+const PLAN = {
+  botox: [
+    ['Free consultation', 'A short, private chat about the lines that bother you and the look you want.'],
+    ['Face assessment', 'The clinician watches how your face moves and talks you through your options, including whether treatment suits you.'],
+    ['Your treatment plan', 'Areas, approach and cost are agreed before anything happens. You can take time to think it over.'],
+    ['Treatment', 'A short appointment in a private room. You leave with aftercare advice.'],
+    ['Review appointment', 'Results build over the following days. The clinic confirms when to come back for a review.'],
+  ],
+  fillers: [
+    ['Free consultation', 'Talk through the area and how much change you want, from very subtle to more noticeable.'],
+    ['Face assessment', 'The clinician looks at your face as a balance, so any change suits the rest of your features.'],
+    ['Your treatment plan', 'Areas, product and cost are agreed first. Subtle is always an option.'],
+    ['Treatment', 'Treatment happens in a private room. Some swelling is common at first, and the clinic explains aftercare.'],
+    ['Settle and review', 'Filler settles as any swelling goes down. The clinic confirms your review timing on the call.'],
+  ],
+  laser: [
+    ['Free consultation', "Talk through your skin, what you'd like to change and any sun plans coming up."],
+    ['Skin assessment', 'The clinic checks your skin type and may suggest a patch test to see how your skin responds.'],
+    ['Your treatment plan', 'The clinic recommends a course for your skin and tells you how many sessions to expect.'],
+    ['First session', 'Treatment happens in a private room, with aftercare and sun advice before you leave.'],
+    ['Your course', 'Laser usually works over a course of sessions with daily SPF in between. The clinic confirms the timing.'],
+  ],
+  unsure: [
+    ['Free consultation', 'A short, private call to work out which treatment suits you.'],
+    ['Your treatment match', "The clinic points you to the option that fits your goals, and tells you honestly if none does."],
+    ['Photo review', 'If it helps, send a few photos so the clinic can see what you have in mind.'],
+    ['Your plan', 'You leave with a clear plan, and book only when it feels right.'],
+  ],
+};
+function waitText(reasons) {
+  return reasons.map(r => WAIT_REASONS[r]).filter(Boolean);
+}
+function planFor(branch, stage, reasons) {
+  const steps = [...(PLAN[branch] || PLAN.unsure)];
+  if (stage === 'Wait and prepare') steps.unshift(['Get the timing right', `${waitText(reasons).join(' ')} ${WAIT_CONFIRM}`]);
+  if (stage === 'Education first') steps.unshift(['Learn your options', 'Read about the treatment that matches your answers, then book the free consultation when you feel ready.']);
+  if (stage === 'Photo review recommended') steps.unshift(['Send a few photos', 'Use the shot list below. The clinic looks at them before your consultation so the advice fits you.']);
+  if (stage === 'Specialist review recommended') steps.unshift(['Talk to a clinician', 'A short, private call to go through the detail in your answers before planning anything.']);
+  return steps;
+}
+const treatmentUrl = (fam) => CONFIG.treatmentUrls[fam] || '#';
+function ctaHref(nextStepId, fam) {
+  if (nextStepId === 'learn_more') return treatmentUrl(fam);
+  if (nextStepId === 'photo_review') return CONFIG.photoReviewUrl || CONFIG.bookingUrl;
+  return CONFIG.bookingUrl;
+}
+
+// ---- session ----
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID()
+  : '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
+let sessionId = null;
+try { sessionId = sessionStorage.getItem('ha_sid'); } catch (_) {}
+if (!sessionId) { sessionId = uuid(); try { sessionStorage.setItem('ha_sid', sessionId); } catch (_) {} }
+// short, stable chart number derived from the session
+const chartId = 'HA-' + (parseInt(sessionId.replace(/[^0-9a-f]/g, '').slice(0, 6), 16) % 9000 + 1000);
+
+// ---- tide-line generator (the signature motif) ----
+function tides(w, h, lines, color, { amp = 7, gap = 14, y0 = 10, sw = 1, phase = 0 } = {}) {
+  let p = '';
+  for (let k = 0; k < lines; k++) {
+    const y = y0 + k * gap, a = amp * (0.6 + 0.4 * Math.sin(k * 0.9 + phase)), pts = [];
+    for (let x = 0; x <= w; x += 8) {
+      const yy = y + Math.sin(x / 46 + k * 0.7 + phase) * a + Math.sin(x / 17 + k) * a * 0.18;
+      pts.push(`${x} ${yy.toFixed(1)}`);
+    }
+    p += `<path d="M${pts.join(' L')}" fill="none" stroke="${color}" stroke-width="${sw}"/>`;
+  }
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${p}</svg>`;
+}
+document.getElementById('ha-tides').innerHTML =
+  `<div style="position:absolute;left:0;right:0;bottom:0;height:38vh;opacity:.9">${tides(1200, 300, 16, 'rgba(23,59,80,0.05)', { amp: 9, gap: 18, y0: 14 })}</div>`;
+
+// ---- state ----
+const answers = {};
+let $stage = document.getElementById('stage');
+const $strip = document.getElementById('strip');
+const $grid = document.getElementById('grid');
+const $map = document.getElementById('map');
+const $mapBody = document.getElementById('mapBody');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const labelOf = (sid, oid) => { const s = SCREENS[sid]; const o = s && s.options.find(x => x.id === oid); return o ? o.label : ''; };
+const asList = v => (Array.isArray(v) ? v : v ? [v] : []);
+
+function paint(html, cls = '') {
+  const fresh = $stage.cloneNode(false); fresh.className = 'ha-stage ' + cls; fresh.innerHTML = html;
+  $stage.parentElement.replaceChild(fresh, $stage); $stage = fresh; return fresh;
+}
+
+// ---- progress strip (no numbers) ----
+const STAGES = ['Concern', 'Goal', 'Timing', 'Details', 'Report'];
+function stageIndex(screenId) {
+  if (screenId === 'concern' || screenId === 'welcome') return 0;
+  if (/^goal_/.test(screenId)) return 1;
+  if (screenId === 'timeline') return 2;
+  if (screenId === 'contact' || screenId === 'building' || screenId === 'report') return 4;
+  return 3;
+}
+function renderStrip(activeIdx) {
+  $strip.innerHTML = STAGES.map((s, i) => {
+    const cls = i < activeIdx ? 'is-done' : i === activeIdx ? 'is-active' : '';
+    const mark = i < activeIdx ? '<span aria-hidden="true">✓</span>' : '<span class="ha-step__dot"></span>';
+    return `<span class="ha-step ${cls}"${i === activeIdx ? ' aria-current="step"' : ''}>${mark}${esc(s)}</span>` + (i < STAGES.length - 1 ? '<span class="ha-step__sep"></span>' : '');
+  }).join('');
+}
+
+// ---- "your chart so far" ----
+const AREA_SCREEN = { botox: 'botox_area', fillers: 'filler_area', laser: 'laser_area' };
+function updateMap() {
+  const rows = [];
+  if (answers.concern) rows.push(['Concern', CONCERN_LABEL[answers.concern] || labelOf('concern', answers.concern)]);
+  const goalKey = 'goal_' + (answers.concern || '');
+  if (answers[goalKey]) rows.push(['Goal', labelOf(goalKey, answers[goalKey])]);
+  if (answers.timeline) rows.push(['Timing', labelOf('timeline', answers.timeline)]);
+  const areaKey = AREA_SCREEN[answers.concern];
+  const areas = areaKey ? asList(answers[areaKey]).map(id => labelOf(areaKey, id)).filter(Boolean) : [];
+  if (areas.length) rows.push(['Areas', areas.join(', ')]);
+  let likely = null;
+  if (answers.concern && answers[goalKey]) { try { likely = assess(answers).bestFitPath; } catch (_) {} }
+  const body = rows.map(r => `<div class="ha-maprow"><div class="ha-maprow__k">${esc(r[0])}</div><div class="ha-maprow__v">${esc(r[1])}</div></div>`).join('')
+    + (likely ? `<div class="ha-maprow"><div class="ha-maprow__k">Likely path</div><div class="ha-maprow__v is-path">${esc(likely)}</div></div>` : '');
+  $mapBody.innerHTML = body || '<p class="ha-map__empty">Your answers will appear here as you go.</p>';
+}
+function showMap(on) {
+  $map.classList.toggle('ha-hidden', !on); $grid.classList.toggle('is-full', !on);
+  // On phones the drawer sits under the question; start it closed so the next question leads.
+  if (on && matchMedia('(max-width:860px)').matches) $map.open = false;
+}
+
+// ---- concern ----
+const CONCERN_CARDS = [
+  { id: 'botox', t: 'Lines and wrinkles', d: 'Anti-wrinkle injections, often called Botox' },
+  { id: 'fillers', t: 'Volume, lips or contour', d: 'Dermal fillers for lips, cheeks, jawline or under-eyes' },
+  { id: 'laser', t: 'Skin tone, texture or hair', d: 'Laser for pigment, redness, texture or hair removal' },
+  { id: 'unsure', t: "I'm not sure yet", d: 'Start broad and get guided' },
+];
+const CONCERN_LABEL = { botox: 'Lines and wrinkles', fillers: 'Volume, lips or contour', laser: 'Skin tone, texture or hair', unsure: 'Not sure yet' };
+
+function showWelcome() {
+  showMap(false); renderStrip(0);
+  const el = paint(`
+    <div class="ha-welcome">
+      <div>
+        <p class="ha-kicker">The Treatment Chart</p>
+        <h1 class="ha-h1">Your treatment plan in 2 minutes</h1>
+        <p class="ha-sub">Find your starting point for anti-wrinkle injections, dermal fillers or laser, before you book anything.</p>
+        <button class="ha-btn ha-btn--solid" id="start">Start my private assessment</button>
+        <p class="ha-privacy"><i></i>Takes about 2 minutes and stays private. No pressure to book.</p>
+      </div>
+      <div class="ha-chartcard" aria-hidden="true">
+        <div class="ha-chartcard__tides">${tides(400, 180, 9, 'rgba(23,59,80,0.35)', { amp: 6, gap: 16, y0: 22 })}</div>
+        <div class="ha-chartcard__top"><span>Harbour Aesthetics</span><span>Chart ${esc(chartId)}</span></div>
+        <div class="ha-chartrows">
+          <div class="ha-chartrow"><span>Name</span><span>Awaiting</span></div>
+          <div class="ha-chartrow"><span>Concern</span><span>Pending</span></div>
+          <div class="ha-chartrow"><span>Areas</span><span>Pending</span></div>
+          <div class="ha-chartrow"><span>Readiness</span><span>Pending</span></div>
+        </div>
+        <div class="ha-chartstamp">Awaiting your answers</div>
+      </div>
+    </div>`);
+  el.querySelector('#start').addEventListener('click', () => { track('started', {}); goto('concern'); });
+}
+
+const cardHtml = (id, title, desc, sel) => `
+  <button class="ha-card ha-card--single ${sel ? 'is-selected' : ''}" data-id="${id}">
+    <span class="ha-card__tides">${tides(300, 80, 4, 'rgba(23,59,80,1)', { amp: 4, gap: 14, y0: 20 })}</span>
+    <span class="ha-card__ok">Added to your chart</span>
+    <div class="ha-card__t">${esc(title)}</div>
+    ${desc ? `<div class="ha-card__d">${esc(desc)}</div>` : ''}
+  </button>`;
+
+function showConcern() {
+  showMap(true); renderStrip(0); updateMap();
+  const el = paint(`
+    <p class="ha-eyebrow">Your concern</p>
+    <h2 class="ha-h2">${esc(SCREENS.concern.question)}</h2>
+    <p class="ha-help">${esc(SCREENS.concern.help)}</p>
+    <div class="ha-cards">${CONCERN_CARDS.map(c => cardHtml(c.id, c.t, c.d, answers.concern === c.id)).join('')}</div>`);
+  wireCards(el, 'concern');
+}
+
+// ---- generic question ----
+function showQuestion(screenId) {
+  const s = SCREENS[screenId]; if (!s) return;
+  showMap(true); renderStrip(stageIndex(screenId)); updateMap();
+  if (screenId === 'timeline') return showTimeline();
+  if (s.multi) return showMultiPicker(screenId);
+  const el = paint(`
+    <p class="ha-eyebrow">${esc(stageEyebrow(screenId))}</p>
+    <h2 class="ha-h2">${esc(s.question)}</h2>
+    ${s.help ? `<p class="ha-help">${esc(s.help)}</p>` : ''}
+    <div class="ha-cards">${s.options.map(o => cardHtml(o.id, o.label, '', answers[screenId] === o.id)).join('')}</div>`);
+  wireCards(el, screenId);
+}
+
+// ---- multi-select picker (areas + health). An `exclusive` option clears the rest. ----
+function showMultiPicker(screenId) {
+  const s = SCREENS[screenId];
+  const chosen = new Set(asList(answers[screenId]));
+  const exclusive = new Set(s.options.filter(o => o.exclusive).map(o => o.id));
+  const cards = s.options.map(o => `
+    <button class="ha-card ha-card--multi ${chosen.has(o.id) ? 'is-selected' : ''}" data-id="${o.id}" aria-pressed="${chosen.has(o.id)}">
+      <span class="ha-box"></span>
+      <div class="ha-card__t">${esc(o.label)}</div>
+    </button>`).join('');
+  const el = paint(`
+    <p class="ha-eyebrow">${esc(stageEyebrow(screenId))}</p>
+    <h2 class="ha-h2">${esc(s.question)}</h2>
+    <p class="ha-help">${esc(s.help || 'Select all that apply')}</p>
+    <div class="ha-cards">${cards}</div>
+    <button class="ha-btn ha-btn--solid ha-next" id="multiNext" ${chosen.size ? '' : 'disabled'}>Continue</button>`);
+  const next = el.querySelector('#multiNext');
+  const sync = () => {
+    el.querySelectorAll('.ha-card').forEach(c => { const on = chosen.has(c.dataset.id); c.classList.toggle('is-selected', on); c.setAttribute('aria-pressed', on); });
+    next.disabled = chosen.size === 0;
+  };
+  el.querySelectorAll('.ha-card').forEach(card => card.addEventListener('click', () => {
+    const id = card.dataset.id;
+    if (chosen.has(id)) chosen.delete(id);
+    else if (exclusive.has(id)) { chosen.clear(); chosen.add(id); }
+    else { exclusive.forEach(x => chosen.delete(x)); chosen.add(id); }
+    sync();
+  }));
+  next.addEventListener('click', () => {
+    if (!chosen.size) return;
+    answers[screenId] = [...chosen];
+    updateMap();
+    advance();
+  });
+}
+
+function showTimeline() {
+  const s = SCREENS.timeline;
+  const order = ['researching', 'waiting', 'event', 'ready', 'unsure_ready'];
+  const nodes = order.map(id => `<button class="ha-vt-node ${answers.timeline === id ? 'is-selected' : ''}" data-id="${id}"><span class="ha-vt-dot"></span><span class="ha-vt-lab">${esc(labelOf('timeline', id))}</span></button>`).join('');
+  const el = paint(`
+    <p class="ha-eyebrow">Your timing</p>
+    <h2 class="ha-h2">${esc(s.question)}</h2>
+    <p class="ha-help">Place yourself on the line</p>
+    <div class="ha-vtimeline">${nodes}</div>`);
+  el.querySelectorAll('[data-id]').forEach(n => n.addEventListener('click', () => {
+    answers.timeline = n.dataset.id;
+    el.querySelectorAll('[data-id]').forEach(x => x.classList.remove('is-selected'));
+    n.classList.add('is-selected'); updateMap(); setTimeout(advance, 300);
+  }));
+}
+
+function stageEyebrow(id) {
+  if (/^goal_/.test(id)) return 'Your goal';
+  if (/_history$/.test(id)) return 'Your history';
+  if (/_area$/.test(id)) return 'The area';
+  if (id === 'health' || id === 'laser_sun') return 'A quick health check';
+  if (id === 'barrier') return 'One honest question';
+  return 'A few details';
+}
+
+function wireCards(el, screenId) {
+  el.querySelectorAll('.ha-card').forEach(card => card.addEventListener('click', () => {
+    answers[screenId] = card.dataset.id;
+    if (screenId === 'concern') track('concern_selected', { concern: card.dataset.id });
+    el.querySelectorAll('.ha-card').forEach(c => c.classList.remove('is-selected'));
+    card.classList.add('is-selected'); updateMap();
+    setTimeout(advance, 340);
+  }));
+}
+
+// ---- contact (looks real; stays in the browser) ----
+function showContact() {
+  showMap(true); renderStrip(4); updateMap();
+  const el = paint(`
+    <p class="ha-eyebrow">Your chart</p>
+    <h2 class="ha-h2">Your chart is ready</h2>
+    <p class="ha-sub">Add your details to open your private treatment report and get a copy by email.</p>
+    <div class="ha-field"><label class="ha-label" for="fn">First name</label><input class="ha-input" id="fn" type="text" autocomplete="given-name"></div>
+    <div class="ha-field"><label class="ha-label" for="em">Email</label><input class="ha-input" id="em" type="email" inputmode="email" autocomplete="email"></div>
+    <div class="ha-field"><label class="ha-label" for="ph">Phone (optional)</label><input class="ha-input" id="ph" type="tel" inputmode="tel" autocomplete="tel"></div>
+    <label class="ha-check"><input type="checkbox" id="consent"><span>I understand this is general guidance and agree to be contacted about my enquiry.</span></label>
+    <p class="ha-err" id="err" role="alert"></p>
+    <button class="ha-btn ha-btn--solid ha-btn--full" id="open">Build my treatment chart</button>
+    <p class="ha-demo-note">Demo build: nothing you type here is sent or stored.</p>`);
+  const $err = el.querySelector('#err');
+  el.querySelector('#open').addEventListener('click', async e => {
+    const first = el.querySelector('#fn').value.trim();
+    const email = el.querySelector('#em').value.trim();
+    const phone = el.querySelector('#ph').value.trim();
+    if (!first) return ($err.textContent = 'Please enter your first name.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return ($err.textContent = 'Please enter a valid email.');
+    if (!el.querySelector('#consent').checked) return ($err.textContent = 'Please tick the box so the clinic can send your report.');
+    const btn = e.currentTarget;
+    btn.disabled = true; btn.innerHTML = '<span class="ha-spin"></span> Building…';
+    const computed = assess(answers, { name: first });
+    await submitAssessment({ session_id: sessionId, responses: answers, computed: { ...computed, chart_id: chartId } });
+    await saveContact({ first_name: first, email, phone });
+    track('completed', { path: computed.bestFitPath, stage: computed.readinessStage });
+    showBuilding(computed, first);
+  });
+}
+
+// ---- building transition ----
+function showBuilding(computed, name) {
+  showMap(false); renderStrip(4);
+  const steps = ['Checking your treatment path', 'Reviewing your readiness', 'Preparing your consultation notes'];
+  const el = paint(`
+    <div class="ha-building">
+      <p class="ha-building__t">Building your treatment chart…</p>
+      ${steps.map(s => `<p class="ha-building__step"><span class="tick">✓</span>${esc(s)}</p>`).join('')}
+    </div>`);
+  const nodes = el.querySelectorAll('.ha-building__step');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { showReport(computed, name); return; }
+  nodes.forEach((n, i) => setTimeout(() => n.classList.add('is-on'), 350 + i * 560));
+  setTimeout(() => showReport(computed, name), 350 + steps.length * 560 + 400);
+}
+
+// ---- report ----
+function showReport(computed, name) {
+  showMap(false); renderStrip(4);
+  const fam = computed.pathFamily;
+  const logic = REPORT.pathLogic[computed.pathKey] || REPORT.pathLogic[fam] || REPORT.pathLogic.match;
+  const outcome = REPORT.outcomeGuide[computed.pathKey] || REPORT.outcomeGuide[fam] || REPORT.outcomeGuide.match;
+  const affects = REPORT.whatAffects[fam] || REPORT.whatAffects.match;
+  const shot = REPORT.shotList[computed.checklistKey] || REPORT.shotList.unsure;
+  const questions = REPORT.consultQuestions[fam] || REPORT.consultQuestions.match;
+  const stage = computed.readinessStage;
+  const trackIdx = TRACK_IDX[stage] ?? 2;
+  const plan = planFor(computed.branch, stage, computed.waitReasons);
+  const stageMeaning = REPORT.readinessMeaning[stage] || '';
+  const forward = stage === 'Wait and prepare'
+    ? ['The right timing.', ...waitText(computed.waitReasons), WAIT_CONFIRM]
+    : [FORWARD[stage]];
+  const step = REPORT.nextStep[computed.nextStepId] || REPORT.nextStep.consult;
+  const told = personalSummary(answers);
+  const fear = computed.barrier ? REPORT.barrierResponse[computed.barrier] : '';
+  const primaryHref = ctaHref(computed.nextStepId, fam);
+  const secondaryHref = treatmentUrl(fam);
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  paint(`
+    <div class="ha-report ha-stagger">
+      <div class="ha-report__head">
+        <div class="ha-report__tides">${tides(900, 220, 10, 'rgba(23,59,80,0.12)', { amp: 8, gap: 18, y0: 40 })}</div>
+        <p class="ha-report__ey">Harbour Aesthetics, private report</p>
+        <h1 class="ha-report__ttl">Your treatment chart</h1>
+        <p class="ha-report__sub">A private starting point for understanding your options before you book.</p>
+        <div class="ha-report__ids">
+          <span>Prepared for <b>${esc(name || 'you')}</b></span>
+          <span>Chart <b>${esc(chartId)}</b></span>
+          <span>Date <b>${esc(today)}</b></span>
+        </div>
+      </div>
+      <div class="ha-report__body">
+        <div class="ha-block">
+          <p class="ha-label-sm">Your best-fit path</p>
+          <p class="ha-path">${esc(computed.bestFitPath)}</p>
+        </div>
+        <div class="ha-block">
+          <p class="ha-sectitle">Where you are right now</p>
+          <ol class="ha-track" aria-label="Readiness stages">
+            ${TRACK.map((t, i) => `<li class="ha-track__s${i < trackIdx ? ' is-done' : i === trackIdx ? ' is-now' : ''}"${i === trackIdx ? ' aria-current="step"' : ''}><span class="ha-track__bar"></span><span class="ha-track__lab">${esc(t)}</span>${i === trackIdx ? '<span class="ha-track__here">You are here</span>' : ''}</li>`).join('')}
+          </ol>
+          <p class="ha-ready__stage">${esc(stage)}</p>
+          ${stageMeaning ? `<p class="ha-body">${esc(stageMeaning)}</p>` : ''}
+          <div class="ha-forward"><p class="ha-forward__k">What moves you forward</p><p class="ha-forward__v">${forward.map(esc).join(' ')}</p></div>
+        </div>
+        <div class="ha-block">
+          <p class="ha-sectitle">Your path, step by step</p>
+          <ol class="ha-plan">
+            ${plan.map(([t, d], i) => `<li class="ha-plan__s${i === 0 ? ' is-next' : ''}"><span class="ha-plan__dot"></span><div><p class="ha-plan__t">${esc(t)}${i === 0 ? '<span class="ha-plan__tag">Your next step</span>' : ''}</p><p class="ha-plan__d">${esc(d)}</p></div></li>`).join('')}
+          </ol>
+        </div>
+        <div class="ha-block">
+          <p class="ha-sectitle">Why this path fits</p>
+          ${told ? `<p class="ha-body">${esc(told)}</p>` : ''}
+          <p class="ha-body" style="margin-top:${told ? '12px' : '0'}">${esc(logic)}</p>
+        </div>
+        ${fear ? `<div class="ha-block"><div class="ha-fear"><p class="ha-sectitle">About what's holding you back</p><p>${esc(fear)}</p></div></div>` : ''}
+        <div class="ha-block">
+          <p class="ha-sectitle">Realistic outcome guide</p>
+          <p class="ha-body"><b>What it may help with:</b> ${esc(outcome.helps)}</p>
+          <p class="ha-label-sm" style="margin:18px 0 8px">What may affect your result</p>
+          <ul class="ha-checkgrid">${affects.map(a => `<li>${esc(a)}</li>`).join('')}</ul>
+          <p class="ha-body" style="margin-top:16px"><b>What not to expect:</b> ${esc(outcome.notExpect)}</p>
+        </div>
+        <div class="ha-block">
+          <p class="ha-sectitle">What this can look like</p>
+          <div class="ha-ba" role="img" aria-label="Placeholder frames for the clinic's own before and after photos">
+            <div class="ha-ba__frame"><span class="ha-ba__tag">Before</span><span class="ha-ba__msg">Your clinic's before and after goes here</span></div>
+            <div class="ha-ba__frame"><span class="ha-ba__tag">After</span><span class="ha-ba__msg">Your clinic's before and after goes here</span></div>
+          </div>
+          <p class="ha-ba__note">Placeholder. A live build shows the clinic's own consented results, matched to this path.</p>
+        </div>
+        <div class="ha-block">
+          <div class="ha-nextcard">
+            <p class="ha-label-sm">Your next best move</p>
+            <p class="ha-nextcard__h">${esc(step.primary)}</p>
+            <p class="ha-nextcard__d">${esc(step.note)}</p>
+            <div class="ha-cta-row">
+              <a class="ha-btn ha-btn--full" href="${primaryHref}">${esc(step.primary)}</a>
+              <a class="ha-btn ha-btn--ghostlight ha-btn--full" href="${secondaryHref}">About this treatment</a>
+            </div>
+          </div>
+        </div>
+        <div class="ha-block">
+          <p class="ha-sectitle">Your photo review shot list</p>
+          <ul class="ha-prep">${shot.shots.map(s => `<li>${esc(s)}</li>`).join('')}</ul>
+          <p class="ha-body" style="margin-top:12px; font-size:16.5px"><b>Light:</b> ${esc(shot.light)} &nbsp; <b>Avoid:</b> ${esc(shot.avoid)}</p>
+        </div>
+        <div class="ha-block">
+          <p class="ha-sectitle">Questions to ask on your call</p>
+          <ul class="ha-qs">${questions.map(q => `<li>${esc(q)}</li>`).join('')}</ul>
+        </div>
+        <div class="ha-block ha-endcta">
+          <p class="ha-sectitle">Talk it through with the clinic</p>
+          <p class="ha-body">A free consultation is private, and there's no pressure to book treatment.</p>
+          <a class="ha-btn ha-btn--solid" href="${CONFIG.bookingUrl}">Book a free consult</a>
+        </div>
+        <p class="ha-disc">${esc(DISCLAIMER)}</p>
+      </div>
+    </div>`);
+  $stage.querySelectorAll('.ha-stagger > *').forEach((n, i) => n.style.animationDelay = `${Math.min(i * 70, 500)}ms`);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ---- navigation ----
+// After each answer, land on the next question (not the top of the page header).
+function landOnStage() {
+  // Phones jump straight to the question (smooth scroll can be cut short by the repaint).
+  if (matchMedia('(max-width:860px)').matches) {
+    // offsetTop ignores the 16px entrance transform that getBoundingClientRect would include.
+    let y = 0; for (let n = $stage; n; n = n.offsetParent) y += n.offsetTop;
+    window.scrollTo({ top: Math.max(0, y - 12), behavior: 'instant' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+let current = null;
+function goto(id) { current = id; if (id === 'concern') showConcern(); else if (id === 'contact') showContact(); else showQuestion(id); landOnStage(); }
+function advance() {
+  const flow = flowFor(answers.concern);
+  const next = flow[flow.indexOf(current) + 1];
+  if (!next || next === 'result') { current = 'contact'; showContact(); landOnStage(); return; }
+  goto(next);
+}
+
+showWelcome();
+</script>
+</body>
+</html>
