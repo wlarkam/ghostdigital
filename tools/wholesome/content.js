@@ -402,10 +402,10 @@ export const REPORT = {
 
   // Next-step CTA copy, keyed by the recommended step id.
   nextStep: {
-    consult_phone: { primary: 'Book a Free Phone Consult', note: 'A short, no-pressure call to talk through your options.' },
+    consult_phone: { primary: 'Book a Free Virtual Consult', note: 'A short, no-pressure conversation about your options.' },
     photo_review: { primary: 'Start With a Photo Review', note: 'Send a few clear photos so the clinic can guide your next step.' },
-    consult_brow: { primary: 'Book a Brow Consultation', note: 'A quick sit-down to plan shape, style, and finish.' },
-    wait_prepare: { primary: 'Book a Free Phone Consult', note: 'Plan ahead now, and start treatment once the area has settled.' },
+    consult_brow: { primary: 'Book a Brow Consultation', note: 'A quick conversation to plan shape, style, and finish.' },
+    wait_prepare: { primary: 'Book a Free Virtual Consult', note: 'Plan ahead now, and start treatment once the area has settled.' },
     learn_more: { primary: 'Learn More First', note: 'A little context before you decide anything.' },
   },
 };

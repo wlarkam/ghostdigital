@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Restoration Map · Wholesome Empire YYC</title>
+<script>if (window.self !== window.top || /[?&]embed\b/.test(location.search)) document.documentElement.classList.add("is-embed");</script>
 <meta name="description" content="Map your starting point for scar revision, camouflage, scalp micropigmentation, or brows. A private treatment-path assessment." />
 <meta name="robots" content="index,follow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -237,6 +238,10 @@ button{font-family:inherit}
 @media(max-width:520px){ .rm-track__lab{ font-size:14px } .rm-track__here{ font-size:12.5px; white-space:nowrap } .rm-plan__tag{ display:block; margin:2px 0 0 } }
 .rm-endcta .rm-body{ margin:0 0 20px; }
 @media(max-width:640px){ .rm-endcta .rm-btn{ width:100%; justify-content:center; } .rm-btn{ font-size:14px; letter-spacing:.05em; padding:17px 16px; text-align:center; } }
+/* embedded on their site: their header sits above us, and vh units would feed back into the iframe height */
+.is-embed .rm-head{ display:none; }
+.is-embed .rm-stage, .is-embed .rm-building{ min-height:0; }
+.is-embed .rm-grid{ padding-top:28px; }
 .rm-ba{ margin:2px 0 0; }
 .rm-ba img{ display:block; width:100%; max-width:440px; height:auto; border-radius:10px; border:1px solid var(--rm-line); background:var(--rm-paper); }
 .rm-ba__cap{ font-family:var(--rm-fmono); font-size:14px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--rm-olive); margin:12px 0 0; }
@@ -302,11 +307,36 @@ button{font-family:inherit}
 import { assess } from '/tools/wholesome/assessment.js';
 import { SCREENS, flowFor, REPORT, FLAG_LABELS, DISCLAIMER, LETTER, DAYS_COPY, personalSummary } from '/tools/wholesome/content.js';
 
+// ---- embed mode (inside an iframe on wholesomeempireyyc.com/assessment) ----
+// The host page sizes the iframe to our content height and scrolls for us.
+const EMBED = window.self !== window.top || new URLSearchParams(location.search).has('embed');
+if (EMBED) {
+  document.documentElement.classList.add('is-embed');
+  const post = (msg) => { try { window.parent.postMessage(msg, '*'); } catch (_) {} };
+  let lastH = 0;
+  const sendHeight = () => {
+    const h = Math.ceil(document.documentElement.getBoundingClientRect().height);
+    if (Math.abs(h - lastH) > 1) { lastH = h; post({ type: 'rm-height', h }); }
+  };
+  new ResizeObserver(sendHeight).observe(document.documentElement);
+  window.addEventListener('load', sendHeight);
+  window.__rmPost = post;
+}
+function scrollToolTop() {
+  if (EMBED) window.__rmPost({ type: 'rm-scroll' });
+  else window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // ---- config (swap for the clinic's real details before launch) ----
 const CONFIG = {
   site: 'https://www.wholesomeempireyyc.com',
-  bookingUrl: 'https://www.wholesomeempireyyc.com/contact',   // their Inquire / Free Phone Consult funnel
-  prepGuideUrl: '',                                           // [TODO: prep-guide page/PDF, if they make one]
+  // Free virtual consults in their Jane booking site, matched to each branch.
+  consultUrls: {
+    scars: 'https://wholesomeempireyyc.janeapp.com/#/discipline/1/treatment/8',   // Scars/Stretch Marks - VIRTUAL CONSULT ($0)
+    smp: 'https://wholesomeempireyyc.janeapp.com/#/discipline/1/treatment/5',     // SMP - VIRTUAL
+    brows: 'https://wholesomeempireyyc.janeapp.com/#/discipline/1/treatment/6',   // Brow Consult - VIRTUAL
+    unsure: 'https://wholesomeempireyyc.janeapp.com/#/consultations',             // all consults
+  },
   treatmentUrls: {
     revision: 'https://www.wholesomeempireyyc.com/scars-stretch-marks-calgary',
     camouflage: 'https://www.wholesomeempireyyc.com/scars-stretch-marks-calgary',
@@ -328,7 +358,7 @@ const BA_NOTE = 'A recent result from Wholesome Empire. Individual results vary 
 const TRACK = ['Learning', 'Preparing', 'Reviewing', 'Ready to book'];
 const TRACK_IDX = { 'Education first': 0, 'Wait and prepare': 1, 'Photo review recommended': 2, 'Specialist review recommended': 2, 'Ready for consult': 3 };
 const FORWARD = {
-  'Education first': 'Knowing which treatment fits you. A read of the treatment page, or a free phone consult, moves you to the next stage.',
+  'Education first': 'Knowing which treatment fits you. A read of the treatment page, or a free virtual consult, moves you to the next stage.',
   'Wait and prepare': 'Time. Once the area has stopped changing, healing or feeling sensitive, a photo review is your next step.',
   'Photo review recommended': "A few clear photos. Once the clinic has seen the area, you'll know what's possible and can book with confidence.",
   'Specialist review recommended': 'One conversation. Your answers have a few moving parts, and a short call with a specialist is the quickest way to a clear plan.',
@@ -336,27 +366,27 @@ const FORWARD = {
 };
 const PLAN = {
   scars: [
-    ['Free phone consult', 'A short, private call about your area and what you want to change.'],
+    ['Free virtual consult', 'A short, private conversation about your area and what you want to change.'],
     ['Photo review', 'Send a few photos using the shot list below so the clinic can see the area properly.'],
     ['Your treatment plan', 'The clinic recommends an approach for your skin and tells you how many sessions to expect.'],
     ['First session', 'Treatment happens in a private room at the Calgary clinic.'],
     ['Settle and review', "Your skin is given time to settle between sessions. The clinic's own results are photographed around six weeks after a session."],
   ],
   smp: [
-    ['Free phone consult', 'Talk through your hair loss, the look you want, and any previous treatments.'],
+    ['Free virtual consult', 'Talk through your hair loss, the look you want, and any previous treatments.'],
     ['Photo review', 'Photos of your hairline, crown and sides help the clinic plan shape and density.'],
     ['Your treatment plan', 'Hairline shape, density and shade are agreed before anything starts.'],
     ['First session', 'The first layer of pigment goes in at the Calgary clinic.'],
     ['Build the density', 'SMP is built up in layers, so plans often include more than one session. The clinic confirms yours on the call.'],
   ],
   brows: [
-    ['Free phone consult', 'Talk through your brows today and the look you want.'],
+    ['Free virtual consult', 'Talk through your brows today and the look you want.'],
     ['Shape and shade', 'Your shape and shade are mapped to your face before any pigment goes in.'],
     ['Your brow session', 'Your brows are done in a private room at the Calgary clinic.'],
     ['Heal and touch up', 'Brows soften as they heal, and a touch-up is a normal part of the process. The clinic confirms the timing.'],
   ],
   unsure: [
-    ['Free phone consult', 'A short, private call to work out which treatment suits you.'],
+    ['Free virtual consult', 'A short, private conversation to work out which treatment suits you.'],
     ['Your treatment match', 'The clinic points you to the option that fits your goals, and tells you honestly if one does not.'],
     ['Photo review', 'If it helps, send a few photos so the clinic can see what you are working with.'],
     ['Your plan', 'You leave with a clear plan, and book only when it feels right.'],
@@ -365,14 +395,14 @@ const PLAN = {
 function planFor(branch, stage) {
   const steps = [...(PLAN[branch] || PLAN[branch + 's'] || PLAN.unsure)];
   if (stage === 'Wait and prepare') steps.unshift(['Let the area settle', 'Give it time until it has stopped changing, healing or feeling sensitive. That is when the clinic can properly see what is possible.']);
-  if (stage === 'Education first') steps.unshift(['Learn your options', 'Read about the treatment that matches your answers, then book the free phone consult when you feel ready.']);
+  if (stage === 'Education first') steps.unshift(['Learn your options', 'Read about the treatment that matches your answers, then book the free virtual consult when you feel ready.']);
   return steps;
 }
 const treatmentUrl = (fam) => CONFIG.treatmentUrls[fam] || CONFIG.site;
-function ctaHref(nextStepId, fam) {
+const consultUrl = (branch) => CONFIG.consultUrls[branch] || CONFIG.consultUrls.unsure;
+function ctaHref(nextStepId, fam, branch) {
   if (nextStepId === 'learn_more') return treatmentUrl(fam);
-  if (nextStepId === 'wait_prepare') return CONFIG.bookingUrl || treatmentUrl(fam); // plan-ahead consult; no prep guide exists yet
-  return CONFIG.bookingUrl || treatmentUrl(fam); // consult + photo review -> inquiry funnel
+  return consultUrl(branch); // consult, photo review and plan-ahead all start with the free virtual consult
 }
 const extAttr = (h) => (/^https?:/.test(h) ? ' target="_blank" rel="noopener"' : '');
 
@@ -660,10 +690,10 @@ function showContact() {
     <div class="rm-field"><label class="rm-label" for="fn">First name</label><input class="rm-input" id="fn" type="text" autocomplete="given-name"></div>
     <div class="rm-field"><label class="rm-label" for="em">Email</label><input class="rm-input" id="em" type="email" inputmode="email" autocomplete="email"></div>
     <div class="rm-field"><label class="rm-label" for="ph">Phone (optional)</label><input class="rm-input" id="ph" type="tel" inputmode="tel" autocomplete="tel"></div>
-    <label class="rm-check"><input type="checkbox" id="consent"><span>I understand this is general guidance and agree to be contacted about my inquiry.</span></label>
+    <label class="rm-check"><input type="checkbox" id="consent"><span>I understand this is general guidance and agree to be contacted about my inquiry. My answers and contact details are sent to Wholesome Empire YYC so they can follow up, and they will not rent, spam or sell my information.</span></label>
     <p class="rm-err" id="err"></p>
     <button class="rm-btn rm-btn--olive rm-btn--full" id="open">Build My Treatment Map</button>
-    <p class="rm-help" style="margin-top:16px">Your information is only used to follow up · no spam</p>`);
+    <p class="rm-help" style="margin-top:16px">Private, and only used to follow up on your inquiry</p>`);
   const $err = el.querySelector('#err');
   el.querySelector('#open').addEventListener('click', async e => {
     const first = el.querySelector('#fn').value.trim();
@@ -675,10 +705,30 @@ function showContact() {
     e.currentTarget.disabled = true; e.currentTarget.innerHTML = '<span class="rm-spin"></span> Building…';
     const computed = assess(answers, { name: first });
     try { const r = await fetch('/api/wholesome-submit', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, responses: answers, computed: { ...computed, design: 'restoration_map', path_id: pathId }, referrer, utm_source: utmSource }) }); if (r.ok) { const j = await r.json(); submissionId = j.id; sessionId = j.session_id || sessionId; } } catch (_) {}
-    try { await fetch('/api/wholesome-contact', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ submission_id: submissionId, first_name: first, email, phone, opt_in_sms: false }) }); } catch (_) {}
+    try { await fetch('/api/wholesome-contact', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ submission_id: submissionId, first_name: first, email, phone, opt_in_sms: false, lead: leadSummary(computed) }) }); } catch (_) {}
     track('completed', { path: computed.bestFitPath, stage: computed.readinessStage });
     showBuilding(computed, first);
   });
+}
+
+// Readable summary for the clinic's lead email.
+function leadSummary(computed) {
+  const answersOut = Object.entries(answers).filter(([, v]) => v != null).map(([k, v]) => {
+    if (k === 'scar_start') return ['Year it first appeared', v.year ? (v.year === 'older' ? 'Before ' + (new Date().getFullYear() - 45) : String(v.year)) : 'Within the last year'];
+    const s = SCREENS[k];
+    const ids = Array.isArray(v) ? v : [v];
+    const lab = ids.map((id) => s?.options?.find((o) => o.id === id)?.label || String(id)).join(', ');
+    return [s?.question || k.replace(/_/g, ' '), lab];
+  });
+  return {
+    path: computed.bestFitPath,
+    stage: computed.readinessStage,
+    path_id: pathId,
+    summary: computed.internalSummary,
+    next_step: (REPORT.nextStep[computed.nextStepId] || {}).primary,
+    flags: (computed.cautionFlags || []).map((f) => FLAG_LABELS[f]).filter(Boolean),
+    answers: answersOut,
+  };
 }
 
 // ---- building transition ----
@@ -715,7 +765,7 @@ function showReport(computed, name) {
   const told = personalSummary(answers);
   const fear = computed.barrier ? REPORT.barrierResponse[computed.barrier] : '';
   const days = computed.branch === 'scars' ? carriedDays() : null;
-  const primaryHref = ctaHref(computed.nextStepId, fam);
+  const primaryHref = ctaHref(computed.nextStepId, fam, computed.branch);
   const secondaryHref = treatmentUrl(fam);
   const secondary = 'Learn more about this treatment';
   const today = new Date().toLocaleDateString('en-CA');
@@ -801,8 +851,8 @@ function showReport(computed, name) {
         </div>
         <div class="rm-block rm-endcta">
           <p class="rm-sectitle">Talk it through with the clinic</p>
-          <p class="rm-body">A free phone consult is private, and there's no pressure to book treatment.</p>
-          <a class="rm-btn rm-btn--olive" href="${CONFIG.bookingUrl}"${extAttr(CONFIG.bookingUrl)}>Book a Free Phone Consult</a>
+          <p class="rm-body">A free virtual consult is private, and there's no pressure to book treatment.</p>
+          <a class="rm-btn rm-btn--olive" href="${consultUrl(computed.branch)}"${extAttr(consultUrl(computed.branch))}>Book a Free Virtual Consult</a>
         </div>
         <p class="rm-disc">${esc(DISCLAIMER)}</p>
       </div>
@@ -813,13 +863,13 @@ function showReport(computed, name) {
     const io = new IntersectionObserver((es, o) => { es.forEach(e => { if (e.isIntersecting) { animateCount(numEl, days); o.disconnect(); } }); }, { threshold: 0 });
     io.observe(numEl);
   }
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  scrollToolTop();
 }
 function el_stagger() { $stage.querySelectorAll('.rm-stagger > *').forEach((n, i) => n.style.animationDelay = `${Math.min(i * 70, 500)}ms`); }
 
 // ---- navigation ----
 let current = null;
-function goto(id) { current = id; if (id === 'concern') showConcern(); else if (id === 'contact') showContact(); else showQuestion(id); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function goto(id) { current = id; if (id === 'concern') showConcern(); else if (id === 'contact') showContact(); else showQuestion(id); scrollToolTop(); }
 function advance() {
   const flow = flowFor(answers.concern);
   const next = flow[flow.indexOf(current) + 1];
