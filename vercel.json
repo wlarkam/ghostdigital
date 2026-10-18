@@ -3,19 +3,21 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/treatment-assessment", "destination": "/restoration-map", "permanent": false },
+    {
+      "source": "/treatment-assessment",
+      "destination": "/restoration-map",
+      "permanent": false
+    },
     {
       "source": "/:path((?!restoration-map|tools/wholesome/|api/wholesome-).+)",
-      "has": [{ "type": "host", "value": "assessment.wholesomeempireyyc.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "assessment.wholesomeempireyyc.com"
+        }
+      ],
       "destination": "/",
       "permanent": false
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "assessment.wholesomeempireyyc.com" }],
-      "destination": "/restoration-map"
     }
   ]
 }

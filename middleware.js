@@ -1,13 +1,16 @@
-// Vercel Edge Middleware: gates /dashboard behind a signed session cookie.
+// Vercel Edge Middleware: gates /dashboard behind a signed session cookie,
+// and serves the Wholesome Empire assessment at the root of its subdomain
+// (vercel.json rewrites lose to the real index.html, middleware runs first).
 // Runs in the EDGE runtime, so Web Crypto only, never node:crypto.
 // Only the dashboard page routes are matched here. The public landing page,
 // /email-roi-calculator, /swipe-file and the emailroi capture endpoints are
 // untouched. /api/metrics gates itself in the Node runtime (api/metrics.js).
 export const config = {
-  matcher: ['/dashboard', '/dashboard.html', '/dashboard/:path*'],
+  matcher: ['/', '/dashboard', '/dashboard.html', '/dashboard/:path*'],
 };
 
 const COOKIE_NAME = 'dash_session';
+const ASSESSMENT_HOST = 'assessment.wholesomeempireyyc.com';
 
 function hexToBytes(hex) {
   const out = new Uint8Array(hex.length / 2);
@@ -33,6 +36,14 @@ async function verify(cookieValue, secret) {
 
 export default async function middleware(request) {
   const url = new URL(request.url);
+
+  if (url.pathname === '/') {
+    if (url.hostname !== ASSESSMENT_HOST) return; // every other host: normal homepage
+    return new Response(null, {
+      headers: { 'x-middleware-rewrite': new URL('/restoration-map' + url.search, url).toString() },
+    });
+  }
+
   const cookieHeader = request.headers.get('cookie') || '';
   const match = cookieHeader.split(';').map(s => s.trim())
     .find(s => s.startsWith(COOKIE_NAME + '='));
